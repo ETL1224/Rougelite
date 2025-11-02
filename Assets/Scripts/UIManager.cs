@@ -26,8 +26,10 @@ public class UIManager : MonoBehaviour
     [Header("Player Object")]
     public GameObject player;               // 玩家对象引用（用于销毁或动画）
     public Animator playerAnimator;         // 可在 Inspector 手动指定（优先使用）
-    public float deathUiDelay = 0.7f;       // 默认等待动画时间（秒），可按动画长度调整
+    public float deathUiDelay = 1.25f;       // 默认等待动画时间（秒），可按动画长度调整
 
+    [Header("Cursor Manager")]
+    public CursorManager cursorManager; // 拖入场景中的CursorManager对象
 
     void Start()
     {
@@ -136,15 +138,13 @@ public class UIManager : MonoBehaviour
                 playerAnimator.SetBool("isDead", true);
             }
 
-            // 禁用玩家的控制脚本（只禁用移动与射击等，不禁用UI/管理脚本）
-            var movement = player.GetComponent<PlayerMovement>();
-            if (movement != null) movement.enabled = false;
+            // 获取并禁用 PlayerController
+            var playerCtrl = player.GetComponent<PlayerController>();
+            if (playerCtrl != null)
+                playerCtrl.enabled = false;
 
-            var shooter = player.GetComponent<PlayerShoot>();
-            if (shooter != null) shooter.enabled = false;
-
-            // 启动协程等待动画（用不受timescale影响的等待）
-            StartCoroutine(ShowDeathUIAfterAnimation());
+            // 启动协程等待固定时间
+            StartCoroutine(ShowDeathUIAfterDelay(deathUiDelay));
         }
         else
         {
@@ -154,17 +154,23 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private IEnumerator ShowDeathUIAfterAnimation()
+    private IEnumerator ShowDeathUIAfterDelay(float delay)
     {
-        yield return new WaitForSecondsRealtime(deathUiDelay);
+        // 等待固定时间（不受 timescale 影响）
+        yield return new WaitForSecondsRealtime(delay);
 
         // 弹出死亡UI
         if (deathUI != null)
             deathUI.SetActive(true);
 
-        // 最后暂停整个游戏
+        // 切换鼠标状态
+        if (cursorManager != null)
+            cursorManager.EnterUIMode();
+
+        // 最后暂停游戏
         Time.timeScale = 0f;
     }
+
 
 
     // 重新开始游戏
