@@ -60,3 +60,4 @@
 ## 2025-11-2（Slaice）
 - 修改了代码结构框架，将enemy、player、ore的代码转变为继承多态的格式，增加代码复用性
 - 修复了攻击enemy一直掉落oredrop的问题：isDestroyed设置有误
+- 修复了enemy不能销毁子弹的bug
