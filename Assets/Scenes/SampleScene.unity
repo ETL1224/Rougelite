@@ -1744,14 +1744,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5ab2e3006f18fb47ae12786d393db40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnPrefabs: []
+  initialCount: 10
+  countIncrease: 5
+  mapSize: 120
+  minDistance: 3
+  waveInterval: 20
+  isWaveSpawn: 1
+  target: {fileID: 365506403}
   enemyPrefabs:
   - {fileID: 6061598487611627331, guid: 0dc407efbfceb3f428fb66b075b88e2b, type: 3}
-  initialEnemyCount: 10
-  enemyCountIncrease: 5
-  mapSize: 120
-  minSpawnDistance: 3
-  waveInterval: 20
-  player: {fileID: 365506403}
 --- !u!4 &633493349
 Transform:
   m_ObjectHideFlags: 0
@@ -1986,7 +1988,8 @@ MonoBehaviour:
   gameTime: 120
   player: {fileID: 49176342}
   playerAnimator: {fileID: 1711282253}
-  deathUiDelay: 0.7
+  deathUiDelay: 1.25
+  cursorManager: {fileID: 787753946}
 --- !u!4 &787753945
 Transform:
   m_ObjectHideFlags: 0
@@ -2350,6 +2353,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7411626529805789174, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: firePoint
+      value: 
+      objectReference: {fileID: 889371636}
+    - target: {fileID: -7411626529805789174, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 8609488340321553917, guid: 0225d166f8d236a47b258eb4d6722cf1,
+        type: 3}
+    - target: {fileID: -7411626529805789174, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: groundMask.m_Bits
+      value: 128
+      objectReference: {fileID: 0}
     - target: {fileID: 580831304895379155, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
       propertyPath: m_Name
@@ -2765,11 +2784,19 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 2
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2049407598068467174, guid: 516d38c502d19eb4681ebdc416e93726, type: 3}
+    - {fileID: 3577641126610719765, guid: 516d38c502d19eb4681ebdc416e93726, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 516d38c502d19eb4681ebdc416e93726, type: 3}
+--- !u!4 &889371636 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7951112968481859268, guid: 516d38c502d19eb4681ebdc416e93726,
+    type: 3}
+  m_PrefabInstance: {fileID: 889371635}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &890855441
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3019,10 +3046,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6251b3533dfcf4891ebde1fa4721fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  orePrefab: {fileID: 5651965958254072372, guid: ebcc272e709060d45bf6a84c23cee12b,
-    type: 3}
-  oreCount: 30
+  spawnPrefabs: []
+  initialCount: 10
+  countIncrease: 5
+  mapSize: 120
+  minDistance: 3
+  waveInterval: 20
+  isWaveSpawn: 1
+  target: {fileID: 365506403}
+  orePrefabs:
+  - {fileID: 5651965958254072372, guid: ebcc272e709060d45bf6a84c23cee12b, type: 3}
+  initialOreCount: 30
   generateRange: 150
+  minOreDistance: 5
 --- !u!4 &1079634119
 Transform:
   m_ObjectHideFlags: 0
