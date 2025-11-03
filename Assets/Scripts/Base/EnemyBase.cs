@@ -1,15 +1,17 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public abstract class EnemyBase : DestructibleBase
 {
-    // ========== ¹«¹²ÊôĞÔ£¨×ÓÀà¿Éµ÷Õû£© ==========
-    [Header("ÒÆ¶¯Óë¼ì²â")]
+    // ========== å…¬å…±å±æ€§ï¼ˆå­ç±»å¯è°ƒæ•´ï¼‰ ==========
+    [Header("ç§»åŠ¨ä¸æ£€æµ‹")]
     public float moveSpeed = 10f;
     public float detectRange = 150f;
     public float avoidRadius = 2.5f;
+    protected bool isDead = false;
 
-    [Header("Õ½¶·ÊôĞÔ")]
+    [Header("æˆ˜æ–—å±æ€§")]
     public float maxHealth = 10f;
     public float damage = 2f;
     public float attackRange = 5f;
@@ -18,22 +20,22 @@ public abstract class EnemyBase : DestructibleBase
 
     public Transform player;
 
-    // ========== ×é¼şÓëÈ«¾Ö¹ÜÀí ==========
+    // ========== ç»„ä»¶ä¸å…¨å±€ç®¡ç† ==========
     protected Rigidbody rb;
     protected UIManager uiManager;
     protected Animator animator;
-    protected static List<EnemyBase> allEnemies = new List<EnemyBase>(); // ¹ÜÀíËùÓĞµĞÈË
+    protected static List<EnemyBase> allEnemies = new List<EnemyBase>(); // ç®¡ç†æ‰€æœ‰æ•Œäºº
 
-    // ========== ³õÊ¼»¯£¨Ğé·½·¨£¬×ÓÀà¿ÉÀ©Õ¹£© ==========
+    // ========== åˆå§‹åŒ–ï¼ˆè™šæ–¹æ³•ï¼Œå­ç±»å¯æ‰©å±•ï¼‰ ==========
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         if (rb != null) rb.isKinematic = true;
         uiManager = FindObjectOfType<UIManager>();
         animator = GetComponentInChildren<Animator>();
-        if (animator == null) Debug.LogError("µĞÈËÈ±ÉÙAnimator×é¼ş£¡");
+        if (animator == null) Debug.LogError("æ•Œäººç¼ºå°‘Animatorç»„ä»¶ï¼");
         player = GameObject.FindGameObjectWithTag("Player")?.transform;
-        if (player == null) Debug.LogError("ÕÒ²»µ½Player¶ÔÏó£¡");
+        if (player == null) Debug.LogError("æ‰¾ä¸åˆ°Playerå¯¹è±¡ï¼");
         Health = maxHealth;
     }
 
@@ -45,20 +47,42 @@ public abstract class EnemyBase : DestructibleBase
         if (isDestroyed) return;
 
         TriggerAnimation("TakeDamage");
-        base.TakeDamage(amount); // µ÷ÓÃ»ùÀàÂß¼­£¬Í³Ò»ÉúÃüÖµÓëµôÂä»úÖÆ
+        base.TakeDamage(amount); // è°ƒç”¨åŸºç±»é€»è¾‘ï¼Œç»Ÿä¸€ç”Ÿå‘½å€¼ä¸æ‰è½æœºåˆ¶
     }
 
     protected override void Die()
     {
         if (isDestroyed) return;
         isDestroyed = true;
+        isDead = true;
 
-        TriggerAnimation("Die");  // ²¥·Å¶¯»­
-        Drop();                   // µôÂä
-        Destroy(gameObject, 2f);  // ÑÓ³ÙÏú»Ù£¬¶¯»­¿ÉÍêÕû²¥·Å
+        // 1ï¸âƒ£ ç¦ç”¨ç¢°æ’ä½“å’Œåˆšä½“ç‰©ç†
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
+        if (rb != null) rb.isKinematic = true;
+
+        // 2ï¸âƒ£ ç¦ç”¨ AI æˆ– Update è¡Œä¸ºï¼ˆè¿™é‡Œå¯ä»¥ç”¨ä¸€ä¸ªæ ‡å¿—ä½æˆ–ç›´æ¥ç¦ç”¨è„šæœ¬ï¼‰
+        enabled = false;
+
+        // 3ï¸âƒ£ æ’­æ”¾æ­»äº¡åŠ¨ç”»
+        TriggerAnimation("Die");
+
+        // 4ï¸âƒ£ å¯åŠ¨åç¨‹ç­‰å¾…åŠ¨ç”»å®Œæˆå†æ‰è½å’Œé”€æ¯
+        StartCoroutine(DelayedDeathRoutine(2f)); // 2ç§’æ›¿æ¢æˆåŠ¨ç”»å®é™…é•¿åº¦
     }
 
-    // ========== ºËĞÄĞĞÎª£¨Ğé·½·¨/³éÏó·½·¨£¬×ÓÀà¿ÉÖØĞ´£© ==========
+    private IEnumerator DelayedDeathRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // æ‰è½ç‰©å“
+        Drop();
+
+        // é”€æ¯æ•Œäººå¯¹è±¡
+        Destroy(gameObject);
+    }
+
+    // ========== æ ¸å¿ƒè¡Œä¸ºï¼ˆè™šæ–¹æ³•/æŠ½è±¡æ–¹æ³•ï¼Œå­ç±»å¯é‡å†™ï¼‰ ==========
     protected virtual void Attack()
     {
         if (Time.time >= lastAttackTime + attackCooldown)
@@ -110,6 +134,6 @@ public abstract class EnemyBase : DestructibleBase
         }
     }
 
-    // ========== ³éÏó·½·¨£¨×ÓÀà±ØĞëÊµÏÖ£© ==========
-    public abstract void DealDamage(); // ¶¯»­ÊÂ¼ş´¥·¢µÄÉËº¦Âß¼­
+    // ========== æŠ½è±¡æ–¹æ³•ï¼ˆå­ç±»å¿…é¡»å®ç°ï¼‰ ==========
+    public abstract void DealDamage(); // åŠ¨ç”»äº‹ä»¶è§¦å‘çš„ä¼¤å®³é€»è¾‘
 }

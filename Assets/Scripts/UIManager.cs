@@ -31,6 +31,10 @@ public class UIManager : MonoBehaviour
     [Header("Cursor Manager")]
     public CursorManager cursorManager; // 拖入场景中的CursorManager对象
 
+    [Header("Player State")]
+    public PlayerState playerState;
+
+
     void Start()
     {
         // 初始化玩家状态
@@ -46,6 +50,9 @@ public class UIManager : MonoBehaviour
         UpdateHealthUI();
         UpdateOreUI();
         UpdateTimerUI();
+
+        if (playerState == null && player != null)
+            playerState = player.GetComponent<PlayerState>();
 
         if (deathUI != null)
             deathUI.SetActive(false);
@@ -90,6 +97,9 @@ public class UIManager : MonoBehaviour
     public void AddOre(int amount)
     {
         oreCount += amount;
+
+        if (playerState != null)
+            playerState.ore = oreCount;
         UpdateOreUI();
     }
 
@@ -101,7 +111,10 @@ public class UIManager : MonoBehaviour
 
     private void UpdateOreUI()
     {
-        oreText.text = $"矿石：{oreCount}";
+        if (playerState != null)
+            oreText.text = $"矿石：{playerState.ore}";
+        else
+            oreText.text = $"矿石：{oreCount}";
     }
 
     private void UpdateTimerUI()
