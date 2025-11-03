@@ -52,6 +52,7 @@ public class Enemy1AI : EnemyBase
     public override void DealDamage()
     {
         if (player == null || uiManager == null) return;
+        if (isDead) return;
         float dist = Vector3.Distance(transform.position, player.position);
         if (dist <= attackRange)
         {

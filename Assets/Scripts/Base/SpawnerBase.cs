@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class SpawnerBase : MonoBehaviour
 {
     [Header("生成基础设置")]
-    [SerializeField] protected GameObject[] spawnPrefabs; // 生成预制体（敌人、矿石等）
+    [SerializeField] protected GameObject[] spawnPrefabs;  // 生成预制体（敌人、矿石等）
     [SerializeField] protected int initialCount = 10;      // 初始数量
     [SerializeField] protected int countIncrease = 5;      // 每波增加数量
     [SerializeField] protected float mapSize = 120f;       // 生成范围（边缘/中心）

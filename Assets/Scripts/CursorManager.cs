@@ -22,15 +22,6 @@ public class CursorManager : MonoBehaviour
 
     void Update()
     {
-        // 按下Tab键切换UI/游戏模式
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            if (isInUI)
-                EnterGameMode();
-            else
-                EnterUIMode();
-        }
-
         // 游戏模式下，更新准心位置为鼠标位置
         if (!isInUI && crosshairRect != null && parentCanvas != null)
         {
@@ -71,5 +62,11 @@ public class CursorManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         if (crosshairUI != null) crosshairUI.SetActive(true);
         Time.timeScale = 1f;
+    }
+
+    // 提供外部获取当前模式的接口
+    public bool IsInUIMode()
+    {
+        return isInUI;
     }
 }
