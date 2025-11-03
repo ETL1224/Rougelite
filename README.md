@@ -61,3 +61,14 @@
 - 修改了代码结构框架，将enemy、player、ore的代码转变为继承多态的格式，增加代码复用性
 - 修复了攻击enemy一直掉落oredrop的问题：isDestroyed设置有误
 - 修复了enemy不能销毁子弹的bug
+- 将代码脚本改为DestructibleBase（可摧毁物体基本逻辑）、EnemyBase（敌人基本逻辑）、PlayerBase（玩家基本逻辑）、SpawnerBase（生成物体基本逻辑）等父类以及修改Enemy1AI（重写攻击方法以及实现伤害逻辑）、EnemyGenerate（敌人生成）、Ore（设置生命值，还可以添加更多属性）、OreGenerate（矿石生成）、PlayerController（实现移动逻辑、鼠标旋转以及射击逻辑）等子类脚本来适配
+
+## 2025-11-3（Slaice）
+- 添加了商店UI：ShopPanel，添加了攻击力、攻速、移速、生命值以及三个技能的按钮
+- 添加了SkillBase（所有技能的父类）、ShopManager（与PlayerState配合使用，调控属性以及技能购买升级）、ShopUIManager（管理ShopUIManager的脚本）、SkillManager（管理技能的子类）相关物体以及脚本（注意ShopUIManager要挂载到Canvas上，否则按tab无反应）
+- 添加了PlayerState脚本，挂载到Player上（存储玩家属性，便于后续的升级）
+- 修复了UImanager数据与PlayerState不同步的bug
+- 修复了enemy死后有碰撞体的bug：添加bool值isDead
+- 解决了按钮无法点击的bug：漏了EventSystem组件绑定到canvas
+- 解决了CursorManager错误绑定的问题，新建CursorManager空物体
+- 修复了enemy播放死亡动画还朝向player的问题：添加了isDead
