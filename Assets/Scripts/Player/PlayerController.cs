@@ -3,11 +3,36 @@ using UnityEngine;
 // 具体玩家控制器：实现基类的抽象方法（整合移动、射击、旋转）
 public class PlayerController : PlayerBase
 {
+    [Header("数值引用")]
+    public PlayerState playerState;
+
     // 重写初始化（可选：补充子类特有逻辑）
     protected override void Awake()
     {
         base.Awake(); // 先执行基类的初始化（获取组件）
-        // 这里可以添加子类特有的初始化（如额外组件）
+                      // 这里可以添加子类特有的初始化（如额外组件）
+        if (playerState == null)
+            playerState = GetComponent<PlayerState>();
+
+        if (playerState == null)
+            Debug.LogWarning("PlayerController: 没找到 PlayerState！");
+    }
+
+    protected override void Update()
+    {
+        // 在更新前同步玩家属性
+        SyncStatsFromState();
+
+        base.Update(); // 保持基类的旋转、射击更新逻辑
+    }
+
+    private void SyncStatsFromState()
+    {
+        if (playerState == null) return;
+
+        // 从 PlayerState 动态同步属性
+        moveSpeed = playerState.moveSpeed;
+        fireRate = 1f / Mathf.Max(0.1f, playerState.attackSpeed);// attackSpeed越大，攻速越快
     }
 
     // 实现移动逻辑（迁移自PlayerMovement）
@@ -47,18 +72,31 @@ public class PlayerController : PlayerBase
         {
             // 计算水平射击方向（忽略Y轴，避免子弹上天/入地）
             Vector3 shootDir = (hit.point - firePoint.position).normalized;
-            shootDir.y = 0f;
+            shootDir.y = 0f;// 忽略y轴
 
             // 生成并发射子弹
             if (bulletPrefab != null && firePoint != null)
             {
-                GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
-                Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+                GameObject bulletObj = Instantiate(
+                    bulletPrefab,
+                    firePoint.position,
+                    Quaternion.LookRotation(shootDir)
+                );
+
+                // 让子弹朝向射击方向
+                bulletObj.transform.forward = shootDir;
+
+                // 给子弹速度
+                Rigidbody bulletRb = bulletObj.GetComponent<Rigidbody>();
                 if (bulletRb != null)
+                    bulletRb.velocity = shootDir * bulletSpeed;
+
+                // 将玩家攻击力传入子弹
+                Bullet bullet = bulletObj.GetComponent<Bullet>();
+                if (bullet != null)
                 {
-                    bulletRb.velocity = shootDir * bulletSpeed; // 给子弹速度
+                    bullet.damage = playerState.attack; // 攻击力传递
                 }
-                bullet.transform.forward = shootDir; // 让子弹朝向目标
             }
         }
     }

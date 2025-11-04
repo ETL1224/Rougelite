@@ -2373,9 +2373,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 100
+  m_MaxValue: 50
   m_WholeNumbers: 0
-  m_Value: 100
+  m_Value: 50
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2813,9 +2813,13 @@ MonoBehaviour:
   shopPanel: {fileID: 256378535}
   oreText: {fileID: 635451543}
   attackBtn: {fileID: 2060653501}
+  attackText: {fileID: 1290165531}
   attackSpeedBtn: {fileID: 1959274137}
+  attackSpeedText: {fileID: 1746083936}
   moveSpeedBtn: {fileID: 371463420}
+  moveSpeedText: {fileID: 1443742582}
   healthBtn: {fileID: 594015241}
+  healthText: {fileID: 1383438225}
   skillQBtn: {fileID: 12497973}
   skillEBtn: {fileID: 1109451608}
   skillRBtn: {fileID: 2033482927}
@@ -2867,6 +2871,7 @@ MonoBehaviour:
   playerAnimator: {fileID: 1711282253}
   deathUiDelay: 1.25
   cursorManager: {fileID: 1187069256}
+  playerState: {fileID: 365506404}
 --- !u!4 &787753945
 Transform:
   m_ObjectHideFlags: 0
@@ -3217,6 +3222,36 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: ore
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: attack
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: attackSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: currentHealth
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 580831304895379155, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
       propertyPath: m_Name
@@ -3611,7 +3646,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u6280\u80FDE\\n\u89E3\u9501\uFF1A200\u77FF\u77F3"
+  m_text: "\u6280\u80FDE\\n\u89E3\u9501\uFF1A20\u77FF\u77F3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db3c09c9d5e405c448e4eddc7691009b, type: 2}
   m_sharedMaterial: {fileID: 6742229312302978360, guid: db3c09c9d5e405c448e4eddc7691009b,
@@ -4393,7 +4428,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u653B\u51FB\u529B:Lv.0\\n\u5347\u7EA7\uFF1A50\u77FF\u77F3"
+  m_text: "\u653B\u51FB\u529B:Lv.0\\n\u5347\u7EA7\uFF1A5\u77FF\u77F3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db3c09c9d5e405c448e4eddc7691009b, type: 2}
   m_sharedMaterial: {fileID: 6742229312302978360, guid: db3c09c9d5e405c448e4eddc7691009b,
@@ -4730,7 +4765,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u751F\u547D\u503C:Lv.0\\n\u5347\u7EA7\uFF1A50\u77FF\u77F3"
+  m_text: "\u751F\u547D\u503C:Lv.0\\n\u5347\u7EA7\uFF1A5\u77FF\u77F3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db3c09c9d5e405c448e4eddc7691009b, type: 2}
   m_sharedMaterial: {fileID: 6742229312302978360, guid: db3c09c9d5e405c448e4eddc7691009b,
@@ -5000,7 +5035,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u79FB\u901F:Lv.0\\n\u5347\u7EA7\uFF1A50\u77FF\u77F3"
+  m_text: "\u79FB\u901F:Lv.0\\n\u5347\u7EA7\uFF1A5\u77FF\u77F3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db3c09c9d5e405c448e4eddc7691009b, type: 2}
   m_sharedMaterial: {fileID: 6742229312302978360, guid: db3c09c9d5e405c448e4eddc7691009b,
@@ -5271,7 +5306,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u6280\u80FDQ\\n\u89E3\u9501\uFF1A200\u77FF\u77F3"
+  m_text: "\u6280\u80FDQ\\n\u89E3\u9501\uFF1A20\u77FF\u77F3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db3c09c9d5e405c448e4eddc7691009b, type: 2}
   m_sharedMaterial: {fileID: 6742229312302978360, guid: db3c09c9d5e405c448e4eddc7691009b,
@@ -5758,7 +5793,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u6280\u80FDR\\n\u89E3\u9501\uFF1A200\u77FF\u77F3"
+  m_text: "\u6280\u80FDR\\n\u89E3\u9501\uFF1A20\u77FF\u77F3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db3c09c9d5e405c448e4eddc7691009b, type: 2}
   m_sharedMaterial: {fileID: 6742229312302978360, guid: db3c09c9d5e405c448e4eddc7691009b,
@@ -5899,7 +5934,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u653B\u51FB\u901F\u5EA6:Lv.0\\n\u5347\u7EA7\uFF1A50\u77FF\u77F3"
+  m_text: "\u653B\u51FB\u901F\u5EA6:Lv.0\\n\u5347\u7EA7\uFF1A5\u77FF\u77F3"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: db3c09c9d5e405c448e4eddc7691009b, type: 2}
   m_sharedMaterial: {fileID: 6742229312302978360, guid: db3c09c9d5e405c448e4eddc7691009b,
@@ -6235,9 +6270,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerStats: {fileID: 365506404}
+  uiManager: {fileID: 787753944}
   skillManager: {fileID: 1801627258}
-  upgradeCost: 3
-  skillCost: 5
+  shopUI: {fileID: 0}
+  upgradeCost: 5
+  skillCost: 20
 --- !u!4 &1827400885 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934560140327267142, guid: c5a130f1973f850438e333b07b544edf,

@@ -17,8 +17,10 @@ public abstract class DestructibleBase : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         if (isDestroyed) return; // 已销毁则跳过
+        float healthBefore = Health;
         Health -= damage;
-        if (Health <= 0f)
+        Health = Mathf.Max(Health, 0f);
+        if (Health <= 0f && healthBefore > 0f)
         {
             Die();
         }

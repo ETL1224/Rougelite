@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject deathUI;              // 阵亡UI界面
 
     [Header("Player Stats")]
-    public float maxHealth = 100f;
+    public float maxHealth = 50f;
     private float currentHealth;
     private int oreCount = 0;
 
@@ -33,7 +33,6 @@ public class UIManager : MonoBehaviour
 
     [Header("Player State")]
     public PlayerState playerState;
-
 
     void Start()
     {
@@ -109,7 +108,7 @@ public class UIManager : MonoBehaviour
         HP.value = currentHealth;
     }
 
-    private void UpdateOreUI()
+    public void UpdateOreUI()
     {
         if (playerState != null)
             oreText.text = $"矿石：{playerState.ore}";

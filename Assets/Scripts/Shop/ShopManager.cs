@@ -8,11 +8,18 @@ public class ShopManager : MonoBehaviour
 {
     [Header("引用（在 Inspector 里指派）")]
     public PlayerState playerStats;      // 拖 Player（含 PlayerStats）进来
+    public UIManager uiManager;
     public SkillManager skillManager;    // 拖 SkillManager（空物体）进来
+    public ShopUIManager shopUI;
 
     [Header("费用设置")]
-    public int upgradeCost = 3;
-    public int skillCost = 5;
+    public int upgradeCost = 5;
+    public int skillCost = 20;
+
+    private int attackLv = 0;
+    private int attackSpeedLv = 0;
+    private int moveSpeedLv = 0;
+    private int healthLv = 0;
 
     void Start()
     {
@@ -21,9 +28,15 @@ public class ShopManager : MonoBehaviour
 
         if (skillManager == null)
             skillManager = FindObjectOfType<SkillManager>();
+
+        if (uiManager == null)
+            uiManager = FindObjectOfType<UIManager>();
+
+        if (shopUI == null)
+            shopUI = FindObjectOfType<ShopUIManager>();
     }
 
-    // 给 UI 调用：升级某个属性
+    // 升级属性
     public bool Upgrade(string statKey)
     {
         if (playerStats == null) return false;
@@ -33,16 +46,20 @@ public class ShopManager : MonoBehaviour
         {
             case "attack":
                 playerStats.attack += 2f;
+                attackLv++;
                 break;
             case "attackSpeed":
-                playerStats.attackSpeed += 0.1f;
+                playerStats.attackSpeed += 10f;
+                attackSpeedLv++;
                 break;
             case "moveSpeed":
                 playerStats.moveSpeed += 0.2f;
+                moveSpeedLv++;
                 break;
             case "health":
                 playerStats.maxHealth += 10f;
                 playerStats.currentHealth += 10f;
+                healthLv++;
                 break;
             default:
                 Debug.LogWarning("未知升级键：" + statKey);
@@ -50,6 +67,10 @@ public class ShopManager : MonoBehaviour
         }
 
         playerStats.SpendOre(upgradeCost);
+
+        // 刷新UI
+        uiManager?.UpdateOreUI();
+        shopUI?.UpdateUpgradeTexts(attackLv, attackSpeedLv, moveSpeedLv, healthLv); // 更新UI
         return true;
     }
 
@@ -62,31 +83,24 @@ public class ShopManager : MonoBehaviour
         SkillBase skill = skillManager.GetRandomSkill(); // 从 SkillManager 获取
         if (skill == null) return false;
 
-        // 注意：这里我们把 skill 的实例化/赋值逻辑交给 SkillManager（或直接 assign prefab）
-        // 下面演示直接把 skill (ScriptableObject 或 prefab reference) 赋给 PlayerStats 槽
+        // 根据槽位赋值
         switch (slotKey)
         {
-            case "Q":
-                playerStats.skillQ = skill;
-                break;
-            case "E":
-                playerStats.skillE = skill;
-                break;
-            case "R":
-                playerStats.skillR = skill;
-                break;
+            case "Q": playerStats.skillQ = skill; break;
+            case "E": playerStats.skillE = skill; break;
+            case "R": playerStats.skillR = skill; break;
             default:
                 Debug.LogWarning("未知技能槽：" + slotKey);
                 return false;
         }
 
         playerStats.SpendOre(skillCost);
+
+        if (uiManager != null)
+            uiManager.UpdateOreUI();
+
         return true;
     }
 
-    // 外部读取矿石（UI显示用）
-    public int GetOreCount()
-    {
-        return playerStats != null ? playerStats.ore : 0;
-    }
+    public int GetOreCount() => playerStats != null ? playerStats.ore : 0;
 }
