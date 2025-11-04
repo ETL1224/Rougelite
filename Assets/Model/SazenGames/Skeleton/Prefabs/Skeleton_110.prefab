@@ -114,7 +114,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: be3776e9bd6e31341b3490a035f6ea50,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5339254224874362450}
+      addedObject: {fileID: 3514851664673912007}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: be3776e9bd6e31341b3490a035f6ea50,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5280427994907707893}
   m_SourcePrefab: {fileID: 100100000, guid: be3776e9bd6e31341b3490a035f6ea50, type: 3}
 --- !u!1 &1571042049591659991 stripped
 GameObject:
@@ -122,7 +126,19 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1804852436424323206}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5339254224874362450
+--- !u!114 &3514851664673912007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1571042049591659991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5a7d8099cde4842bed663283ef5b11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5280427994907707893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,8 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd5dd42a4bb06714e8a43f742c90ec5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  rotationSpeed: 8
+  rotationSpeed: 15
   eulerOffset: {x: 0, y: 0, z: 0}
   useLocalRotation: 0
 --- !u!4 &4674488975978317807 stripped

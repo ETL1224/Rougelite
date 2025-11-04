@@ -5,30 +5,38 @@ using TMPro;
 public class ShopUIManager : MonoBehaviour
 {
     [Header("UI 元素")]
-    public GameObject shopPanel;         // 指向 ShopPanel（整个面板）
-    public TMP_Text oreText;             // 指向 OreText (TextMeshPro)
+    public GameObject shopPanel;
+    public TMP_Text oreText;
+
+    [Header("按钮及文字")]
     public Button attackBtn;
+    public TMP_Text attackText;
+
     public Button attackSpeedBtn;
+    public TMP_Text attackSpeedText;
+
     public Button moveSpeedBtn;
+    public TMP_Text moveSpeedText;
+
     public Button healthBtn;
+    public TMP_Text healthText;
+
     public Button skillQBtn;
     public Button skillEBtn;
     public Button skillRBtn;
 
     [Header("引用")]
-    public ShopManager shopManager;      // 指向场景里的 ShopManager
-    public CursorManager cursorManager;  // 拖入场景中的 CursorManager 对象
+    public ShopManager shopManager;
+    public CursorManager cursorManager;
 
     private bool isOpen = false;
 
     void Start()
     {
-        if (shopPanel == null)
-            Debug.LogError("ShopPanel 未绑定到 ShopUIManager！");
         if (shopManager == null)
             shopManager = FindObjectOfType<ShopManager>();
+        shopManager.shopUI = this; // 建立反向引用
 
-        // 绑定按钮事件（也可以在 Inspector 用 OnClick 绑定）
         attackBtn.onClick.AddListener(() => OnUpgradeClicked("attack"));
         attackSpeedBtn.onClick.AddListener(() => OnUpgradeClicked("attackSpeed"));
         moveSpeedBtn.onClick.AddListener(() => OnUpgradeClicked("moveSpeed"));
@@ -38,20 +46,15 @@ public class ShopUIManager : MonoBehaviour
         skillEBtn.onClick.AddListener(() => OnBuySkillClicked("E"));
         skillRBtn.onClick.AddListener(() => OnBuySkillClicked("R"));
 
-        // 初始状态：商店UI隐藏
         shopPanel.SetActive(false);
-        isOpen = false;
+        UpdateUpgradeTexts(0, 0, 0, 0); // 初始化文本
     }
 
     void Update()
     {
-        // 只在 ShopUIManager 中监听 Tab 键（唯一触发源）
         if (Input.GetKeyDown(KeyCode.Tab))
-        {
             ToggleShop();
-        }
 
-        // 更新矿石显示
         if (oreText != null && shopManager != null)
             oreText.text = $"矿石：{shopManager.GetOreCount()}";
     }
@@ -59,32 +62,36 @@ public class ShopUIManager : MonoBehaviour
     void ToggleShop()
     {
         isOpen = !isOpen;
-
-        // 1. 控制商店UI显示/隐藏
-        if (shopPanel != null)
-        {
-            shopPanel.SetActive(isOpen);
-        }
-
-        // 2. 同步 CursorManager 状态（关键！避免冲突）
+        shopPanel.SetActive(isOpen);
         if (cursorManager != null)
         {
-            if (isOpen)
-                cursorManager.EnterUIMode(); // 打开商店 → 进入UI模式（显示鼠标、隐藏准心）
-            else
-                cursorManager.EnterGameMode(); // 关闭商店 → 进入游戏模式（隐藏鼠标、显示准心）
+            if (isOpen) cursorManager.EnterUIMode();
+            else cursorManager.EnterGameMode();
         }
     }
 
     void OnUpgradeClicked(string key)
     {
         bool ok = shopManager != null && shopManager.Upgrade(key);
-        if (!ok) Debug.Log("升级失败（矿石不足或未配置）: " + key);
+        if (!ok) Debug.Log("升级失败: " + key);
     }
 
     void OnBuySkillClicked(string slot)
     {
         bool ok = shopManager != null && shopManager.BuyAndAssignRandomSkill(slot);
-        if (!ok) Debug.Log("购买技能失败（矿石不足或未配置）: " + slot);
+        if (!ok) Debug.Log("购买技能失败: " + slot);
+    }
+
+    // 新增：统一更新所有按钮文字
+    public void UpdateUpgradeTexts(int atkLv, int atkSpdLv, int moveLv, int hpLv)
+    {
+        if (attackText != null)
+            attackText.text = $"攻击力: Lv.{atkLv}\n升级：{shopManager.upgradeCost}矿石";
+        if (attackSpeedText != null)
+            attackSpeedText.text = $"攻速: Lv.{atkSpdLv}\n升级：{shopManager.upgradeCost}矿石";
+        if (moveSpeedText != null)
+            moveSpeedText.text = $"移速: Lv.{moveLv}\n升级：{shopManager.upgradeCost}矿石";
+        if (healthText != null)
+            healthText.text = $"生命: Lv.{hpLv}\n升级：{shopManager.upgradeCost}矿石";
     }
 }

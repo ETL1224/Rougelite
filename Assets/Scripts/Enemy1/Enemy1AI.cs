@@ -5,8 +5,6 @@ public class Enemy1AI : EnemyBase
     protected override void Awake()
     {
         base.Awake(); // 继承基类初始化逻辑
-        maxHealth = 3f;
-        Health = maxHealth;
     }
 
     void Update()
@@ -52,7 +50,6 @@ public class Enemy1AI : EnemyBase
     public override void DealDamage()
     {
         if (player == null || uiManager == null) return;
-        if (isDead) return;
         float dist = Vector3.Distance(transform.position, player.position);
         if (dist <= attackRange)
         {

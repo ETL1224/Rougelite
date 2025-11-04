@@ -9,7 +9,7 @@ public abstract class EnemyBase : DestructibleBase
     public float moveSpeed = 10f;
     public float detectRange = 150f;
     public float avoidRadius = 2.5f;
-    protected bool isDead = false;
+    public bool isDead = false;
 
     [Header("战斗属性")]
     public float maxHealth = 10f;
@@ -56,19 +56,25 @@ public abstract class EnemyBase : DestructibleBase
         isDestroyed = true;
         isDead = true;
 
-        // 1️⃣ 禁用碰撞体和刚体物理
-        Collider col = GetComponent<Collider>();
-        if (col != null) col.enabled = false;
+        // 禁用碰撞体和刚体物理
+        Collider[] colliders = GetComponentsInChildren<Collider>();
+        foreach (var col in colliders)
+        {
+            col.enabled = false;
+        }
         if (rb != null) rb.isKinematic = true;
 
-        // 2️⃣ 禁用 AI 或 Update 行为（这里可以用一个标志位或直接禁用脚本）
-        enabled = false;
+        // 播放死亡动画
+        StartCoroutine(PlayDeathAnimAfterDelay(0.2f));
 
-        // 3️⃣ 播放死亡动画
-        TriggerAnimation("Die");
+        // 启动协程等待动画完成再掉落和销毁
+        StartCoroutine(DelayedDeathRoutine(2f)); 
+    }
 
-        // 4️⃣ 启动协程等待动画完成再掉落和销毁
-        StartCoroutine(DelayedDeathRoutine(2f)); // 2秒替换成动画实际长度
+    private IEnumerator PlayDeathAnimAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        TriggerAnimation("Die"); // 延迟后再播放倒地动画
     }
 
     private IEnumerator DelayedDeathRoutine(float delay)
