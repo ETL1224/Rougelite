@@ -72,3 +72,15 @@
 - 解决了按钮无法点击的bug：漏了EventSystem组件绑定到canvas
 - 解决了CursorManager错误绑定的问题，新建CursorManager空物体
 - 修复了enemy播放死亡动画还朝向player的问题：添加了isDead
+
+## 2025-11-4（Slaice）
+- 将ShopUI的ore数量与UIManager进行绑定：给ShopManager引入UIManager，调用其UpdateOreUI方法
+- 将PlayerState的数值变化应用到player（数值同步）：在PlayerController里增加一段数值同步逻辑，让它动态读取PlayerState
+- PlayerController负责：从PlayerState读取实时属性；驱动移动、射击逻辑；响应输入。
+- PlayerState负责：管理数值（生命、攻击、移速、矿石等）；接收ShopManager的升级变化。
+- PlayerBase只保留共通逻辑（旋转、射击接口），完全独立于数值层。
+- 将attack属性传给子弹bullet的伤害值：修改PlayerController的Shoot方法
+- 解决了enemy无法旋转的bug：Inspector里的isDead误触为true了
+- Bug未解决：子弹命中敌人时显示扣除n滴血，但是观感只有n - 1滴血
+- 实现在商店消耗矿石升级属性的功能，升级后改变商店lv等级文本并且在游戏中生效：修改了ShopUIManager、ShopManager、PlayerState
+
