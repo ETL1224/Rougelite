@@ -84,3 +84,9 @@
 - Bug未解决：子弹命中敌人时显示扣除n滴血，但是观感只有n - 1滴血
 - 实现在商店消耗矿石升级属性的功能，升级后改变商店lv等级文本并且在游戏中生效：修改了ShopUIManager、ShopManager、PlayerState
 
+## 2025-11-5（Slaice）
+- 让UI的Slider血条实时反映PlayerState里的数值，使ShopUI里的升级生命值能在游戏UI里生效并修改UIManager，让其只显示数值
+- 完善了属性，修改了PlayerState（让其管理所有属性数值）、PlayerBase（删除大部分属性交由PlayerState），添加了法强SkillPower与技能急速SkillHaste属性以及相关UI按钮
+- 修改了ShopUIManager以及ShopManager来绑定新增属性,让所有属性能够通过商店购买并生效于游戏内（修改PlayerController来实现具体升级加成效果）以及相应等级文本变化
+- 修改SkillBase（基本判断释放逻辑）与SkillManager（让Q/E/R三个技能槽分别对应独立的技能库）
+
