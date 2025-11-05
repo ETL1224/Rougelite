@@ -21,6 +21,12 @@ public class ShopUIManager : MonoBehaviour
     public Button healthBtn;
     public TMP_Text healthText;
 
+    public Button skillPowerBtn; 
+    public TMP_Text skillPowerText;
+    
+    public Button skillHasteBtn; 
+    public TMP_Text skillHasteText;
+
     public Button skillQBtn;
     public Button skillEBtn;
     public Button skillRBtn;
@@ -41,13 +47,15 @@ public class ShopUIManager : MonoBehaviour
         attackSpeedBtn.onClick.AddListener(() => OnUpgradeClicked("attackSpeed"));
         moveSpeedBtn.onClick.AddListener(() => OnUpgradeClicked("moveSpeed"));
         healthBtn.onClick.AddListener(() => OnUpgradeClicked("health"));
+        skillPowerBtn.onClick.AddListener(() => OnUpgradeClicked("skillPower"));
+        skillHasteBtn.onClick.AddListener(() => OnUpgradeClicked("skillHaste"));
 
         skillQBtn.onClick.AddListener(() => OnBuySkillClicked("Q"));
         skillEBtn.onClick.AddListener(() => OnBuySkillClicked("E"));
         skillRBtn.onClick.AddListener(() => OnBuySkillClicked("R"));
 
         shopPanel.SetActive(false);
-        UpdateUpgradeTexts(0, 0, 0, 0); // 初始化文本
+        UpdateUpgradeTexts(0, 0, 0, 0, 0, 0); // 初始化文本
     }
 
     void Update()
@@ -83,15 +91,19 @@ public class ShopUIManager : MonoBehaviour
     }
 
     // 新增：统一更新所有按钮文字
-    public void UpdateUpgradeTexts(int atkLv, int atkSpdLv, int moveLv, int hpLv)
+    public void UpdateUpgradeTexts(int atkLv, int atkSpdLv, int moveLv, int hpLv,int skiPow,int skiHas)
     {
         if (attackText != null)
             attackText.text = $"攻击力: Lv.{atkLv}\n升级：{shopManager.upgradeCost}矿石";
         if (attackSpeedText != null)
-            attackSpeedText.text = $"攻速: Lv.{atkSpdLv}\n升级：{shopManager.upgradeCost}矿石";
+            attackSpeedText.text = $"攻击速度: Lv.{atkSpdLv}\n升级：{shopManager.upgradeCost}矿石";
         if (moveSpeedText != null)
             moveSpeedText.text = $"移速: Lv.{moveLv}\n升级：{shopManager.upgradeCost}矿石";
         if (healthText != null)
             healthText.text = $"生命: Lv.{hpLv}\n升级：{shopManager.upgradeCost}矿石";
+        if (skillPowerText != null)
+            skillPowerText.text = $"法强: Lv.{skiPow}\n升级：{shopManager.upgradeCost}矿石";
+        if (skillHasteText != null)
+            skillHasteText.text = $"技能急速: Lv.{skiHas}\n升级：{shopManager.upgradeCost}矿石";
     }
 }
