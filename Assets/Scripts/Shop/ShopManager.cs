@@ -20,6 +20,8 @@ public class ShopManager : MonoBehaviour
     private int attackSpeedLv = 0;
     private int moveSpeedLv = 0;
     private int healthLv = 0;
+    private int skillPowerLv = 0;
+    private int skillHasteLv = 0;
 
     void Start()
     {
@@ -45,21 +47,30 @@ public class ShopManager : MonoBehaviour
         switch (statKey)
         {
             case "attack":
-                playerStats.attack += 2f;
+                playerStats.attack += 0.5f;
                 attackLv++;
                 break;
             case "attackSpeed":
-                playerStats.attackSpeed += 10f;
+                playerStats.attackSpeed += 0.5f;
                 attackSpeedLv++;
                 break;
             case "moveSpeed":
-                playerStats.moveSpeed += 0.2f;
+                playerStats.moveSpeed += 1f;
                 moveSpeedLv++;
                 break;
             case "health":
-                playerStats.maxHealth += 10f;
-                playerStats.currentHealth += 10f;
+                playerStats.maxHealth += 5f;
+                playerStats.currentHealth += 5f;
                 healthLv++;
+                break;
+            case "skillPower":
+                playerStats.skillPower += 0.5f;  // 法术伤害乘以法术强度
+                playerStats.skillPowerLevel++;
+                break;
+            case "skillHaste":
+                playerStats.skillHaste += 0.05f; // 每级减少5%
+                playerStats.skillHaste = Mathf.Min(playerStats.skillHaste, 0.5f); // 最多50%
+                playerStats.skillHasteLevel++;
                 break;
             default:
                 Debug.LogWarning("未知升级键：" + statKey);
@@ -70,17 +81,16 @@ public class ShopManager : MonoBehaviour
 
         // 刷新UI
         uiManager?.UpdateOreUI();
-        shopUI?.UpdateUpgradeTexts(attackLv, attackSpeedLv, moveSpeedLv, healthLv); // 更新UI
+        shopUI?.UpdateUpgradeTexts(attackLv, attackSpeedLv, moveSpeedLv, healthLv, skillPowerLv, skillHasteLv); // 更新UI
         return true;
     }
 
-    // 给 UI 调用：为槽位分配一个随机技能（Q/E/R）
     public bool BuyAndAssignRandomSkill(string slotKey)
     {
         if (playerStats == null || skillManager == null) return false;
         if (playerStats.ore < skillCost) return false;
 
-        SkillBase skill = skillManager.GetRandomSkill(); // 从 SkillManager 获取
+        SkillBase skill = skillManager.GetRandomSkill(slotKey); // 根据槽位获取技能
         if (skill == null) return false;
 
         // 根据槽位赋值
@@ -96,9 +106,7 @@ public class ShopManager : MonoBehaviour
 
         playerStats.SpendOre(skillCost);
 
-        if (uiManager != null)
-            uiManager.UpdateOreUI();
-
+        uiManager?.UpdateOreUI();
         return true;
     }
 

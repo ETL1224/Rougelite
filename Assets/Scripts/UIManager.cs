@@ -13,11 +13,6 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI timerText;       // 倒计时文本
     public GameObject deathUI;              // 阵亡UI界面
 
-    [Header("Player Stats")]
-    public float maxHealth = 50f;
-    private float currentHealth;
-    private int oreCount = 0;
-
     [Header("Game Timer")]
     public float gameTime = 120f;           // 总时长
     private float timeLeft;
@@ -36,22 +31,25 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        // 初始化玩家状态
-        currentHealth = maxHealth;
-        timeLeft = gameTime;
+        // 自动查找 PlayerState
+        if (playerState == null && player != null)
+            playerState = player.GetComponent<PlayerState>();
+
+        if (playerState == null)
+        {
+            Debug.LogError("UIManager：找不到 PlayerState，无法显示血量！");
+            return;
+        }
 
         // 初始化血条
         HP.minValue = 0;
-        HP.maxValue = maxHealth;
-        HP.value = currentHealth;
+        HP.maxValue = playerState.maxHealth;
+        HP.value = playerState.currentHealth;
 
-        // 初始UI同步
         UpdateHealthUI();
         UpdateOreUI();
+        timeLeft = gameTime;
         UpdateTimerUI();
-
-        if (playerState == null && player != null)
-            playerState = player.GetComponent<PlayerState>();
 
         if (deathUI != null)
             deathUI.SetActive(false);
@@ -60,27 +58,30 @@ public class UIManager : MonoBehaviour
         if (playerAnimator == null && player != null)
         {
             playerAnimator = player.GetComponentInChildren<Animator>();
-            if (playerAnimator == null)
-                Debug.LogWarning("UIManager：未在player或其子物体中找到Animator，请在Inspector指定playerAnimator。");
         }
     }
 
     void Update()
     {
-        if (isGameActive)
-        {
-            UpdateTimer();
-        }
+        if (!isGameActive || playerState == null) return;
+
+        // 实时同步UI
+        UpdateHealthUI();
+        UpdateOreUI();
+
+        // 计时
+        UpdateTimer();
     }
 
     // 玩家收到伤害
     public void TakeDamage(float amount)
     {
-        currentHealth = Mathf.Clamp(currentHealth - amount, 0, maxHealth);
+        if (playerState == null) return;
+
+        playerState.currentHealth = Mathf.Clamp(playerState.currentHealth - amount, 0, playerState.maxHealth);
         UpdateHealthUI();
 
-        // 如果血量为0
-        if (currentHealth <= 0 && isGameActive)
+        if (playerState.currentHealth <= 0 && isGameActive)
         {
             PlayerDie();
         }
@@ -89,36 +90,39 @@ public class UIManager : MonoBehaviour
     // 玩家恢复血量
     public void Heal(float amount)
     {
-        currentHealth = Mathf.Clamp(currentHealth + amount, 0, maxHealth);
+        if (playerState == null) return;
+
+        playerState.currentHealth = Mathf.Clamp(playerState.currentHealth + amount, 0, playerState.maxHealth);
         UpdateHealthUI();
     }
 
     public void AddOre(int amount)
     {
-        oreCount += amount;
+        if (playerState == null) return;
 
-        if (playerState != null)
-            playerState.ore = oreCount;
+        playerState.ore += amount;
         UpdateOreUI();
     }
 
     // UI更新函数
     private void UpdateHealthUI()
     {
-        HP.value = currentHealth;
+        if (playerState == null) return;
+
+        HP.maxValue = playerState.maxHealth;
+        HP.value = playerState.currentHealth;
     }
 
     public void UpdateOreUI()
     {
-        if (playerState != null)
+        if (playerState != null && oreText != null)
             oreText.text = $"矿石：{playerState.ore}";
-        else
-            oreText.text = $"矿石：{oreCount}";
     }
 
     private void UpdateTimerUI()
     {
-        timerText.text = $"时间：{Mathf.CeilToInt(timeLeft)}s";
+        if (timerText != null)
+            timerText.text = $"时间：{Mathf.CeilToInt(timeLeft)}s";
     }
 
     private void UpdateTimer()
@@ -132,7 +136,7 @@ public class UIManager : MonoBehaviour
         else
         {
             isGameActive = false;
-            Debug.Log("时间到,可以触发BOSS战或商店逻辑");
+            Debug.Log("时间到，可以触发BOSS战或商店逻辑");
         }
     }
 

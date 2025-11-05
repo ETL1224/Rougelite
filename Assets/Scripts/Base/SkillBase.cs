@@ -2,19 +2,27 @@ using UnityEngine;
 
 public abstract class SkillBase : MonoBehaviour
 {
-    public string skillName;
-    public float cooldown = 3f;
-    private float lastCastTime;
+    public string skillName = "Unnamed Skill";
+    public string description = "Skill description";
+    public Sprite icon;
+    public float baseCooldown = 5f;
+    public float lastCastTime = -999f;
 
-    public virtual bool CanCast() => Time.time - lastCastTime >= cooldown;
-
-    public void TryCast(Vector3 castPos, Transform caster)
+    // 判断是否可释放
+    public virtual bool CanCast(PlayerState player)
     {
-        if (!CanCast()) return;
-
-        lastCastTime = Time.time;
-        Cast(castPos, caster);
+        float effectiveCD = baseCooldown * (1f - player.skillHaste);
+        return Time.time - lastCastTime >= effectiveCD;
     }
 
-    protected abstract void Cast(Vector3 castPos, Transform caster);
+    // 尝试释放技能
+    public void TryCast(Vector3 castPos, Transform caster, PlayerState player)
+    {
+        if (!CanCast(player)) return;
+        lastCastTime = Time.time;
+        Cast(castPos, caster, player);
+    }
+
+    // 技能具体逻辑
+    protected abstract void Cast(Vector3 castPos, Transform caster, PlayerState player);
 }

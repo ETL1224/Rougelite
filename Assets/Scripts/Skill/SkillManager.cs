@@ -3,13 +3,28 @@ using System.Collections.Generic;
 
 public class SkillManager : MonoBehaviour
 {
-    // 在 Inspector 拖入 SkillBase 的 prefab 或 ScriptableObject（取决于你的实现）
-    public List<SkillBase> skillPool;
+    [Header("Q/E/R 独立技能库")]
+    public List<SkillBase> skillPoolQ;
+    public List<SkillBase> skillPoolE;
+    public List<SkillBase> skillPoolR;
 
-    public SkillBase GetRandomSkill()
+    public SkillBase GetRandomSkill(string slotKey)
     {
-        if (skillPool == null || skillPool.Count == 0) return null;
-        int i = Random.Range(0, skillPool.Count);
-        return skillPool[i];
+        List<SkillBase> pool = null;
+
+        switch (slotKey)
+        {
+            case "Q": pool = skillPoolQ; break;
+            case "E": pool = skillPoolE; break;
+            case "R": pool = skillPoolR; break;
+            default:
+                Debug.LogWarning("未知技能槽：" + slotKey);
+                return null;
+        }
+
+        if (pool == null || pool.Count == 0) return null;
+
+        int i = Random.Range(0, pool.Count);
+        return pool[i];
     }
 }
