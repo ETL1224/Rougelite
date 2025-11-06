@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7699760687733937686}
   - component: {fileID: -7411626529805789174}
   - component: {fileID: 140342368235591737}
+  - component: {fileID: 2276283211816571799}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -150,16 +151,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dce668d0885e6e40b50a02de724e715, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
-  inputThreshold: 0.1
   bulletPrefab: {fileID: 8609488340321553917, guid: 0225d166f8d236a47b258eb4d6722cf1,
     type: 3}
   firePoint: {fileID: 7951112968481859268}
   bulletSpeed: 50
-  fireRate: 0.2
+  inputThreshold: 0.1
   groundMask:
     serializedVersion: 2
     m_Bits: 128
+  playerState: {fileID: 140342368235591737}
 --- !u!114 &140342368235591737
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,12 +172,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eeb03d93be05234b96433d8b5d52f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ore: 10
-  attack: 10
-  attackSpeed: 1
-  moveSpeed: 3
-  maxHealth: 100
-  currentHealth: 100
+  ore: 0
+  attack: 1
+  attackSpeed: 2
+  moveSpeed: 15
+  maxHealth: 50
+  currentHealth: 50
+  skillPower: 1
+  skillHaste: 0
+  attackLevel: 0
+  attackSpeedLevel: 0
+  moveSpeedLevel: 0
+  healthLevel: 0
+  skillPowerLevel: 0
+  skillHasteLevel: 0
+  skillQ: {fileID: 0}
+  skillE: {fileID: 0}
+  skillR: {fileID: 0}
+--- !u!114 &2276283211816571799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 580831304895379155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 369bcaedfc743d24ab843c77693cdc6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerState: {fileID: 0}
+  castPoint: {fileID: 5958363322883356689}
   skillQ: {fileID: 0}
   skillE: {fileID: 0}
   skillR: {fileID: 0}
@@ -599,6 +624,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c98043d57e0190845b790d7b92990bee, type: 3}
+--- !u!4 &5958363322883356689 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7673487251499544584, guid: c98043d57e0190845b790d7b92990bee,
+    type: 3}
+  m_PrefabInstance: {fileID: 4093182861580159001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5958363322883356737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7673487251499544664, guid: c98043d57e0190845b790d7b92990bee,
