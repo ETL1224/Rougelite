@@ -120,7 +120,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   oreAmount: 1
-  pickupRange: 3
+  pickupRange: 5
 --- !u!1001 &4450565233798452534
 PrefabInstance:
   m_ObjectHideFlags: 0

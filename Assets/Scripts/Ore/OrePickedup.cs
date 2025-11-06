@@ -4,7 +4,7 @@ public class OrePickuped : MonoBehaviour
 {
     [Header(" ∞»°≈‰÷√")]
     public int oreAmount = 1;
-    public float pickupRange = 3f;
+    public float pickupRange = 5f;
 
     protected Transform player;
     protected UIManager uiManager;

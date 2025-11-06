@@ -1,20 +1,21 @@
 using UnityEngine;
+using System.Collections.Generic;
 
-/// <summary>
-/// 负责商店的业务逻辑：升级属性、购买/分配技能等（不直接处理 UI 显示）。
-/// 依赖 PlayerStats 和 SkillManager（你项目里已有/稍后添加）。
-/// </summary>
 public class ShopManager : MonoBehaviour
 {
-    [Header("引用（在 Inspector 里指派）")]
-    public PlayerState playerStats;      // 拖 Player（含 PlayerStats）进来
+    [Header("引用（在Inspector里指派）")]
+    public PlayerState playerStats;      // 拖Player（含PlayerState）进来
     public UIManager uiManager;
-    public SkillManager skillManager;    // 拖 SkillManager（空物体）进来
+    public SkillManager skillManager;    // 拖SkillManager（空物体）进来
     public ShopUIManager shopUI;
+    public PlayerSkillController playerSkillCtrl; // 拖 Player身上的PlayerSkillController
 
     [Header("费用设置")]
     public int upgradeCost = 5;
     public int skillCost = 20;
+
+    // 已购技能存储：key=槽位（Q/E/R），value=该槽位已购买的技能预制体（避免重复购买）
+    private Dictionary<string, HashSet<SkillBase>> purchasedSkills = new Dictionary<string, HashSet<SkillBase>>();
 
     private int attackLv = 0;
     private int attackSpeedLv = 0;
@@ -25,17 +26,17 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        if (playerStats == null)
-            playerStats = FindObjectOfType<PlayerState>();
+        // 自动寻找缺失的引用
+        if (playerStats == null) playerStats = FindObjectOfType<PlayerState>();
+        if (skillManager == null) skillManager = FindObjectOfType<SkillManager>();
+        if (uiManager == null) uiManager = FindObjectOfType<UIManager>();
+        if (shopUI == null) shopUI = FindObjectOfType<ShopUIManager>();
+        if (playerSkillCtrl == null) playerSkillCtrl = FindObjectOfType<PlayerSkillController>();
 
-        if (skillManager == null)
-            skillManager = FindObjectOfType<SkillManager>();
-
-        if (uiManager == null)
-            uiManager = FindObjectOfType<UIManager>();
-
-        if (shopUI == null)
-            shopUI = FindObjectOfType<ShopUIManager>();
+        // 初始化已购技能集合（给每个槽位创建空集合）
+        purchasedSkills.Add("Q", new HashSet<SkillBase>());
+        purchasedSkills.Add("E", new HashSet<SkillBase>());
+        purchasedSkills.Add("R", new HashSet<SkillBase>());
     }
 
     // 升级属性
@@ -65,49 +66,92 @@ public class ShopManager : MonoBehaviour
                 break;
             case "skillPower":
                 playerStats.skillPower += 0.5f;  // 法术伤害乘以法术强度
-                playerStats.skillPowerLevel++;
+                skillPowerLv++;
                 break;
             case "skillHaste":
                 playerStats.skillHaste += 0.05f; // 每级减少5%
                 playerStats.skillHaste = Mathf.Min(playerStats.skillHaste, 0.5f); // 最多50%
-                playerStats.skillHasteLevel++;
+                skillHasteLv++;
                 break;
             default:
                 Debug.LogWarning("未知升级键：" + statKey);
                 return false;
         }
 
+        // 扣除矿石
         playerStats.SpendOre(upgradeCost);
 
         // 刷新UI
         uiManager?.UpdateOreUI();
-        shopUI?.UpdateUpgradeTexts(attackLv, attackSpeedLv, moveSpeedLv, healthLv, skillPowerLv, skillHasteLv); // 更新UI
+        shopUI?.UpdateUpgradeTexts(attackLv, attackSpeedLv, moveSpeedLv, healthLv, skillPowerLv, skillHasteLv);
+
+        // 升级成功，返回true
         return true;
     }
 
-    public bool BuyAndAssignRandomSkill(string slotKey)
+    // 关键修改：购买技能（添加已购去重+实例化+绑定）
+    public bool BuySkill(string slotKey, SkillBase skillPrefab)
     {
-        if (playerStats == null || skillManager == null) return false;
+        // 1. 基础校验
+        if (playerStats == null || skillPrefab == null || playerSkillCtrl == null) return false;
         if (playerStats.ore < skillCost) return false;
+        if (!purchasedSkills.ContainsKey(slotKey)) return false;
 
-        SkillBase skill = skillManager.GetRandomSkill(slotKey); // 根据槽位获取技能
-        if (skill == null) return false;
-
-        // 根据槽位赋值
-        switch (slotKey)
+        // 2. 检查是否已购买该技能（同一槽位不重复）
+        if (purchasedSkills[slotKey].Contains(skillPrefab))
         {
-            case "Q": playerStats.skillQ = skill; break;
-            case "E": playerStats.skillE = skill; break;
-            case "R": playerStats.skillR = skill; break;
-            default:
-                Debug.LogWarning("未知技能槽：" + slotKey);
-                return false;
+            Debug.LogWarning($"槽位{slotKey}已购买过技能：{skillPrefab.skillName}");
+            return false;
         }
 
-        playerStats.SpendOre(skillCost);
+        // 3. 生成技能实例（MonoBehaviour必须实例化）
+        GameObject skillObj = Instantiate(skillPrefab.gameObject);
+        SkillBase newSkill = skillObj.GetComponent<SkillBase>();
+        if (newSkill == null)
+        {
+            Debug.LogError("技能预制体缺少SkillBase子类组件（如FireballSkill）");
+            Destroy(skillObj);
+            return false;
+        }
 
+        // 4. 绑定技能到玩家技能控制器（关键：让Q/E/R能触发）
+        playerSkillCtrl.AssignSkill(slotKey, newSkill);
+
+        // 5. 记录已购买技能（避免重复出现）
+        purchasedSkills[slotKey].Add(skillPrefab);
+
+        // 6. 扣矿石+刷新UI
+        playerStats.SpendOre(skillCost);
         uiManager?.UpdateOreUI();
+
         return true;
+    }
+
+    // 新增：获取某槽位的「可用技能池」（总池 - 已购池）
+    public List<SkillBase> GetAvailableSkills(string slotKey)
+    {
+        if (skillManager == null) return new List<SkillBase>();
+
+        // 1. 获取该槽位的总技能池
+        List<SkillBase> totalPool = slotKey switch
+        {
+            "Q" => skillManager.skillPoolQ,
+            "E" => skillManager.skillPoolE,
+            "R" => skillManager.skillPoolR,
+            _ => new List<SkillBase>()
+        };
+
+        // 2. 过滤掉已购买的技能，得到可用池
+        List<SkillBase> available = new List<SkillBase>();
+        foreach (var skill in totalPool)
+        {
+            if (skill != null && !purchasedSkills[slotKey].Contains(skill))
+            {
+                available.Add(skill);
+            }
+        }
+
+        return available;
     }
 
     public int GetOreCount() => playerStats != null ? playerStats.ore : 0;

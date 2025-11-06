@@ -6,7 +6,7 @@ public abstract class SkillBase : MonoBehaviour
     public string description = "Skill description";
     public Sprite icon;
     public float baseCooldown = 5f;
-    public float lastCastTime = -999f;
+    public float lastCastTime = -999f; // 确保技能初始状态冷却完毕
 
     // 判断是否可释放
     public virtual bool CanCast(PlayerState player)
