@@ -90,3 +90,18 @@
 - 修改了ShopUIManager以及ShopManager来绑定新增属性,让所有属性能够通过商店购买并生效于游戏内（修改PlayerController来实现具体升级加成效果）以及相应等级文本变化
 - 修改SkillBase（基本判断释放逻辑）与SkillManager（让Q/E/R三个技能槽分别对应独立的技能库）
 
+## 2025-11-6（Slaice）
+- 修改完善脚本逻辑：SkillBase 所有技能的抽象父类（定义了技能的基础属性和核心流程，子类（如FireballSkill）只需实现具体释放逻辑即可）；FireballSkill 火球的具体实现（继承自SkillBase）FireballProjectile	火球飞行体逻辑（飞行、碰撞、爆炸）；SkillManager 技能库管理（Q/E/R各自独立技能池），支持随机技能玩法（比如玩家升级时随机解锁Q槽技能）；PlayerState	玩家属性（法强、技能急速等）；PlayerSkillController 负责监听玩家键盘输入（Q/E/R），获取技能释放位置/方向，调用技能的释放逻辑，是玩家和技能系统之间的桥梁
+- 实现完整商店UI中的技能内容，新增技能图标、名称、描述，实现购买逻辑并绑定到游戏中
+完整流程：
+场景 1：打开商店（Tab 键）
+流程步骤：
+玩家按 Tab 键 → ShopUIManager.Update() 监听到按键，调用 ToggleShop()；ToggleShop() 打开商店面板，让鼠标进入 UI 模式（cursorManager.EnterUIMode()）；调用 RefreshAllSkillPreviews() → 遍历 Q/E/R 槽位，每个槽位调用 RefreshSkillPreview()；RefreshSkillPreview() 向 ShopManager 要 “当前槽位的可用技能池”（shopManager.GetAvailableSkills(slotKey)）；ShopManager.GetAvailableSkills() 从 SkillManager 拿到对应槽位的总技能池，过滤掉 “已购买的技能”（purchasedSkills 字典存储），返回可用技能；ShopUIManager 从可用技能中随机选 1 个作为预览，更新 UI 文本（显示技能名称），并设置按钮是否可点击（无技能则置灰）；同时 ShopUIManager.Update() 实时刷新矿石数量（调用 shopManager.GetOreCount()，读取 PlayerState.ore）。
+
+场景 2：技能购买（点击 Q/E/R 购买按钮）
+流程步骤（最核心的闭环）：
+玩家点击 “Q 槽技能购买” 按钮 → ShopUIManager.OnBuySkillClicked("Q") 被调用；拿到当前 Q 槽的预览技能（previewQ），调用 ShopManager.BuySkill("Q", previewQ)；ShopManager.BuySkill() 做多重校验：任意校验失败返回 false，UI 打印 “购买失败” 日志；校验通过 → 生成技能实例（关键步骤）：用 Instantiate(skillPrefab.gameObject) 生成技能预制体的运行时实例（比如 FireballSkill 实例）；从实例中获取 SkillBase 组件（确保是合法技能）；绑定技能到玩家：调用 playerSkillCtrl.AssignSkill("Q", newSkill) → 把技能实例绑定到 PlayerSkillController 的 skillQ 槽位；记录已购技能：把该技能预制体加入 purchasedSkills["Q"] 集合 → 后续 Q 槽商店不会再刷出该技能；
+
+场景 3：技能释放（游戏中按 Q/E/R）
+流程步骤（承接购买后的技能使用）：
+玩家按 Q 键 → PlayerSkillController.HandleSkillInput() 监听到按键，调用 TryCast(skillQ)；检查 skillQ 是否为空（未购买技能则打印 “该技能槽未装备技能”）；计算技能释放方向：castPos = castPoint.position + castPoint.forward * 10f（沿释放点向前 10 米）；检查技能是否可释放：调用 skillQ.CanCast(playerState) → 按 “基础冷却 × (1 - 技能急速)” 计算有效冷却，判断当前时间是否超过冷却时间；冷却完毕 → 调用 skillQ.TryCast(castPos, castPoint, playerState)：记录当前释放时间（lastCastTime = Time.time）→ 触发冷却；执行 FireballSkill.Cast() 方法（具体技能的释放逻辑）；FireballSkill.Cast() 生成火球投射物：实例化 fireballPrefab（火球预制体），设置位置为释放点前方；给火球的 Rigidbody 赋值速度（沿释放方向飞行）；给火球添加 FireballProjectile 组件，传递伤害（基础伤害 × 玩家法强）、爆炸半径、存活时间；注册爆炸事件（proj.OnHitEnemy += HandleExplosion）；火球飞行：碰撞到物体（敌人 / 地形）或超时（lifetime=3f）→ 触发FireballProjectile.OnCollisionEnter()；调用 OnHitEnemy 事件，传递爆炸位置和伤害；爆炸伤害结算：FireballSkill.HandleExplosion() 被回调 → 用 Physics.OverlapSphere 检测爆炸范围内的敌人；遍历敌人，调用 enemy.TakeDamage(damage) → 敌人掉血；销毁火球投射物 → 技能释放流程结束。
