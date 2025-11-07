@@ -47,17 +47,18 @@ public class PlayerSkillController : MonoBehaviour
             return;
         }
 
-        // 技能的释放方向（你可以改为鼠标方向）
-        Vector3 castPos = castPoint.position + castPoint.forward * 10f;
+        // 技能的释放方向（可以改为鼠标方向）
+        Vector3 castPos = castPoint.position;
+        Transform caster = castPoint;
 
         if (skill.CanCast(playerState))
         {
-            skill.TryCast(castPos, castPoint, playerState);
+            skill.TryCast(castPos, caster, playerState);
             Debug.Log($"释放技能：{skill.skillName}");
         }
         else
         {
-            Debug.Log($"{skill.skillName} 冷却中...");
+            Debug.Log($"{skill.skillName} 冷却中...（剩余：{skill.baseCooldown * (1 - playerState.skillHaste) - (Time.time - skill.lastCastTime):F1}秒）");
         }
     }
 

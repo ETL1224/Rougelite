@@ -179,12 +179,12 @@ Material:
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.9960785, g: 0.9960785, b: 0.5372549, a: 1}
     - _Ceramictiles1color: {r: 0.4716981, g: 0.07622343, b: 0, a: 1}
     - _Ceramictiles2color: {r: 0.20507877, g: 0.017641952, b: 0.015208514, a: 1}
     - _Ceramictiles3color: {r: 0.3679245, g: 0.047693916, b: 0, a: 1}
     - _Coatofarmscolor: {r: 1, g: 0, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.99607843, g: 0.99607843, b: 0.5372549, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Exteriorwalls1colour: {r: 0.68668544, g: 0.5647117, b: 0.30946895, a: 1}
     - _Exteriorwalls2color: {r: 0.68668544, g: 0.5647117, b: 0.30946895, a: 1}
