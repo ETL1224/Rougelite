@@ -100,3 +100,10 @@
 - 玩家点击技能购买按钮 → ShopUIManager.OnBuySkillClicked()被调用；拿到当前槽的预览技能，调用ShopManager.BuySkill()；生成技能实例：用 Instantiate(skillPrefab.gameObject)生成技能预制体的运行时实例（比如 FireballSkill 实例）；从实例中获取SkillBase组件；绑定技能到玩家：调用playerSkillCtrl.AssignSkill("Q", newSkill) → 把技能实例绑定到PlayerSkillController的skillQ槽位；记录已购技能：把该技能预制体加入purchasedSkills["Q"] 集合 → 后续Q槽商店不会再刷出该技能；
 - 场景3：技能释放（游戏中按Q/E/R）
 - 玩家按Q键 → PlayerSkillController.HandleSkillInput()监听到按键，调用TryCast(skillQ)；计算技能释放方向：castPos = castPoint.position + castPoint.forward * 10f（沿释放点向前 10 米）；检查技能是否可释放：调用skillQ.CanCast(playerState) → 按 “基础冷却 × (1 - 技能急速)” 计算有效冷却，判断当前时间是否超过冷却时间；冷却完毕 → 调用skillQ.TryCast(castPos, castPoint, playerState)：记录当前释放时间（lastCastTime = Time.time）→ 触发冷却；执行FireballSkill.Cast()方法（具体技能的释放逻辑）；FireballSkill.Cast()生成火球投射物：实例化fireballPrefab（火球预制体），设置位置为释放点前方；给火球的Rigidbody赋值速度（沿释放方向飞行）；给火球添加FireballProjectile组件，传递伤害（基础伤害 × 玩家法强）、爆炸半径、存活时间；注册爆炸事件（proj.OnHitEnemy += HandleExplosion）；火球飞行：碰撞到物体（敌人/地形）或超时（lifetime=3f）→ 触发FireballProjectile.OnCollisionEnter()；调用OnHitEnemy事件，传递爆炸位置和伤害；爆炸伤害结算：FireballSkill.HandleExplosion()被回调 → 用Physics.OverlapSphere检测爆炸范围内的敌人；遍历敌人，调用enemy.TakeDamage(damage) → 敌人掉血；销毁火球投射物 → 技能释放流程结束。
+
+## 2025-11-7
+- 解决火球不发碰撞检测的问题，改成trigger触发（伤害逻辑是用isTrigger判断，所以用Collider无效）,修改OnCollisionEnter为OnTriggerEnter
+- 添加CastPoint,作为技能释放点
+- 修改火球radius，添加特效（火球的整个粒子特效系统以及拖尾和爆炸效果：FireExplosion、FireTail），完成第一个Q技能：豪火球之术
+- 锁60帧，去除阴影，稍微优化了一下性能（可以从enemy生成和模型再优化一下）
+
