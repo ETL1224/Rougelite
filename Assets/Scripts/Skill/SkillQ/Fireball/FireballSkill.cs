@@ -1,77 +1,75 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class FireballSkill : SkillBase
 {
-    [Header("»ğÇò¼¼ÄÜÅäÖÃ")]
-    public GameObject fireballPrefab;  // »ğÇòÔ¤ÖÆÌå£¨±ØĞë¹ÒÔØFireballProjectile£©
-    public float speed = 15f;          // ·ÉĞĞËÙ¶È
-    public float radius = 5f;          // ±¬Õ¨°ë¾¶
-    public float baseDamage = 10f;     // »ù´¡ÉËº¦
-    public float lifetime = 3f;        // »ğÇò´æ»îÊ±¼ä
+    [Header("ç«çƒé…ç½®")]
+    public GameObject fireballPrefab;
+    public float speed = 15f;
+    public float radius = 5f;
+    public float baseDamage = 10f;
+    public float lifetime = 3f;
 
-    // ÊµÏÖÊÍ·ÅÂß¼­
+    private void Awake()
+    {
+        castType = SkillCastType.Direction; // æ–¹å‘æŠ€èƒ½
+    }
+
+    public override void TryCast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
+    {
+        if (!CanCast(player)) return;
+        lastCastTime = Time.time;
+        Cast(castPos, caster, player, dir);
+    }
+
     protected override void Cast(Vector3 castPos, Transform caster, PlayerState player)
     {
-        // 1. »ù´¡Ğ£Ñé£¨±ÜÃâ¿ÕÒıÓÃ£©
+        // é»˜è®¤ç‰ˆæœ¬ç•™ç©ºï¼Œç”¨æ–¹å‘ç‰ˆæœ¬
+    }
+
+    protected virtual void Cast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
+    {
         if (fireballPrefab == null)
         {
-            Debug.LogError("»ğÇò¼¼ÄÜ£ºÎ´¸³Öµ fireballPrefab£¡");
+            Debug.LogError("æœªèµ‹å€¼ fireballPrefabï¼");
             return;
         }
-        if (caster == null || player == null)
-            return;
 
-        Debug.Log($"ÊÍ·Å»ğÇòÊõ£¡·¨Ç¿£º{player.skillPower}£¬×îÖÕÉËº¦£º{baseDamage * player.skillPower}");
+        GameObject fireball = Instantiate(fireballPrefab, castPos, Quaternion.LookRotation(dir));
+        FireballProjectile proj = fireball.GetComponent<FireballProjectile>();
 
-        // 2. Éú³É»ğÇò£¨ĞŞÕıÎ»ÖÃ£ºÖ±½ÓÓÃcastPos£¨CastPointÎ»ÖÃ£©£¬±ÜÃâÆ«ÒÆ´íÎó£©
-        GameObject fireball = Instantiate(fireballPrefab, castPos, caster.rotation);
-
-        // 3. ¸ø»ğÇò¸³ÖµÊı¾İ£¨Ô¤ÖÆÌåÒÑ¹ÒÔØFireballProjectile£¬²»ÓÃÖØ¸´Ìí¼Ó£¡£©
-        FireballProjectile projectile = fireball.GetComponent<FireballProjectile>();
-        if (projectile != null)
+        if (proj != null)
         {
-            projectile.damage = baseDamage * player.skillPower;
-            projectile.radius = radius;
-            projectile.lifetime = lifetime;
-            projectile.OnExplode += HandleExplosion;
-            // »ğÇòÏú»ÙÊ±È¡ÏûÊÂ¼ş×¢²á£¨±ÜÃâÄÚ´æĞ¹Â©£©
-            Destroy(fireball, lifetime);
-        }
-        else
-        {
-            Debug.LogError("»ğÇòÔ¤ÖÆÌåÈ±ÉÙ FireballProjectile ×é¼ş£¡");
-            Destroy(fireball);
-            return;
+            proj.damage = baseDamage * player.skillPower;
+            proj.radius = radius;
+            proj.lifetime = lifetime;
+
+            // æ³¨å†Œäº‹ä»¶ï¼Œå¤„ç†èŒƒå›´ä¼¤å®³
+            proj.OnExplode += HandleExplosion;
         }
 
-        // 4. ¸ø»ğÇò¼Ó·ÉĞĞÁ¦£¨ÑØcasterÃæ³¯·½Ïò£¬¼´Íæ¼Ò/CastPoint³¯Ïò£©
         Rigidbody rb = fireball.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.velocity = caster.forward * speed;
-            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic; // ·À´©Ä£
+            rb.velocity = dir * speed;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         }
+
+        Debug.Log($"é‡Šæ”¾ç«çƒï¼šæ–¹å‘ {dir}");
     }
 
-    // ±¬Õ¨ÉËº¦´¦Àí£¨ÊÂ¼ş»Øµ÷£©
+    // å¤„ç†ç«çƒçˆ†ç‚¸äº‹ä»¶ï¼ˆèŒƒå›´ä¼¤å®³ï¼‰
     private void HandleExplosion(Vector3 position, float damage, float radius)
     {
-        Debug.Log($"»ğÇò±¬Õ¨£ºÎ»ÖÃ{position}£¬ÉËº¦{damage}£¬·¶Î§{radius}");
-
-        Collider[] hitColliders = Physics.OverlapSphere(position, radius);
-        foreach (var hitCol in hitColliders)
+        Collider[] hits = Physics.OverlapSphere(position, radius);
+        foreach (var hit in hits)
         {
-            if (hitCol.CompareTag("Enemy"))
+            if (hit.CompareTag("Enemy"))
             {
-                EnemyBase enemy = hitCol.GetComponent<EnemyBase>();
+                EnemyBase enemy = hit.GetComponent<EnemyBase>();
                 if (enemy != null)
                 {
                     enemy.TakeDamage(damage);
-                    Debug.Log($"µĞÈË {hitCol.gameObject.name} ÊÜµ½ {damage:F1} µãÉËº¦");
-                }
-                else
-                {
-                    Debug.LogWarning($"ÎïÌå {hitCol.gameObject.name} ±êÇ©ÊÇEnemy£¬µ«È±ÉÙ EnemyBase ×é¼ş£¡");
+                    Debug.Log($"æ•Œäºº {hit.gameObject.name} å—åˆ° {damage:F1} ç‚¹ä¼¤å®³");
                 }
             }
         }

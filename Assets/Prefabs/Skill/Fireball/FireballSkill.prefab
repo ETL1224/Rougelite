@@ -44,12 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d76e5e0485de14a995e6802d34babf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillName: "\u8C6A\u706B\u7403\u4E4B\u672F"
-  description: "\u53D1\u5C04\u4E00\u679A\u5DE8\u5927\u7684\u71C3\u70E7\u7740\u7684\u706B\u7403\uFF0C\u547D\u4E2D\u540E\u7206\u70B8\uFF0C\u5BF9\u8303\u56F4\u5185\u654C\u4EBA\u9020\u6210
-    10\xD7 \u6CD5\u5F3A\u7684\u706B\u7130\u4F24\u5BB3\uFF0C\u51B7\u5374 5\u79D2"
+  skillName: Unnamed Skill
   icon: {fileID: 0}
+  description: Skill description
   baseCooldown: 5
-  lastCastTime: -999
+  castType: 1
   fireballPrefab: {fileID: 3206085481322381448, guid: ea454cf39b982ee47a32747e2f19bc1f,
     type: 3}
   speed: 15
