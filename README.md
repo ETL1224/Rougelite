@@ -101,9 +101,19 @@
 - 场景3：技能释放（游戏中按Q/E/R）
 - 玩家按Q键 → PlayerSkillController.HandleSkillInput()监听到按键，调用TryCast(skillQ)；计算技能释放方向：castPos = castPoint.position + castPoint.forward * 10f（沿释放点向前 10 米）；检查技能是否可释放：调用skillQ.CanCast(playerState) → 按 “基础冷却 × (1 - 技能急速)” 计算有效冷却，判断当前时间是否超过冷却时间；冷却完毕 → 调用skillQ.TryCast(castPos, castPoint, playerState)：记录当前释放时间（lastCastTime = Time.time）→ 触发冷却；执行FireballSkill.Cast()方法（具体技能的释放逻辑）；FireballSkill.Cast()生成火球投射物：实例化fireballPrefab（火球预制体），设置位置为释放点前方；给火球的Rigidbody赋值速度（沿释放方向飞行）；给火球添加FireballProjectile组件，传递伤害（基础伤害 × 玩家法强）、爆炸半径、存活时间；注册爆炸事件（proj.OnHitEnemy += HandleExplosion）；火球飞行：碰撞到物体（敌人/地形）或超时（lifetime=3f）→ 触发FireballProjectile.OnCollisionEnter()；调用OnHitEnemy事件，传递爆炸位置和伤害；爆炸伤害结算：FireballSkill.HandleExplosion()被回调 → 用Physics.OverlapSphere检测爆炸范围内的敌人；遍历敌人，调用enemy.TakeDamage(damage) → 敌人掉血；销毁火球投射物 → 技能释放流程结束。
 
-## 2025-11-7
+## 2025-11-7（Slaice）
 - 解决火球不发碰撞检测的问题，改成trigger触发（伤害逻辑是用isTrigger判断，所以用Collider无效）,修改OnCollisionEnter为OnTriggerEnter
 - 添加CastPoint,作为技能释放点
 - 修改火球radius，添加特效（火球的整个粒子特效系统以及拖尾和爆炸效果：FireExplosion、FireTail），完成第一个Q技能：豪火球之术
 - 锁60帧，去除阴影，稍微优化了一下性能（可以从enemy生成和模型再优化一下）
+
+## 2025-11-8（Slaice）
+- 完善火球术特效，把“即时释放技能（Q 键立刻放）”改成“按下 Q → 显示技能范围提示 → 鼠标移动选择方向 → 左键确认释放”的完整技能释放流程
+- 修改SkillIndicatorManager管理技能预瞄的可视化；PlayerSkillController控制技能输入状态流转（Idle / Aiming / Casting）
+- 修改ore掉落矿石数量
+- 构思更多可能的技能：
+- 一(Q):幽灵子弹、水枪、电球、豪火球之术、盛炎漩涡、生生流转、初烈风斩（都是对周围小范围敌人造成斩击伤害）
+- 二(E):救赎/治疗术（回复）、嗜血狂怒（吸血+攻速）、光之守护（无敌）、万向天引（吸收范围内矿石）、正常操作（炸弹猫二技能，大幅提升移速）
+- 三(R):科学的地狱火炮(爆弹R)、剧毒踪迹（炼金Q）、灵魂交换（消耗自身最大生命值的20%，接下来10s内攻击力“大幅”增加）、火之神神乐圆舞（对周围敌人造成大规模斩击伤害）
+- 解决命中enemy没有伤害的bug：漏了出伤逻辑，添加委托和事件：public delegate void ExplosionHandler(Vector3 position, float damage, float radius);public event ExplosionHandler OnExplode;
 
