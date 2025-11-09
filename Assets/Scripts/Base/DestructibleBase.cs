@@ -32,7 +32,7 @@ public abstract class DestructibleBase : MonoBehaviour
         if (isDestroyed) return;
         isDestroyed = true;
         Drop();
-        Destroy(gameObject);
+        ObjectPool.Instance.Despawn(gameObject);
     }
 
     protected virtual void Drop()

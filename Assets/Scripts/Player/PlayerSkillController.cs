@@ -72,17 +72,17 @@ public class PlayerSkillController : MonoBehaviour
     void StartAiming(SkillBase skill)
     {
         currentAimingSkill = skill;
-        // 关键：调用单例显示指示器（假设技能有radius属性，需要适配，后面会说）
-        if (skill is FireballSkill fireballSkill)
-        {
-            // 显示指示器：位置先设为释放点，半径用火球的爆炸半径
-            SkillIndicatorManager.Instance.ShowIndicator(castPoint.position, fireballSkill.radius);
-        }
-        else
-        {
-            // 其他技能默认半径（可自定义）
-            SkillIndicatorManager.Instance.ShowIndicator(castPoint.position, 2f);
-        }
+
+        float radius = skill.indicatorRadius > 0 ? skill.indicatorRadius : 2f;
+        SkillCastType type = skill.castType;
+
+        // 根据技能类型或配置字段自动决定指示器样式
+        SkillIndicatorManager.Instance.ShowIndicator(
+                castPoint.position,
+                radius,
+                type,
+                castPoint // 关键：传递释放点
+            );
     }
 
     // 2. 瞄准中更新：同步指示器位置
@@ -92,17 +92,25 @@ public class PlayerSkillController : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Ground")))
         {
             Vector3 pos = hit.point;
-            // 关键：更新指示器位置（替换原来的indicator.transform.position）
+            // 关键：更新指示器位置
             SkillIndicatorManager.Instance.UpdateIndicator(pos, castPoint.forward);
 
             if (Input.GetMouseButtonDown(0))
             {
-                Vector3 dir = (pos - castPoint.position).normalized;
-                if (currentAimingSkill.castType == SkillCastType.Direction)
-                    currentAimingSkill.TryCast(castPoint.position, castPoint, playerState, dir);
-                else
-                    currentAimingSkill.TryCast(pos, castPoint, playerState);
+                Vector3 dir;
 
+                if (currentAimingSkill.castType == SkillCastType.Direction)
+                {
+                    // ---- 修复核心 ----
+                    Vector3 flatTarget = new Vector3(pos.x, castPoint.position.y, pos.z);
+                    dir = (flatTarget - castPoint.position).normalized;
+
+                    currentAimingSkill.TryCast(castPoint.position, castPoint, playerState, dir);
+                }
+                else
+                {
+                    currentAimingSkill.TryCast(pos, castPoint, playerState);
+                }
                 EndAiming();
             }
 
@@ -142,7 +150,6 @@ public class PlayerSkillController : MonoBehaviour
                 Debug.LogWarning($"未知技能槽: {slotKey}");
                 return;
         }
-
         Debug.Log($"已绑定技能 [{newSkill.skillName}] 到按键 {slotKey}");
     }
 

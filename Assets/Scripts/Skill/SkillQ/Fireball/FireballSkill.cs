@@ -9,9 +9,11 @@ public class FireballSkill : SkillBase
     public float baseDamage = 10f;
     public float lifetime = 3f;
 
-    private void Awake()
+    private void OnEnable()
     {
-        castType = SkillCastType.Direction; // 方向技能
+        castType = SkillCastType.Direction;
+        useDirectionIndicator = true;      // 用方向指示器
+        indicatorRadius = 3f;              // 箭头长度
     }
 
     public override void TryCast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)

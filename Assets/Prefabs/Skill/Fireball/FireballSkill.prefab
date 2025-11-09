@@ -49,6 +49,8 @@ MonoBehaviour:
   description: Skill description
   baseCooldown: 5
   castType: 1
+  indicatorRadius: 2
+  useDirectionIndicator: 0
   fireballPrefab: {fileID: 3206085481322381448, guid: ea454cf39b982ee47a32747e2f19bc1f,
     type: 3}
   speed: 15
