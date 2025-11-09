@@ -117,3 +117,9 @@
 - 三(R):科学的地狱火炮(爆弹R)、剧毒踪迹（炼金Q）、灵魂交换（消耗自身最大生命值的20%，接下来10s内攻击力“大幅”增加）、火之神神乐圆舞（对周围敌人造成大规模斩击伤害）
 - 解决命中enemy没有伤害的bug：漏了出伤逻辑，添加委托和事件：public delegate void ExplosionHandler(Vector3 position, float damage, float radius);public event ExplosionHandler OnExplode;
 
+## 2025-11-9（Slaice）
+- 解决了方向技能释放角度不水平的bug，修改HandleAimingMode()逻辑
+- 添加了技能type为direction时的指示器，提升了技能释放的解耦性，解决技能释放无法自动取消以及显示位置异常的bug
+- 稍微修改了指示器的材质
+- 添加对象池，将enemy1和ore放入池中，添加ObjectPool脚本
+- 从Assert Store中引入石头人、外星小狗、外星法术、龙等model（包含动画）
