@@ -85,7 +85,7 @@ public abstract class EnemyBase : DestructibleBase
         Drop();
 
         // 销毁敌人对象
-        Destroy(gameObject);
+        ObjectPool.Instance.Despawn(gameObject);
     }
 
     // ========== 核心行为（虚方法/抽象方法，子类可重写） ==========

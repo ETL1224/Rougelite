@@ -1,57 +1,79 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class FireballSkill : SkillBase
 {
-    [Header("»ğÇòÉèÖÃ")]
-    public GameObject fireballPrefab;  // »ğÇòÔ¤ÖÆÌå
-    public float speed = 15f;          // ·ÉĞĞËÙ¶È
-    public float radius = 2f;          // ±¬Õ¨°ë¾¶
-    public float baseDamage = 10f;     // »ù´¡ÉËº¦
-    public float lifetime = 3f;        // »ğÇò´æ»îÊ±¼ä
+    [Header("ç«çƒé…ç½®")]
+    public GameObject fireballPrefab;
+    public float speed = 15f;
+    public float radius = 5f;
+    public float baseDamage = 10f;
+    public float lifetime = 3f;
+
+    private void OnEnable()
+    {
+        castType = SkillCastType.Direction;
+        useDirectionIndicator = true;      // ç”¨æ–¹å‘æŒ‡ç¤ºå™¨
+        indicatorRadius = 3f;              // ç®­å¤´é•¿åº¦
+    }
+
+    public override void TryCast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
+    {
+        if (!CanCast(player)) return;
+        lastCastTime = Time.time;
+        Cast(castPos, caster, player, dir);
+    }
 
     protected override void Cast(Vector3 castPos, Transform caster, PlayerState player)
     {
-        if (fireballPrefab == null) return;
+        // é»˜è®¤ç‰ˆæœ¬ç•™ç©ºï¼Œç”¨æ–¹å‘ç‰ˆæœ¬
+    }
 
-        // ´´½¨»ğÇòÊµÀı
-        GameObject fireball = Instantiate(fireballPrefab, caster.position + caster.forward, Quaternion.identity);
-        Rigidbody rb = fireball.GetComponent<Rigidbody>();
-
-        if (rb != null)
+    protected virtual void Cast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
+    {
+        if (fireballPrefab == null)
         {
-            rb.velocity = caster.forward * speed;  // Ê¹»ğÇòÑØ×ÅÍæ¼ÒÃæ³¯µÄ·½Ïò·ÉĞĞ
+            Debug.LogError("æœªèµ‹å€¼ fireballPrefabï¼");
+            return;
         }
 
-        // ÉèÖÃ»ğÇòµÄÉËº¦ºÍ±¬Õ¨°ë¾¶
-        FireballProjectile proj = fireball.AddComponent<FireballProjectile>();
+        GameObject fireball = Instantiate(fireballPrefab, castPos, Quaternion.LookRotation(dir));
+        FireballProjectile proj = fireball.GetComponent<FireballProjectile>();
+
         if (proj != null)
         {
-            proj.damage = baseDamage * player.skillPower;  // Ê¹ÓÃÍæ¼ÒµÄ·¨Ç¿À´ĞŞ¸ÄÉËº¦
+            proj.damage = baseDamage * player.skillPower;
             proj.radius = radius;
             proj.lifetime = lifetime;
-            proj.OnHitEnemy += HandleExplosion; // ×¢²á±¬Õ¨ÊÂ¼ş´¦Àí
+
+            // æ³¨å†Œäº‹ä»¶ï¼Œå¤„ç†èŒƒå›´ä¼¤å®³
+            proj.OnExplode += HandleExplosion;
         }
+
+        Rigidbody rb = fireball.GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.velocity = dir * speed;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        }
+
+        Debug.Log($"é‡Šæ”¾ç«çƒï¼šæ–¹å‘ {dir}");
     }
 
-    private void HandleExplosion(Vector3 position, float damage)
+    // å¤„ç†ç«çƒçˆ†ç‚¸äº‹ä»¶ï¼ˆèŒƒå›´ä¼¤å®³ï¼‰
+    private void HandleExplosion(Vector3 position, float damage, float radius)
     {
-        // »ñÈ¡·¶Î§ÄÚËùÓĞµĞÈË²¢Ôì³ÉÉËº¦
-        Collider[] hitEnemies = Physics.OverlapSphere(position, radius);
-        foreach (var hit in hitEnemies)
+        Collider[] hits = Physics.OverlapSphere(position, radius);
+        foreach (var hit in hits)
         {
-            EnemyBase enemy = hit.GetComponent<EnemyBase>();
-            if (enemy != null)
+            if (hit.CompareTag("Enemy"))
             {
-                enemy.TakeDamage(damage);  // ¶ÔµĞÈËÔì³ÉÉËº¦
+                EnemyBase enemy = hit.GetComponent<EnemyBase>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage);
+                    Debug.Log($"æ•Œäºº {hit.gameObject.name} å—åˆ° {damage:F1} ç‚¹ä¼¤å®³");
+                }
             }
         }
-    }
-
-    // ¼ì²éÊÇ·ñ¿ÉÒÔÊÍ·Å¼¼ÄÜ
-    public override bool CanCast(PlayerState player)
-    {
-        // Ê¹ÓÃ¼¼ÄÜ¼±ËÙµ÷ÕûÀäÈ´Ê±¼ä
-        float effectiveCooldown = baseCooldown * (1f - player.skillHaste);
-        return Time.time - lastCastTime >= effectiveCooldown;
     }
 }

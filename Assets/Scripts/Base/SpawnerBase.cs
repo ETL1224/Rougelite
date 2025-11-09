@@ -46,6 +46,7 @@ public abstract class SpawnerBase : MonoBehaviour
         }
     }
 
+    // 支持对象池
     protected virtual void SpawnWave()
     {
         int totalCount = initialCount + currentWave * countIncrease;
@@ -56,14 +57,21 @@ public abstract class SpawnerBase : MonoBehaviour
         while (spawned < totalCount && attempts < safetyLimit)
         {
             attempts++;
-            Vector3 pos = GetRandomPosition(); // 虚方法，子类重写位置逻辑
+            Vector3 pos = GetRandomPosition();
 
-            if (CheckDistance(pos)) continue; // 检查间距
+            if (CheckDistance(pos)) continue;
 
             GameObject prefab = spawnPrefabs[Random.Range(0, spawnPrefabs.Length)];
-            GameObject instance = Instantiate(prefab, pos, Quaternion.identity);
+            string key = prefab.name;
 
-            SpawnInitialize(instance); // 抽象方法，子类初始化对象
+            // 使用对象池生成
+            GameObject instance = ObjectPool.Instance.SpawnFromPool(key, pos, Quaternion.identity);
+            if (instance == null)
+            {
+                instance = Instantiate(prefab, pos, Quaternion.identity);
+            }
+
+            SpawnInitialize(instance);
 
             usedPositions.Add(pos);
             spawned++;

@@ -2,73 +2,136 @@ using UnityEngine;
 
 public class PlayerSkillController : MonoBehaviour
 {
-    [Header("引用")]
-    public PlayerState playerState;   // 玩家属性（包含法强、急速等）
-    public Transform castPoint;       // 技能释放位置（比如玩家手前方）
+    public PlayerState playerState;
+    public Transform castPoint;
+    public SkillBase skillQ, skillE, skillR;
 
-    [Header("技能槽（由商店动态赋值）")]
-    public SkillBase skillQ;
-    public SkillBase skillE;
-    public SkillBase skillR;
-
+    private SkillBase currentAimingSkill;
     private Camera mainCam;
 
     private void Start()
     {
         mainCam = Camera.main;
-
-        // 如果没有指定 playerState，就自动寻找
-        if (playerState == null)
-            playerState = GetComponent<PlayerState>();
+        playerState ??= GetComponent<PlayerState>();
     }
 
     private void Update()
     {
-        HandleSkillInput();
+        if (currentAimingSkill == null)
+        {
+            HandleSkillInput();
+        }
+        else
+        {
+            HandleAimingMode();
+        }
     }
 
     private void HandleSkillInput()
     {
         if (Input.GetKeyDown(KeyCode.Q))
-            TryCast(skillQ);
-
+            PrepareSkill(skillQ);
         if (Input.GetKeyDown(KeyCode.E))
-            TryCast(skillE);
-
+            PrepareSkill(skillE);
         if (Input.GetKeyDown(KeyCode.R))
-            TryCast(skillR);
+            PrepareSkill(skillR);
     }
 
-    private void TryCast(SkillBase skill)
+    void PrepareSkill(SkillBase skill)
     {
         if (skill == null)
         {
-            Debug.Log("该技能槽未装备技能");
+            Debug.Log("技能未装备");
             return;
         }
 
-        // 技能的释放方向（你可以改为鼠标方向）
-        Vector3 castPos = castPoint.position + castPoint.forward * 10f;
-
-        if (skill.CanCast(playerState))
+        if (!skill.CanCast(playerState))
         {
-            skill.TryCast(castPos, castPoint, playerState);
-            Debug.Log($"释放技能：{skill.skillName}");
+            Debug.Log($"{skill.skillName} 冷却中");
+            return;
         }
-        else
+
+        switch (skill.castType)
         {
-            Debug.Log($"{skill.skillName} 冷却中...");
+            case SkillCastType.Self:
+                skill.TryCast(castPoint.position, castPoint, playerState);
+                break;
+
+            case SkillCastType.Direction:
+            case SkillCastType.Ground:
+                StartAiming(skill);
+                break;
+
+            default:
+                Debug.Log("未实现的技能类型");
+                break;
         }
     }
 
-    /// <summary>
-    /// 商店调用的接口：自动绑定技能
-    /// </summary>
+    // 1. 开始瞄准：调用SkillIndicatorManager显示指示器
+    void StartAiming(SkillBase skill)
+    {
+        currentAimingSkill = skill;
+
+        float radius = skill.indicatorRadius > 0 ? skill.indicatorRadius : 2f;
+        SkillCastType type = skill.castType;
+
+        // 根据技能类型或配置字段自动决定指示器样式
+        SkillIndicatorManager.Instance.ShowIndicator(
+                castPoint.position,
+                radius,
+                type,
+                castPoint // 关键：传递释放点
+            );
+    }
+
+    // 2. 瞄准中更新：同步指示器位置
+    void HandleAimingMode()
+    {
+        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Ground")))
+        {
+            Vector3 pos = hit.point;
+            // 关键：更新指示器位置
+            SkillIndicatorManager.Instance.UpdateIndicator(pos, castPoint.forward);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Vector3 dir;
+
+                if (currentAimingSkill.castType == SkillCastType.Direction)
+                {
+                    // ---- 修复核心 ----
+                    Vector3 flatTarget = new Vector3(pos.x, castPoint.position.y, pos.z);
+                    dir = (flatTarget - castPoint.position).normalized;
+
+                    currentAimingSkill.TryCast(castPoint.position, castPoint, playerState, dir);
+                }
+                else
+                {
+                    currentAimingSkill.TryCast(pos, castPoint, playerState);
+                }
+                EndAiming();
+            }
+
+            if (Input.GetMouseButtonDown(1))
+                EndAiming();
+        }
+    }
+
+    // 3. 结束瞄准：隐藏指示器（替换原来的Destroy）
+    void EndAiming()
+    {
+        // 关键：调用单例隐藏指示器（不是销毁，复用性能更好）
+        SkillIndicatorManager.Instance.HideIndicator();
+        currentAimingSkill = null;
+    }
+
     public void AssignSkill(string slotKey, SkillBase newSkill)
     {
         if (newSkill == null)
         {
-            Debug.LogWarning($"试图绑定空技能到槽位{slotKey}");
+            Debug.LogWarning($"试图绑定空技能到槽位 {slotKey}");
             return;
         }
 
@@ -87,7 +150,7 @@ public class PlayerSkillController : MonoBehaviour
                 Debug.LogWarning($"未知技能槽: {slotKey}");
                 return;
         }
-
         Debug.Log($"已绑定技能 [{newSkill.skillName}] 到按键 {slotKey}");
     }
+
 }

@@ -72,7 +72,6 @@ public class EnemyModel : MonoBehaviour
         if (scenePlayer != null)
         {
             target = scenePlayer.transform;
-            Debug.Log($"{gameObject.name} 自动绑定场景Player：{scenePlayer.name}");
         }
     }
 }

@@ -340,12 +340,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12497971}
   m_CullTransparentMesh: 1
---- !u!4 &34525053 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7951112968481859268, guid: 516d38c502d19eb4681ebdc416e93726,
-    type: 3}
-  m_PrefabInstance: {fileID: 889371635}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &35686284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4729852511320736156, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
@@ -375,7 +369,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!65 &82127155
 BoxCollider:
@@ -559,7 +553,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &125363432
 MonoBehaviour:
@@ -1112,6 +1106,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Pine_Tree_03_stump
       objectReference: {fileID: 0}
+    - target: {fileID: 5611015144935896149, guid: ab3a51d0bd04d1e47a98b394e14e98c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1237,10 +1236,10 @@ RectTransform:
   - {fileID: 394980476}
   m_Father: {fileID: 642235182}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1928, y: 1076}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &256378537
 MonoBehaviour:
@@ -1330,6 +1329,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 2656331926879572050, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4729852511320736156, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1380,10 +1384,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5721378705980317416, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860101233692509106, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2128,6 +2147,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Pine_Tree_03_stump (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5611015144935896149, guid: ab3a51d0bd04d1e47a98b394e14e98c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2463,6 +2487,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 2656331926879572050, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4729852511320736156, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2513,10 +2542,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5721378705980317416, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860101233692509106, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2889,7 +2933,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -3332,6 +3376,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Pine_Tree_03_stump (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5611015144935896149, guid: ab3a51d0bd04d1e47a98b394e14e98c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3354,7 +3403,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!65 &805445295
 BoxCollider:
@@ -3541,55 +3590,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1478274518}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &832575517
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 832575519}
-  - component: {fileID: 832575518}
-  m_Layer: 0
-  m_Name: Global Volume
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &832575518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832575517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: a6560a915ef98420e9faacc1c7438823, type: 2}
---- !u!4 &832575519
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832575517}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &834551256 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4934560140327267142, guid: c5a130f1973f850438e333b07b544edf,
@@ -3739,26 +3739,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
-        type: 3}
-      propertyPath: ore
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 580831304895379155, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 1004457787234740435, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1004457787234740435, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1004457787234740435, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2276283211816571799, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
       propertyPath: castPoint
       value: 
-      objectReference: {fileID: 34525053}
-    - target: {fileID: 2276283211816571799, guid: 516d38c502d19eb4681ebdc416e93726,
-        type: 3}
-      propertyPath: playerState
-      value: 
-      objectReference: {fileID: 365506404}
+      objectReference: {fileID: 1844690656}
     - target: {fileID: 2510457638178477588, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3826,6 +3831,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead_cut (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794427287234297148, guid: f3a45beebf4c60f48a342d4c5ff17ec3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5633779957593628048, guid: f3a45beebf4c60f48a342d4c5ff17ec3,
         type: 3}
@@ -3899,7 +3909,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!65 &900076467
 BoxCollider:
@@ -4013,7 +4023,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1042620537
 Transform:
@@ -4238,6 +4248,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead_cut
+      objectReference: {fileID: 0}
+    - target: {fileID: 4794427287234297148, guid: f3a45beebf4c60f48a342d4c5ff17ec3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 5633779957593628048, guid: f3a45beebf4c60f48a342d4c5ff17ec3,
         type: 3}
@@ -4481,6 +4496,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Pine_Tree_03_stump (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5611015144935896149, guid: ab3a51d0bd04d1e47a98b394e14e98c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4623,7 +4643,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1197872275
 Transform:
@@ -5308,6 +5328,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead_cut (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4794427287234297148, guid: f3a45beebf4c60f48a342d4c5ff17ec3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5633779957593628048, guid: f3a45beebf4c60f48a342d4c5ff17ec3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5776,6 +5801,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 3388337303233397475, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591625695086421360, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4934560140327267142, guid: c5a130f1973f850438e333b07b544edf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5826,10 +5861,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5478971069880565236, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8510798986932590287, guid: c5a130f1973f850438e333b07b544edf,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_green (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510798986932590287, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5844,6 +5889,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 3388337303233397475, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591625695086421360, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4934560140327267142, guid: c5a130f1973f850438e333b07b544edf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -5894,10 +5949,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5478971069880565236, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8510798986932590287, guid: c5a130f1973f850438e333b07b544edf,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_green (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510798986932590287, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6052,6 +6117,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead_cut (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4794427287234297148, guid: f3a45beebf4c60f48a342d4c5ff17ec3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 5633779957593628048, guid: f3a45beebf4c60f48a342d4c5ff17ec3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6107,6 +6177,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3a45beebf4c60f48a342d4c5ff17ec3, type: 3}
+--- !u!1 &1526368411
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1526368413}
+  - component: {fileID: 1526368412}
+  m_Layer: 0
+  m_Name: PoolManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1526368412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526368411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23eca78aac893d547a5ff8a014e1d340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - key: Enemy1
+    prefab: {fileID: 6061598487611627331, guid: 0dc407efbfceb3f428fb66b075b88e2b,
+      type: 3}
+    size: 30
+  - key: Ore
+    prefab: {fileID: 5651965958254072372, guid: ebcc272e709060d45bf6a84c23cee12b,
+      type: 3}
+    size: 50
+--- !u!4 &1526368413
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526368411}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1535778143
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6115,6 +6238,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 2656331926879572050, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4729852511320736156, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6165,10 +6293,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5721378705980317416, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860101233692509106, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6189,6 +6332,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 2656331926879572050, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4729852511320736156, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6239,10 +6387,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5721378705980317416, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860101233692509106, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6257,6 +6420,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 2656331926879572050, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4729852511320736156, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6307,10 +6475,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5721378705980317416, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860101233692509106, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_dead (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8794883333503533778, guid: ffdaab7adc0dc5d4593a5635f078d0b8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6331,6 +6514,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 3388337303233397475, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591625695086421360, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4934560140327267142, guid: c5a130f1973f850438e333b07b544edf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6381,10 +6574,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5478971069880565236, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8510798986932590287, guid: c5a130f1973f850438e333b07b544edf,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_green
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510798986932590287, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7075,6 +7278,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1611234843}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1844690656 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1004457787234740435, guid: 516d38c502d19eb4681ebdc416e93726,
+    type: 3}
+  m_PrefabInstance: {fileID: 889371635}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1847514392
 GameObject:
   m_ObjectHideFlags: 0
@@ -7273,6 +7482,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PT_Pine_Tree_03_stump (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 5611015144935896149, guid: ab3a51d0bd04d1e47a98b394e14e98c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7292,6 +7506,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2068138221}
     m_Modifications:
+    - target: {fileID: 3388337303233397475, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: 3591625695086421360, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 4934560140327267142, guid: c5a130f1973f850438e333b07b544edf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7342,10 +7566,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5478971069880565236, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     - target: {fileID: 8510798986932590287, guid: c5a130f1973f850438e333b07b544edf,
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_green (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8510798986932590287, guid: c5a130f1973f850438e333b07b544edf,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7549,6 +7783,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PT_Pine_Tree_03_stump (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5611015144935896149, guid: ab3a51d0bd04d1e47a98b394e14e98c8,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7823,6 +8062,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962919920}
   m_CullTransparentMesh: 1
+--- !u!1 &1968975335
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1968975337}
+  - component: {fileID: 1968975336}
+  m_Layer: 0
+  m_Name: SkillIndicatorManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1968975336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968975335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520d384f17632524e935d70b735f1b4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundIndicatorPrefab: {fileID: 3465294358188047583, guid: 4d7ab15db08217246b15677a7f1cda04,
+    type: 3}
+  directionIndicatorPrefab: {fileID: 3072236821517118685, guid: fd7f9d3f3fb7e3c4c860e3c2833037c9,
+    type: 3}
+--- !u!4 &1968975337
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1968975335}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 6, z: 4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1992106331
 GameObject:
   m_ObjectHideFlags: 3
@@ -8384,7 +8671,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &2068138221
 Transform:
@@ -8631,7 +8918,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 330585546}
   - {fileID: 410087041}
-  - {fileID: 832575519}
   - {fileID: 473404432}
   - {fileID: 889371635}
   - {fileID: 642235182}
@@ -8645,3 +8931,5 @@ SceneRoots:
   - {fileID: 1803807089}
   - {fileID: 1801627257}
   - {fileID: 1187069257}
+  - {fileID: 1968975337}
+  - {fileID: 1526368413}

@@ -31,6 +31,9 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 60; // 强制限制帧率为60
+        QualitySettings.vSyncCount = 1;   // 开启垂直同步，避免帧率波动导致的额外负载
+
         // 自动查找 PlayerState
         if (playerState == null && player != null)
             playerState = player.GetComponent<PlayerState>();
