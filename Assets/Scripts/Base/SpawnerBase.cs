@@ -49,6 +49,9 @@ public abstract class SpawnerBase : MonoBehaviour
     // 支持对象池
     protected virtual void SpawnWave()
     {
+        // 新增：每波生成前清空已用位置（上一波敌人已离开，无需占用位置）
+        usedPositions.Clear();
+
         int totalCount = initialCount + currentWave * countIncrease;
         int spawned = 0;
         int attempts = 0;
@@ -100,7 +103,7 @@ public abstract class SpawnerBase : MonoBehaviour
     protected abstract void SpawnInitialize(GameObject instance);
 
     // ========== 辅助方法：间距检测 ==========
-    protected bool CheckDistance(Vector3 pos)
+    protected virtual bool CheckDistance(Vector3 pos)
     {
         foreach (var usedPos in usedPositions)
         {

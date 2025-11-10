@@ -7,12 +7,12 @@ public abstract class EnemyBase : DestructibleBase
     // ========== 公共属性（子类可调整） ==========
     [Header("移动与检测")]
     public float moveSpeed = 10f;
-    public float detectRange = 150f;
+    public float detectRange = 175f;
     public float avoidRadius = 2.5f;
     public bool isDead = false;
 
     [Header("战斗属性")]
-    public float maxHealth = 10f;
+    public float maxHealth = 4f;
     public float damage = 2f;
     public float attackRange = 5f;
     public float attackCooldown = 1f;
@@ -24,7 +24,7 @@ public abstract class EnemyBase : DestructibleBase
     protected Rigidbody rb;
     protected UIManager uiManager;
     protected Animator animator;
-    protected static List<EnemyBase> allEnemies = new List<EnemyBase>(); // 管理所有敌人
+    public static List<EnemyBase> allEnemies = new List<EnemyBase>(); // 管理所有敌人
 
     // ========== 初始化（虚方法，子类可扩展） ==========
     protected virtual void Awake()
@@ -126,18 +126,6 @@ public abstract class EnemyBase : DestructibleBase
     protected virtual void SetRunningAnimation(bool isRunning)
     {
         animator?.SetBool("IsRunning", isRunning);
-    }
-
-    protected virtual void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Bullet"))
-        {
-            Bullet bullet = other.GetComponent<Bullet>();
-            if (bullet != null)
-            {
-                TakeDamage(bullet.damage);
-            }
-        }
     }
 
     // ========== 抽象方法（子类必须实现） ==========
