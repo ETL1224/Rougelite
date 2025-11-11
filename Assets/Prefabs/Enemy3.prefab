@@ -160,7 +160,7 @@ MonoBehaviour:
   player: {fileID: 0}
   stoneMoveSpeed: 5
   stoneDetectRange: 150
-  stoneAttackRange: 6
+  stoneAttackRange: 8
   stoneMaxHealth: 20
   stoneDamage: 8
   stoneAttackCooldown: 3
@@ -177,6 +177,41 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: b74628b1c01621345b9c543d0e79ff56, type: 2}
+    - target: {fileID: 2550935751187727211, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391011836006163916, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_Quality
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391011836006163916, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391011836006163916, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401258778785991962, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_Quality
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401258778785991962, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401258778785991962, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_SkinnedMotionVectors
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8468617057500289297, guid: 4534b9cc6330aed499be54b02abf5283,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -225,6 +260,21 @@ PrefabInstance:
     - target: {fileID: 8468617057500289297, guid: 4534b9cc6330aed499be54b02abf5283,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066576789631251579, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_Quality
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066576789631251579, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066576789631251579, guid: 4534b9cc6330aed499be54b02abf5283,
+        type: 3}
+      propertyPath: m_SkinnedMotionVectors
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9137032837993464747, guid: 4534b9cc6330aed499be54b02abf5283,
