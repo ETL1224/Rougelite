@@ -133,3 +133,9 @@
 - 解决了改了enemy3的生命值，但是还是跟enemy1生命值一样的bug：要先赋值再调用基类Awake
 - 解决了enemy碰撞体没有作用，攻击时经常跟玩家穿模的bug：和Enemy1一样，让石头人只有在 “攻击范围外” 时才移动，一旦靠近玩家（进入攻击范围），就停止位移，就不会不会穿模
 - 解决了子弹伤害问题（怀疑受击重复触发），攻击ore伤害是对的的bug：代码里存在双重TakeDamage调用—— 子弹的OnTriggerEnter和敌人的OnTriggerEnter会同时触发扣血，一次攻击实际扣2f
+
+## 2025-11-11（Slaice）
+- 添加wizard（远程Enemy），添加完整model以及animator系统，添加Enemy4AI以及EnemyGenerate脚本
+- 添加MagicOrb（enemy4子弹）以及对应脚本，解决MagicOrb不生成的bug:Enemy4的Cast动画绑定SpawnMagicOrb时，无法直接绑定根物体，添加了一个帮助绑定的脚本OnSpawnMagicOrb
+- wizard动画以及受击问题 1.wizard被子弹命中一次后会一直播放takedamage动画：动画默认设为循环 2.wizard进入攻击范围后不会播放attack动画：参数错了是Cast 3.player在wizard的攻击范围内就会一直是idle，不会播放cast：应该时idle连接到cast而不是run连接到cast，因为进入范围内isRunning会被设为false 4.wizard被攻击后会触发一次takedamage后会一直保持idle状态:idle被设定成loop了
+- 优化性能，可以考虑改变生成时间和数量 1.修改动画系统Animator 2.修改渲染设置Skinned Mesh Renderer 3.修改材质和纹理 勾选Enable GPU Instancing
