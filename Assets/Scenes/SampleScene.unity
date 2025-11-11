@@ -2790,6 +2790,7 @@ GameObject:
   - component: {fileID: 633493348}
   - component: {fileID: 633493350}
   - component: {fileID: 633493351}
+  - component: {fileID: 633493352}
   m_Layer: 0
   m_Name: EnemyGenerate
   m_TagString: Untagged
@@ -2847,7 +2848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPrefabs: []
-  initialCount: 10
+  initialCount: 15
   countIncrease: 5
   mapSize: 120
   minDistance: 3
@@ -2881,9 +2882,35 @@ MonoBehaviour:
   target: {fileID: 0}
   enemy3Prefabs:
   - {fileID: 6061598487611627331, guid: feaf726f1559e424bb273135655df9b4, type: 3}
-  enemy3InitialCount: 2
+  enemy3InitialCount: 0
   enemy3CountIncrease: 3
   stoneMinDistance: 10
+--- !u!114 &633493352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 633493345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8127beb929ddda14a8b04b0a994d16b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnPrefabs: []
+  initialCount: 10
+  countIncrease: 5
+  mapSize: 120
+  minDistance: 3
+  waveInterval: 20
+  isWaveSpawn: 1
+  target: {fileID: 0}
+  enemy4Prefabs:
+  - {fileID: 6061598487611627331, guid: 9074e388e05f0604ab7d3ce6ac86551a, type: 3}
+  wizardInitialCount: 3
+  wizardCountIncrease: 2
+  wizardMinDistance: 15
+  firstWaveDelay: 0
 --- !u!1 &635451541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3815,7 +3842,7 @@ PrefabInstance:
         type: 3}
       propertyPath: castPoint
       value: 
-      objectReference: {fileID: 1844690656}
+      objectReference: {fileID: 0}
     - target: {fileID: 2510457638178477588, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6275,6 +6302,14 @@ MonoBehaviour:
     prefab: {fileID: 6061598487611627331, guid: feaf726f1559e424bb273135655df9b4,
       type: 3}
     size: 20
+  - key: MagicOrb
+    prefab: {fileID: 7541283149610778333, guid: da362ba47de5d7d4fb1a845ea4962dc3,
+      type: 3}
+    size: 20
+  - key: Enemy4
+    prefab: {fileID: 6061598487611627331, guid: 9074e388e05f0604ab7d3ce6ac86551a,
+      type: 3}
+    size: 30
 --- !u!4 &1526368413
 Transform:
   m_ObjectHideFlags: 0
@@ -7337,12 +7372,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4934560140327267142, guid: c5a130f1973f850438e333b07b544edf,
     type: 3}
   m_PrefabInstance: {fileID: 1611234843}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1844690656 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1004457787234740435, guid: 516d38c502d19eb4681ebdc416e93726,
-    type: 3}
-  m_PrefabInstance: {fileID: 889371635}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1847514392
 GameObject:

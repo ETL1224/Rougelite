@@ -9,7 +9,7 @@ public class Enemy3AI : EnemyBase
     [Tooltip("石头人探测范围中等")]
     public float stoneDetectRange = 150f;
     [Tooltip("石头人攻击范围大")]
-    public float stoneAttackRange = 6f;
+    public float stoneAttackRange = 8f;
     [Tooltip("石头人血量高")]
     public float stoneMaxHealth = 20f;
     [Tooltip("石头人单次伤害高")]
