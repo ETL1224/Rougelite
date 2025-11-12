@@ -2811,7 +2811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPrefabs: []
-  initialCount: 15
+  initialCount: 10
   countIncrease: 5
   mapSize: 120
   minDistance: 3
@@ -2848,8 +2848,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPrefabs: []
-  initialCount: 15
-  countIncrease: 5
+  initialCount: 5
+  countIncrease: 3
   mapSize: 120
   minDistance: 3
   waveInterval: 20
@@ -2857,9 +2857,9 @@ MonoBehaviour:
   target: {fileID: 365506403}
   enemy2Prefabs:
   - {fileID: 6061598487611627331, guid: 006ab99e3d74ca54c90429db3076cceb, type: 3}
-  startSpawnDelay: 60
-  enemy2InitialCount: 15
-  enemy2CountIncrease: 5
+  startSpawnDelay: 120
+  enemy2InitialCount: 5
+  enemy2CountIncrease: 3
 --- !u!114 &633493351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2882,8 +2882,9 @@ MonoBehaviour:
   target: {fileID: 0}
   enemy3Prefabs:
   - {fileID: 6061598487611627331, guid: feaf726f1559e424bb273135655df9b4, type: 3}
-  enemy3InitialCount: 0
-  enemy3CountIncrease: 3
+  startSpawnDelay: 60
+  enemy3InitialCount: 2
+  enemy3CountIncrease: 2
   stoneMinDistance: 10
 --- !u!114 &633493352
 MonoBehaviour:
@@ -2910,7 +2911,7 @@ MonoBehaviour:
   wizardInitialCount: 3
   wizardCountIncrease: 2
   wizardMinDistance: 15
-  firstWaveDelay: 0
+  firstWaveDelay: 180
 --- !u!1 &635451541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3371,7 +3372,7 @@ MonoBehaviour:
   oreText: {fileID: 152983595}
   timerText: {fileID: 1962919922}
   deathUI: {fileID: 1205708803}
-  gameTime: 120
+  gameTime: 240
   player: {fileID: 49176342}
   playerAnimator: {fileID: 1711282253}
   deathUiDelay: 1.25
@@ -3842,7 +3843,7 @@ PrefabInstance:
         type: 3}
       propertyPath: castPoint
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1379084367}
     - target: {fileID: 2510457638178477588, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3892,6 +3893,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3913773430633005033, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3913773430633005033, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3913773430633005033, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5467,6 +5483,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3a45beebf4c60f48a342d4c5ff17ec3, type: 3}
+--- !u!4 &1379084367 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3913773430633005033, guid: 516d38c502d19eb4681ebdc416e93726,
+    type: 3}
+  m_PrefabInstance: {fileID: 889371635}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1383438223
 GameObject:
   m_ObjectHideFlags: 0
@@ -6297,7 +6319,7 @@ MonoBehaviour:
   - key: Enemy2
     prefab: {fileID: 6061598487611627331, guid: 006ab99e3d74ca54c90429db3076cceb,
       type: 3}
-    size: 50
+    size: 30
   - key: Enemy3
     prefab: {fileID: 6061598487611627331, guid: feaf726f1559e424bb273135655df9b4,
       type: 3}
@@ -7314,6 +7336,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillPoolQ:
   - {fileID: 8109000869715082763, guid: bdf3b1e0b4862684cbc68eb92ac77996, type: 3}
+  - {fileID: 2913489428708434682, guid: b77edc8e8f2c14940ae1a140dae86c54, type: 3}
+  - {fileID: 2000387943034311432, guid: 31eaa05db3c3c9a44a8331861797233b, type: 3}
   skillPoolE: []
   skillPoolR: []
 --- !u!1 &1803807087
@@ -8193,7 +8217,7 @@ Transform:
   m_GameObject: {fileID: 1968975335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 6, z: 4}
+  m_LocalPosition: {x: 0, y: 6, z: 5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

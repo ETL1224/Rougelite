@@ -163,7 +163,7 @@ MonoBehaviour:
   magicOrbPrefab: {fileID: 7541283149610778333, guid: da362ba47de5d7d4fb1a845ea4962dc3,
     type: 3}
   orbSpawnPoint: {fileID: 662681881572438408}
-  orbSpeed: 25
+  orbSpeed: 15
   castCooldown: 2.5
   wizardMaxHealth: 15
   orbDamage: 4

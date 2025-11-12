@@ -13,7 +13,7 @@ public class Enemy4AI : EnemyBase
     [Tooltip("法球生成位置（巫师手部/法杖尖端，拖入子对象）")]
     public Transform orbSpawnPoint;
     [Tooltip("法球飞行速度")]
-    public float orbSpeed = 25f;
+    public float orbSpeed = 15f;
     [Tooltip("施法冷却（远程攻击冷却长，默认2.5f）")]
     public float castCooldown = 2.5f;
     [Tooltip("巫师血量（中等，默认15f）")]

@@ -4,9 +4,9 @@ public class Enemy2Generate : SpawnerBase
 {
     [Header("Enemy2（狼）生成配置")]
     [SerializeField] private GameObject[] enemy2Prefabs; // 狼形敌人预制体（单独配置，不与Enemy1混用）
-    [SerializeField] private float startSpawnDelay = 60f; // 延迟60秒生成（1分钟后）
-    [SerializeField] private int enemy2InitialCount = 15; // 初始生成数量（比Enemy1多5个）
-    [SerializeField] private int enemy2CountIncrease = 8; // 每波递增数量（比Enemy1多3个）
+    [SerializeField] private float startSpawnDelay = 120f; // 延迟120秒生成
+    [SerializeField] private int enemy2InitialCount = 5; // 初始生成数量
+    [SerializeField] private int enemy2CountIncrease = 3; // 每波递增数量
 
     // 标记是否已开始生成（避免重复触发）
     private bool hasStartedSpawning = false;
@@ -22,7 +22,6 @@ public class Enemy2Generate : SpawnerBase
         isWaveSpawn = true;
         // 4. 延迟60秒后启动第一波生成
         Invoke(nameof(StartFirstWave), startSpawnDelay);
-        Debug.Log($"狼形敌人将在{startSpawnDelay}秒后开始生成！");
     }
 
     protected override void Update()
