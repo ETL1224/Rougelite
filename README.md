@@ -139,3 +139,9 @@
 - 添加MagicOrb（enemy4子弹）以及对应脚本，解决MagicOrb不生成的bug:Enemy4的Cast动画绑定SpawnMagicOrb时，无法直接绑定根物体，添加了一个帮助绑定的脚本OnSpawnMagicOrb
 - wizard动画以及受击问题 1.wizard被子弹命中一次后会一直播放takedamage动画：动画默认设为循环 2.wizard进入攻击范围后不会播放attack动画：参数错了是Cast 3.player在wizard的攻击范围内就会一直是idle，不会播放cast：应该时idle连接到cast而不是run连接到cast，因为进入范围内isRunning会被设为false 4.wizard被攻击后会触发一次takedamage后会一直保持idle状态:idle被设定成loop了
 - 优化性能，可以考虑改变生成时间和数量 1.修改动画系统Animator 2.修改渲染设置Skinned Mesh Renderer 3.修改材质和纹理 勾选Enable GPU Instancing
+
+## 2025-11-12（Slaice）
+- 修改生成时间以及游戏时间:骷髅0s，石头人60s，狼120s，法师180s
+- 解决wizard子弹锁头bug以及添加特效：让magicorb不每帧更新，添加PlayExplodeEffect函数
+- 解决生成数量问题，统一加入bool hasStartedSpawning
+- 添加两个新的Q方向性技能：幽灵子弹（GhostBullet）以及电球（ElectricOrb），添加相关脚本以及特效
