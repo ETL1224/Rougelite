@@ -8,6 +8,11 @@ public class MagicOrb : MonoBehaviour
     private Transform _target; // 目标是玩家
     private Rigidbody _rb;
     private float _lifeTime = 5f; // 法球超时销毁（避免无限飞行）
+    private Vector3 _initialMoveDir; // 存储初始飞行方向（核心）
+
+    [Header("爆炸特效配置")]
+    [SerializeField] private GameObject orbExplodeEffect;
+    [SerializeField] private float effectDestroyDelay = 2f;
 
     private void Awake()
     {
@@ -23,12 +28,30 @@ public class MagicOrb : MonoBehaviour
         _damage = damage;
         _target = target;
 
-        // 重置法球状态
+        // 强制计算初始方向（忽略Y轴，水平直线）
+        if (_target != null)
+        {
+            _initialMoveDir = _target.position - transform.position;
+            _initialMoveDir.y = 0f; // 锁定Y轴，不会上下追
+            _initialMoveDir.Normalize(); // 确保方向不影响速度
+            Debug.Log($"法球初始方向：{_initialMoveDir}（生成时朝向玩家）");
+        }
+        else
+        {
+            _initialMoveDir = transform.forward; // 无目标时沿自身朝向飞
+            Debug.Log("法球未找到目标，沿自身朝向飞行");
+        }
+
+        // 强制重置状态+设置初始速度（第一帧就沿直线飞）
         if (_rb != null)
         {
             _rb.velocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
+            _rb.velocity = _initialMoveDir * _speed;
         }
+
+        // 法球朝向飞行方向（视觉统一）
+        transform.rotation = Quaternion.LookRotation(_initialMoveDir);
 
         // 启动超时销毁协程
         StopAllCoroutines();
@@ -37,18 +60,12 @@ public class MagicOrb : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (_target == null || _rb == null || !gameObject.activeSelf) return;
+        if (_rb == null || !gameObject.activeSelf) return;
 
-        // 法球朝向目标飞行（平滑追踪，不是瞬移）
-        Vector3 dirToTarget = (_target.position - transform.position).normalized;
-        _rb.velocity = dirToTarget * _speed;
-
-        // 法球朝向飞行方向
-        if (dirToTarget.magnitude > 0.1f)
-        {
-            transform.rotation = Quaternion.LookRotation(dirToTarget);
-        }
+        // 强制固定方向飞行（核心！不再更新目标位置）
+        _rb.velocity = _initialMoveDir * _speed;
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -61,6 +78,7 @@ public class MagicOrb : MonoBehaviour
                 uiManager.TakeDamage(_damage);
                 Debug.Log($"魔法法球命中！造成{_damage}点伤害");
             }
+            PlayExplodeEffect();
             DespawnOrb();
             return;
         }
@@ -78,13 +96,17 @@ public class MagicOrb : MonoBehaviour
             Physics.IgnoreCollision(GetComponent<Collider>(), other); // 忽略敌人碰撞
         }
     }
+    private void PlayExplodeEffect()
+    {
+        if (orbExplodeEffect == null) return;
+        GameObject effect = Instantiate(orbExplodeEffect, transform.position, Quaternion.identity);
+        Destroy(effect, effectDestroyDelay);
+    }
 
     // 法球回收（回收到对象池）
     private void DespawnOrb()
     {
         ObjectPool.Instance.Despawn(gameObject);
-        // 可选：播放法球爆炸特效
-        // Instantiate(orbExplodeEffect, transform.position, Quaternion.identity);
     }
 
     // 法球超时销毁（防止卡场景）

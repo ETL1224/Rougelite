@@ -14,7 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject deathUI;              // 阵亡UI界面
 
     [Header("Game Timer")]
-    public float gameTime = 120f;           // 总时长
+    public float gameTime = 240f;           // 总时长
     private float timeLeft;
     private bool isGameActive = true;       // 控制计时是否运行
 

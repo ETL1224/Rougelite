@@ -7,17 +7,45 @@ public class Enemy4Generate : SpawnerBase
     [SerializeField] private int wizardInitialCount = 3; // 初始生成3个（远程敌人数量少）
     [SerializeField] private int wizardCountIncrease = 2; // 每波递增1个（避免远程压制）
     [SerializeField] private float wizardMinDistance = 15f; // 生成间距（远程敌人分散）
-    [SerializeField] private float firstWaveDelay = 120f; // 第一波延迟30秒生成（先出近战，再出远程）
+    [SerializeField] private float firstWaveDelay = 180f; // 第一波延迟180秒生成
+
+    // 延迟启动开关（核心！避免基类提前触发）
+    private bool hasStartedSpawning = false;
 
     protected override void Start()
     {
+        // 1. 绑定预制体
         spawnPrefabs = enemy4Prefabs;
+        // 2. 自动查找玩家目标
         if (target == null)
             target = GameObject.FindGameObjectWithTag("Player")?.transform;
+        // 3. 启用波次生成模式
         isWaveSpawn = true;
-        nextWaveTime = Time.time + firstWaveDelay; // 延迟生成
-        Debug.Log($"巫师生成器启动！{firstWaveDelay}秒后生成第一波远程敌人");
+
+        // 核心：延迟180秒后，调用「启动第一波」方法（而非直接赋值nextWaveTime）
+        Invoke(nameof(StartFirstWave), firstWaveDelay);
+
+        Debug.Log($"[巫师生成器] 已初始化，将在{firstWaveDelay}秒后生成第一波！");
     }
+
+    protected override void Update()
+    {
+        // 未启动生成前，不执行任何基类波次逻辑（避免一开始就生成）
+        if (!hasStartedSpawning) return;
+        // 启动后，执行基类的波次循环（判断下一波时间）
+        base.Update();
+    }
+
+    // 启动第一波生成（仅执行一次，延迟后触发）
+    private void StartFirstWave()
+    {
+        hasStartedSpawning = true; // 打开开关，允许后续波次循环
+        currentWave = 0; // 重置波数（从第1波开始）
+        nextWaveTime = Time.time + waveInterval; // 设定下一波时间
+        SpawnWave(); // 生成第一波巫师
+        Debug.Log($"[巫师生成器] 第一波开始生成！后续每{waveInterval}秒生成一波");
+    }
+
 
     protected override void SpawnWave()
     {
