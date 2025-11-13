@@ -133,7 +133,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 4
   m_CollisionDetection: 0
 --- !u!114 &7785865059365355844
 MonoBehaviour:
@@ -158,6 +158,7 @@ MonoBehaviour:
   attackRange: 5
   attackCooldown: 1
   player: {fileID: 0}
+  groundY: 0
   wizardMoveSpeed: 7
   castRange: 30
   magicOrbPrefab: {fileID: 7541283149610778333, guid: da362ba47de5d7d4fb1a845ea4962dc3,

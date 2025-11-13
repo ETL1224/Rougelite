@@ -2811,7 +2811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnPrefabs: []
-  initialCount: 10
+  initialCount: 5
   countIncrease: 5
   mapSize: 120
   minDistance: 3
@@ -2879,7 +2879,7 @@ MonoBehaviour:
   minDistance: 3
   waveInterval: 20
   isWaveSpawn: 1
-  target: {fileID: 0}
+  target: {fileID: 365506403}
   enemy3Prefabs:
   - {fileID: 6061598487611627331, guid: feaf726f1559e424bb273135655df9b4, type: 3}
   startSpawnDelay: 60
@@ -2905,7 +2905,7 @@ MonoBehaviour:
   minDistance: 3
   waveInterval: 20
   isWaveSpawn: 1
-  target: {fileID: 0}
+  target: {fileID: 365506403}
   enemy4Prefabs:
   - {fileID: 6061598487611627331, guid: 9074e388e05f0604ab7d3ce6ac86551a, type: 3}
   wizardInitialCount: 3
@@ -3908,6 +3908,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7699760687733937686, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 116
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6311,27 +6316,33 @@ MonoBehaviour:
   - key: Enemy1
     prefab: {fileID: 6061598487611627331, guid: 0dc407efbfceb3f428fb66b075b88e2b,
       type: 3}
-    size: 50
+    initialSize: 50
+    maxSize: 70
   - key: Ore
     prefab: {fileID: 5651965958254072372, guid: ebcc272e709060d45bf6a84c23cee12b,
       type: 3}
-    size: 35
+    initialSize: 30
+    maxSize: 35
   - key: Enemy2
     prefab: {fileID: 6061598487611627331, guid: 006ab99e3d74ca54c90429db3076cceb,
       type: 3}
-    size: 30
+    initialSize: 30
+    maxSize: 50
   - key: Enemy3
     prefab: {fileID: 6061598487611627331, guid: feaf726f1559e424bb273135655df9b4,
       type: 3}
-    size: 20
+    initialSize: 30
+    maxSize: 50
   - key: MagicOrb
     prefab: {fileID: 7541283149610778333, guid: da362ba47de5d7d4fb1a845ea4962dc3,
       type: 3}
-    size: 20
+    initialSize: 30
+    maxSize: 50
   - key: Enemy4
     prefab: {fileID: 6061598487611627331, guid: 9074e388e05f0604ab7d3ce6ac86551a,
       type: 3}
-    size: 30
+    initialSize: 30
+    maxSize: 50
 --- !u!4 &1526368413
 Transform:
   m_ObjectHideFlags: 0
