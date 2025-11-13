@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using static UnityEngine.ParticleSystem;
 
 public class GhostBulletProjectile : MonoBehaviour
 {
@@ -8,11 +9,11 @@ public class GhostBulletProjectile : MonoBehaviour
     [HideInInspector] public float lifetime;
     [HideInInspector] public float hitInterval;
 
-    [Header("手动绑定特效（均为子弹子物体）")]
-    [Tooltip("拖尾特效：直接拖Hierarchy中的子物体到这里")]
-    public ParticleSystem trailEffect; // 拖尾特效（一直播放）
-    public ParticleSystem hitEnemyEffect; // 受击特效（命中时启用）
-    public Vector3 effectScale = new Vector3(0.3f, 0.3f, 0.3f);
+    [Header("手动绑定/赋值特效")]
+    public ParticleSystem trailEffect; // 拖尾特效（仍手动绑定为子弹子物体）
+    [Tooltip("受击特效预制体：直接拖入Project窗口的特效预制体，不用绑定子物体")]
+    public GameObject hitEnemyEffectPrefab; // 受击特效预制体（代码实例化）
+    public Vector3 effectScale = new Vector3(1f, 1f, 1f);
 
     [Header("碰撞体配置")]
     public float colliderRadius = 1f;
@@ -50,26 +51,16 @@ public class GhostBulletProjectile : MonoBehaviour
         rb.useGravity = false;
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
-        // 初始化受击特效（默认禁用，记录初始位置）
-        if (hitEnemyEffect != null)
+        // 检查受击特效预制体是否赋值（代码实例化核心）
+        if (hitEnemyEffectPrefab == null)
         {
-            hitEnemyEffect.gameObject.SetActive(false); // 默认禁用
-            hitEnemyEffect.transform.localScale = effectScale * 2f; // 放大2倍，确保看得见
-
-            // 强制设置受击特效为世界空间（移动到敌人位置后不跟随子弹）
-            var hitMain = hitEnemyEffect.main;
-            hitMain.simulationSpace = ParticleSystemSimulationSpace.World;
-            hitMain.startLifetime = 1.2f; // 延长生命周期，避免一闪而过
-        }
-        else
-        {
-            Debug.LogError("未手动绑定HitEnemyEffect！请在Hierarchy添加子物体并赋值");
+            Debug.LogError("未赋值HitEnemyEffectPrefab！请拖入受击特效预制体");
         }
     }
 
     private void Start()
     {
-        // 初始化拖尾特效（一直播放）
+        // 初始化拖尾特效（仍手动绑定子物体，保持跟随）
         if (trailEffect != null)
         {
             trailEffect.transform.localPosition = Vector3.zero;
@@ -78,9 +69,9 @@ public class GhostBulletProjectile : MonoBehaviour
 
             var main = trailEffect.main;
             main.simulationSpace = ParticleSystemSimulationSpace.Local;
-            main.startLifetime = 0.4f;
-            main.startSpeed = 0f;
-            main.startSize = 1f;
+            main.startLifetime = new MinMaxCurve(0.4f);
+            main.startSpeed = new MinMaxCurve(0f);
+            main.startSize = new MinMaxCurve(1f);
 
             trailEffect.Play();
         }
@@ -89,7 +80,7 @@ public class GhostBulletProjectile : MonoBehaviour
             Debug.LogError("未手动绑定TrailEffect！请在Hierarchy添加子物体并赋值");
         }
 
-        // 超时销毁（连带子物体特效一起销毁）
+        // 超时销毁
         Destroy(gameObject, lifetime);
 
         // 设置飞行方向
@@ -116,30 +107,49 @@ public class GhostBulletProjectile : MonoBehaviour
             EnemyBase enemy = other.GetComponent<EnemyBase>();
             if (enemy != null)
             {
-                // 打印日志：确认命中逻辑走到了（运行时看Console）
                 Debug.Log($"命中敌人：{enemy.gameObject.name}，准备播放受击特效");
 
-                // 只判断是否已命中该敌人（去掉hitInterval，避免拦截特效）
                 if (!hitEnemies.Contains(enemy))
                 {
                     OnHitEnemy?.Invoke(enemy, damage);
 
-                    // -------------- 核心修复：受击特效播放逻辑 --------------
-                    if (hitEnemyEffect != null)
+                    // -------------- 核心：代码触发受击特效（实例化+强制播放） --------------
+                    if (hitEnemyEffectPrefab != null)
                     {
-                        // 1. 移动特效到敌人上方（避免被模型挡住）
-                        hitEnemyEffect.transform.position = enemy.transform.position + Vector3.up * 0.6f;
+                        // 1. 生成位置：敌人上方0.6f，避免被模型挡住
+                        Vector3 spawnPos = enemy.transform.position + Vector3.up * 0.6f;
+                        // 2. 实例化特效（世界空间，不跟随任何物体）
+                        GameObject hitEffect = Instantiate(hitEnemyEffectPrefab, spawnPos, Quaternion.Euler(90f, 0f, 0f));
+                        // 3. 缩放特效（确保可见）
+                        hitEffect.transform.localScale = effectScale * 10f;
 
-                        // 2. 启用特效（必须先启用游戏对象，再播放粒子）
-                        hitEnemyEffect.gameObject.SetActive(true);
+                        // 4. 强制配置粒子系统（关键！确保100%播放）
+                        ParticleSystem ps = hitEffect.GetComponent<ParticleSystem>();
+                        if (ps != null)
+                        {
+                            var main = ps.main;
+                            main.simulationSpace = ParticleSystemSimulationSpace.World; // 世界空间，固定在生成位置
+                            main.startLifetime = 1.2f; // 特效持续时间
+                            main.startSpeed = 1.5f; // 粒子扩散速度
+                            main.startSize = 1.5f; // 粒子大小
 
-                        // 3. 重置粒子状态（避免残留，确保每次都从头播放）
-                        hitEnemyEffect.Stop();
-                        hitEnemyEffect.Clear(); // 清除残留粒子
-                        hitEnemyEffect.Play(); // 手动触发播放
+                            // 强制播放（不管预制体是否勾选Play On Awake）
+                            ps.Stop();
+                            ps.Clear();
+                            ps.Play();
 
-                        // 4. 延迟1.2秒后禁用（和startLifetime一致，确保播放完）
-                        Invoke(nameof(DisableHitEffect), 1.2f);
+                            // 5. 延迟销毁（和startLifetime一致，确保播放完）
+                            Destroy(hitEffect, main.startLifetime.constant);
+                        }
+                        else
+                        {
+                            // 若特效不是ParticleSystem（比如动画），直接延迟销毁
+                            Destroy(hitEffect, 1.2f);
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("hitEnemyEffectPrefab未赋值！无法播放受击特效");
                     }
                     // ---------------------------------------------------
 
@@ -157,15 +167,6 @@ public class GhostBulletProjectile : MonoBehaviour
         }
     }
 
-    // 单独的禁用方法（去掉重置位置，避免干扰）
-    private void DisableHitEffect()
-    {
-        if (hitEnemyEffect != null && hitEnemyEffect.gameObject.activeSelf)
-        {
-            hitEnemyEffect.gameObject.SetActive(false);
-        }
-    }
-
     private void StopFlying()
     {
         isFlying = false;
@@ -174,11 +175,6 @@ public class GhostBulletProjectile : MonoBehaviour
         if (trailEffect != null)
         {
             trailEffect.Stop();
-        }
-
-        if (hitEnemyEffect != null)
-        {
-            hitEnemyEffect.gameObject.SetActive(false);
         }
 
         Destroy(gameObject, 0.5f);
