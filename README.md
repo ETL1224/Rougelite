@@ -145,3 +145,14 @@
 - 解决wizard子弹锁头bug以及添加特效：让magicorb不每帧更新，添加PlayExplodeEffect函数
 - 解决生成数量问题，统一加入bool hasStartedSpawning
 - 添加两个新的Q方向性技能：幽灵子弹（GhostBullet）以及电球（ElectricOrb），添加相关脚本以及特效
+
+## 2025-11-13（Slaice）
+- 解决受击后不显示特效bug：修改GhostBulletProjectible脚本，用代码调用受击特效
+- 解决对象池复用的敌人 “带着死亡状态复活”以及提前回收问题：定义统一接口IPoolable，修改ObjectPool以及EnemyBase
+- OnSpawn()：生成时调用，相当于“复活重置”：重置isDead和isDestroyed为false，避免“已死状态”残留；恢复生命值Health = maxHealth；启用所有碰撞体（包括子物体），确保能被命中；重置动画到Idle，清除旧触发器；清空物理残留（速度、角速度）
+- OnDespawn()：回收时调用，清理残留：停止所有协程（避免死亡动画 / 延迟逻辑残留）；重置动画触发器，避免下次生成时误触发；清空物理残留
+- 解决enemy大面积回收问题：Spawn时不再enqueue，让回收时再返回队列，并且进一步扩充对象池size
+- 解决生成的个别enemy无法命中问题：怀疑是碰撞体偏移导致
+- 解决生成的enemy穿过ground的问题：冻结y轴位置，暂时解决，怀疑是碰撞体被代码设置成！isTrgger
+- 解决动画参数个别差异不存在问题：采用HasAnimatorParameter（）方法
+- 解决生成逻辑数量问题：EnemyGenerate3的spawnwave（）逻辑有问题
