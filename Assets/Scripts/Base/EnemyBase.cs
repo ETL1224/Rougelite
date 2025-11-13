@@ -93,6 +93,9 @@ public abstract class EnemyBase : DestructibleBase, IPoolable
         isDestroyed = false;
         Health = maxHealth;
 
+        Collider rootCollider = GetComponent<Collider>();
+        allColliders = rootCollider != null ? new Collider[] { rootCollider } : new Collider[0];
+
         // Transform 重置
         Vector3 pos = transform.position;
         if (pos.y < 0.5f) pos.y = 0.5f; // 你的地面高度根据情况调
@@ -109,13 +112,21 @@ public abstract class EnemyBase : DestructibleBase, IPoolable
             rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         }
 
-        // Collider 重置
-        if (allColliders != null)
+        if (rootCollider != null)
         {
-            foreach (var col in allColliders)
-            {
-                col.enabled = true;
-            }
+            rootCollider.enabled = true;
+            rootCollider.isTrigger = true; // 改为true！触发攻击检测
+            Debug.Log($"[{gameObject.name}] Collider已启用（Trigger模式）：{rootCollider.enabled}");
+        }
+        else
+        {
+            // 兜底：无Collider时自动添加（保留原有逻辑）
+            BoxCollider defaultCol = gameObject.AddComponent<BoxCollider>();
+            defaultCol.size = new Vector3(1f, 2f, 1f);
+            defaultCol.center = new Vector3(0, 1f, 0);
+            defaultCol.isTrigger = true; // 新增：默认设为Trigger
+            allColliders = new Collider[] { defaultCol };
+            Debug.LogWarning($"[{gameObject.name}] 自动添加BoxCollider（Trigger模式）");
         }
 
         // Animator 安全播放 Idle

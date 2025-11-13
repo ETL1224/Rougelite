@@ -84,10 +84,6 @@ public class Enemy3Generate : SpawnerBase
 
         // 打印波次日志（方便调试）
         Debug.Log($"[石头人] 第{currentWave + 1}波生成完成！生成数量：{spawned}/{totalCount}（尝试{attempts}次）");
-
-        // 推进波数+更新下一波时间（基类逻辑会自动判断是否触发下一波）
-        currentWave++;
-        nextWaveTime = Time.time + waveInterval;
     }
 
     // 重写生成位置：石头人移速慢，从中边缘生成（比Enemy2近，比Enemy1稍远）
