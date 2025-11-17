@@ -6,13 +6,14 @@ public class RedemptionSkill : SkillBase
 {
     [Header("救赎技能核心配置")]
     public GameObject healEffectPrefab;  // 治疗特效预制体
-    public Transform effectPoint;        // 特效生成点
     public float healAmount = 10f;       // 恢复生命值（可在Inspector调整）
     public Sprite skillIcon;             // 技能图标（用于商店UI显示）
     private float cooldown;
 
     [Header("特效配置（新增）")]
     public float effectDuration = 4f;    // 特效持续时间（秒），默认2秒（和特效播放时长匹配）
+    public string targetEffectPointName = "HealEffectPoint"; // 特效点名称（Player上的）
+    public Transform effectPoint;
 
     [Header("引用配置（代码绑定）")]
     public UIManager uiManager;          // 用于调用回血方法（原有）
@@ -30,22 +31,41 @@ public class RedemptionSkill : SkillBase
         if (uiManager == null)
             uiManager = FindObjectOfType<UIManager>();
 
-        if (effectPoint == null)
-        {
-            PlayerState playerState = FindObjectOfType<PlayerState>();
-            if (playerState != null)
-            {
-                Transform playerTransform = playerState.transform;
-                Debug.Log($"找到Player对象：{playerTransform.name}");
+        AutoFindEffectPoint();
+    }
 
-                Transform healEffectPoint = playerTransform.Find("EffectPoint");
-                if (healEffectPoint != null)
-                {
-                    effectPoint = healEffectPoint;
-                    Debug.Log($"找到Player上的HealEffectPoint，已绑定特效生成点");
-                }
+    private void AutoFindEffectPoint()
+    {
+        if (string.IsNullOrEmpty(targetEffectPointName))
+        {
+            Debug.LogWarning("未设置targetEffectPointName，用Player位置兜底");
+            effectPoint = GetPlayerTransform();
+            return;
+        }
+
+        // 找Player→再找指定名称的特效点
+        Transform playerTransform = GetPlayerTransform();
+        if (playerTransform != null)
+        {
+            Transform targetPoint = playerTransform.Find(targetEffectPointName);
+            if (targetPoint != null)
+            {
+                effectPoint = targetPoint;
+                Debug.Log($"救赎技能：找到特效点 {targetEffectPointName}");
+                return;
+            }
+            else
+            {
+                Debug.LogWarning($"Player上未找到 {targetEffectPointName}，用Player位置兜底");
             }
         }
+        effectPoint = playerTransform ?? transform;
+    }
+
+    private Transform GetPlayerTransform()
+    {
+        PlayerState playerState = FindObjectOfType<PlayerState>();
+        return playerState != null ? playerState.transform : null;
     }
 
     // 框架约定：尝试释放技能（先判断冷却，再释放）

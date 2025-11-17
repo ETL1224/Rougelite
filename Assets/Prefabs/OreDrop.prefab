@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 4733770473379585480}
   - component: {fileID: 3241570685874969805}
   - component: {fileID: -2805359981335112138}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: OreDrop
-  m_TagString: Untagged
+  m_TagString: Oredrop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,6 +183,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SM_Rocks_07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6819962056721478856, guid: 6b03fd5ce97ca2449b3b9a92cfce1ec5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
