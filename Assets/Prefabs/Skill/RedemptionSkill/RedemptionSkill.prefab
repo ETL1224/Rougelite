@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &136335339223369433
+--- !u!1 &357739144038166729
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,52 +8,53 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1999652117931151796}
-  - component: {fileID: 8109000869715082763}
+  - component: {fileID: 8231582043603981139}
+  - component: {fileID: 1308111169428681502}
   m_Layer: 0
-  m_Name: FireballSkill
+  m_Name: RedemptionSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1999652117931151796
+--- !u!4 &8231582043603981139
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136335339223369433}
+  m_GameObject: {fileID: 357739144038166729}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4, z: 0}
+  m_LocalPosition: {x: 39.991646, y: 2.5705326, z: 36.661827}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8109000869715082763
+--- !u!114 &1308111169428681502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136335339223369433}
+  m_GameObject: {fileID: 357739144038166729}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21d76e5e0485de14a995e6802d34babf, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f0205e53a4d0fd438762f6424932f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillName: FireBall
+  skillName: Redemption
   icon: {fileID: 0}
-  description: Skill description
+  description: 
   baseCooldown: 5
-  castType: 1
+  castType: 0
   indicatorRadius: 2
-  useDirectionIndicator: 1
-  fireballPrefab: {fileID: 3206085481322381448, guid: ea454cf39b982ee47a32747e2f19bc1f,
+  useDirectionIndicator: 0
+  healEffectPrefab: {fileID: 3280519133390621005, guid: a71be3e7990efb040a07565c43cbb198,
     type: 3}
-  speed: 15
-  radius: 5
-  baseDamage: 10
-  lifetime: 3
+  effectPoint: {fileID: 0}
+  healAmount: 10
+  skillIcon: {fileID: 0}
+  effectDuration: 4
+  uiManager: {fileID: 0}

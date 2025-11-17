@@ -114,6 +114,29 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
+        // 新增：自动给Self类型技能绑定Player引用（核心）
+        if (newSkill.castType == SkillCastType.Self)
+        {
+            // 3.1 找到Player身上的EffectPoint（特效生成点，没有就用Player本身）
+            Transform playerEffectPoint = playerSkillCtrl.transform.Find("EffectPoint");
+            if (playerEffectPoint == null)
+                playerEffectPoint = playerSkillCtrl.transform; // 兜底：用Player位置
+
+            // 3.2 给技能绑定Player相关引用（适配所有Self技能的通用字段）
+            // 这里需要判断技能类型，给对应字段赋值（其他Self技能同理）
+            if (newSkill is RedemptionSkill redemptionSkill)
+            {
+                redemptionSkill.effectPoint = playerEffectPoint; // 绑定特效点
+                redemptionSkill.uiManager = FindObjectOfType<UIManager>(); // 绑定UIManager
+            }
+            // 后续加其他Self技能（比如Q槽的护盾技能、R槽的爆发技能），这里加else if即可
+
+            // 3.3 把技能实例设为Player的子对象（避免场景混乱，跟随Player移动）
+            skillObj.transform.SetParent(playerSkillCtrl.transform);
+            skillObj.transform.localPosition = Vector3.zero; // 重置位置，避免偏移
+            skillObj.name = newSkill.skillName; // 重命名技能实例，方便调试
+        }
+
         // 4. 绑定技能到玩家技能控制器（关键：让Q/E/R能触发）
         playerSkillCtrl.AssignSkill(slotKey, newSkill);
 

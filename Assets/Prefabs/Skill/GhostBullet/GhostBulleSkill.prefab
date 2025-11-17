@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2114d5a84b73304ba627497ec25ae17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillName: Unnamed Skill
+  skillName: GhostBullet
   icon: {fileID: 0}
   description: 
   baseCooldown: 5

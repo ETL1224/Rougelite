@@ -29,7 +29,7 @@ public class ElectricOrbSkill : SkillBase
     protected override void Cast(Vector3 castPos, Transform caster, PlayerState player) { }
 
     // 带方向的施法逻辑（实例化投射体）
-    protected virtual void Cast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
+    protected override void Cast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
     {
         if (electricOrbPrefab == null)
         {
