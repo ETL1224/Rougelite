@@ -81,6 +81,13 @@ public class UIManager : MonoBehaviour
     {
         if (playerState == null) return;
 
+        // 如果处于光之守护无敌状态，直接免疫伤害
+        if (playerState.isInvincible)
+        {
+            Debug.Log("光之守护生效！免疫伤害：" + amount);
+            return; // 直接返回，不执行后续扣血逻辑
+        }
+
         playerState.currentHealth = Mathf.Clamp(playerState.currentHealth - amount, 0, playerState.maxHealth);
         UpdateHealthUI();
 

@@ -117,24 +117,83 @@ public class ShopManager : MonoBehaviour
         // 新增：自动给Self类型技能绑定Player引用（核心）
         if (newSkill.castType == SkillCastType.Self)
         {
-            // 3.1 找到Player身上的EffectPoint（特效生成点，没有就用Player本身）
-            Transform playerEffectPoint = playerSkillCtrl.transform.Find("EffectPoint");
-            if (playerEffectPoint == null)
-                playerEffectPoint = playerSkillCtrl.transform; // 兜底：用Player位置
+            // 3.1 找到Player（通过playerSkillCtrl，更稳妥）
+            Transform playerTransform = playerSkillCtrl.transform;
+            Transform playerEffectPoint = null;
 
-            // 3.2 给技能绑定Player相关引用（适配所有Self技能的通用字段）
-            // 这里需要判断技能类型，给对应字段赋值（其他Self技能同理）
+            // 3.2 根据技能类型，获取对应的特效点名称（适配不同技能）
+            string targetPointName = "";
             if (newSkill is RedemptionSkill redemptionSkill)
             {
-                redemptionSkill.effectPoint = playerEffectPoint; // 绑定特效点
-                redemptionSkill.uiManager = FindObjectOfType<UIManager>(); // 绑定UIManager
+                targetPointName = redemptionSkill.targetEffectPointName; // 救赎技能的特效点名称
             }
-            // 后续加其他Self技能（比如Q槽的护盾技能、R槽的爆发技能），这里加else if即可
+            else if (newSkill is BloodFrenzySkill bloodFrenzySkill)
+            {
+                targetPointName = bloodFrenzySkill.targetEffectPointName; // 嗜血狂怒的特效点名称
+            }
+            else if (newSkill is LightGuardSkill lightGuardSkill)
+            {
+                targetPointName = lightGuardSkill.targetEffectPointName;
+            }
+            else if (newSkill is NormalOperationSkill normalOpSkill) // 正常操作特效点名称
+            {
+                targetPointName = normalOpSkill.targetEffectPointName;
+            }
+            else if (newSkill is GravityPullSkill gravitySkill) 
+            {
+                targetPointName = gravitySkill.targetEffectPointName;
+            }
+            // 以后加新Self技能，这里加else if即可
 
-            // 3.3 把技能实例设为Player的子对象（避免场景混乱，跟随Player移动）
-            skillObj.transform.SetParent(playerSkillCtrl.transform);
-            skillObj.transform.localPosition = Vector3.zero; // 重置位置，避免偏移
-            skillObj.name = newSkill.skillName; // 重命名技能实例，方便调试
+            // 3.3 根据名称找特效点，找不到就用Player位置兜底
+            if (!string.IsNullOrEmpty(targetPointName))
+            {
+                playerEffectPoint = playerTransform.Find(targetPointName);
+                if (playerEffectPoint != null)
+                {
+                    Debug.Log($"ShopManager：绑定特效点 {targetPointName} 到 {newSkill.skillName}");
+                }
+            }
+            if (playerEffectPoint == null)
+            {
+                playerEffectPoint = playerTransform;
+                Debug.LogWarning($"ShopManager：未找到 {targetPointName}，用Player位置兜底");
+            }
+
+            // 3.4 给不同技能绑定对应引用
+            if (newSkill is RedemptionSkill redSkill)
+            {
+                redSkill.effectPoint = playerEffectPoint;
+                redSkill.uiManager = FindObjectOfType<UIManager>();
+            }
+            else if (newSkill is BloodFrenzySkill bfSkill)
+            {
+                bfSkill.effectPoint = playerEffectPoint;
+                bfSkill.playerState = FindObjectOfType<PlayerState>();
+                bfSkill.uiManager = FindObjectOfType<UIManager>();
+            }
+            else if (newSkill is LightGuardSkill lgSkill)
+            {
+                lgSkill.effectPoint = playerEffectPoint;
+                lgSkill.playerState = FindObjectOfType<PlayerState>();
+            }
+            else if (newSkill is NormalOperationSkill noSkill) 
+            {
+                noSkill.effectPoint = playerEffectPoint;
+                noSkill.playerState = FindObjectOfType<PlayerState>();
+            }
+            else if (newSkill is GravityPullSkill gSkill) 
+            {
+                gSkill.effectPoint = playerEffectPoint;
+                gSkill.playerState = FindObjectOfType<PlayerState>();
+                gSkill.uiManager = FindObjectOfType<UIManager>();
+            }
+            // 新技能这里加else if
+
+            // 3.5 技能实例设为Player子对象（不变，避免场景混乱）
+            skillObj.transform.SetParent(playerTransform);
+            skillObj.transform.localPosition = Vector3.zero;
+            skillObj.name = newSkill.skillName;
         }
 
         // 4. 绑定技能到玩家技能控制器（关键：让Q/E/R能触发）

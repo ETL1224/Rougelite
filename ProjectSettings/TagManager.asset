@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Bullet
   - Skill
+  - FxTemporaire
+  - Oredrop
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - Enemy
   - Tree
   - Skill
-  - 
+  - OreDrop
   - 
   - 
   - 

@@ -3874,28 +3874,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3580813703900352639, guid: 516d38c502d19eb4681ebdc416e93726,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4940045382291435910, guid: 516d38c502d19eb4681ebdc416e93726,
-        type: 3}
-      propertyPath: m_Name
-      value: EffectPoint
-      objectReference: {fileID: 0}
-    - target: {fileID: 5031606221604630971, guid: 516d38c502d19eb4681ebdc416e93726,
-        type: 3}
-      propertyPath: uiManager
-      value: 
-      objectReference: {fileID: 787753944}
-    - target: {fileID: 5031606221604630971, guid: 516d38c502d19eb4681ebdc416e93726,
-        type: 3}
-      propertyPath: effectDuration
-      value: 4
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5031606221604630971, guid: 516d38c502d19eb4681ebdc416e93726, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -7327,6 +7306,10 @@ MonoBehaviour:
   - {fileID: -229816147481817921, guid: f604cc287e18752478ea9d0247c8e699, type: 3}
   skillPoolE:
   - {fileID: 1308111169428681502, guid: d8e96f8e411f497438b6a62d2ed6feb4, type: 3}
+  - {fileID: -5043815028775561361, guid: 18f5c7dbbfba6e243bc423a062b79419, type: 3}
+  - {fileID: -80760576370028908, guid: 8d8d7e5e47f8dd24abc7ae22f7d3a6e8, type: 3}
+  - {fileID: 6664313770663540734, guid: 16d4239a36b333e45ab677710f84a0e9, type: 3}
+  - {fileID: -7978507265672237214, guid: 82367c1083d5f9a4f8bccf464564a308, type: 3}
   skillPoolR: []
 --- !u!1 &1803807087
 GameObject:

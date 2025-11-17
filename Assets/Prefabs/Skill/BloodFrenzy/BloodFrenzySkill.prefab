@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &357739144038166729
+--- !u!1 &6977011543700156311
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,54 +8,56 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8231582043603981139}
-  - component: {fileID: 1308111169428681502}
+  - component: {fileID: 5530791468925669083}
+  - component: {fileID: -5043815028775561361}
   m_Layer: 0
-  m_Name: RedemptionSkill
+  m_Name: BloodFrenzySkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8231582043603981139
+--- !u!4 &5530791468925669083
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357739144038166729}
+  m_GameObject: {fileID: 6977011543700156311}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.991646, y: 2.5705326, z: 36.661827}
+  m_LocalPosition: {x: 5.8821263, y: 6.630153, z: -2.7934082}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1308111169428681502
+--- !u!114 &-5043815028775561361
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357739144038166729}
+  m_GameObject: {fileID: 6977011543700156311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f0205e53a4d0fd438762f6424932f1d, type: 3}
+  m_Script: {fileID: 11500000, guid: c6d893dac4f66dc4ebc2a907d6592f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillName: Redemption
+  skillName: BloodFrenzy
   icon: {fileID: 0}
   description: 
   baseCooldown: 5
   castType: 0
   indicatorRadius: 2
   useDirectionIndicator: 0
-  healEffectPrefab: {fileID: 3280519133390621005, guid: a71be3e7990efb040a07565c43cbb198,
+  targetEffectPointName: EffectPoint
+  frenzyEffectPrefab: {fileID: 4553287630450876385, guid: 15483e51212e3d74886ea57291f4639a,
     type: 3}
-  healAmount: 10
+  skillDuration: 4
+  attackSpeedMultiplier: 1.5
+  bloodSuckRate: 0.2
   skillIcon: {fileID: 0}
-  effectDuration: 4
-  targetEffectPointName: HealEffectPoint
   effectPoint: {fileID: 0}
+  playerState: {fileID: 0}
   uiManager: {fileID: 0}

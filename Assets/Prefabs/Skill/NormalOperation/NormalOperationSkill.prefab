@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &357739144038166729
+--- !u!1 &3037065519956727913
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,54 +8,54 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8231582043603981139}
-  - component: {fileID: 1308111169428681502}
+  - component: {fileID: 5581668792419149901}
+  - component: {fileID: 6664313770663540734}
   m_Layer: 0
-  m_Name: RedemptionSkill
+  m_Name: NormalOperationSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8231582043603981139
+--- !u!4 &5581668792419149901
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357739144038166729}
+  m_GameObject: {fileID: 3037065519956727913}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 39.991646, y: 2.5705326, z: 36.661827}
+  m_LocalPosition: {x: 0.0000042915344, y: 4.3843594, z: 1.8257692}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1308111169428681502
+--- !u!114 &6664313770663540734
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 357739144038166729}
+  m_GameObject: {fileID: 3037065519956727913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f0205e53a4d0fd438762f6424932f1d, type: 3}
+  m_Script: {fileID: 11500000, guid: dd55dcd66468c1b45b1de9dccb1a69c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skillName: Redemption
+  skillName: NormalOperation
   icon: {fileID: 0}
   description: 
   baseCooldown: 5
   castType: 0
   indicatorRadius: 2
   useDirectionIndicator: 0
-  healEffectPrefab: {fileID: 3280519133390621005, guid: a71be3e7990efb040a07565c43cbb198,
-    type: 3}
-  healAmount: 10
-  skillIcon: {fileID: 0}
-  effectDuration: 4
   targetEffectPointName: HealEffectPoint
+  speedEffectPrefab: {fileID: 8487402871801164198, guid: 90375796f996bff4cabed66da5e558cb,
+    type: 3}
+  skillDuration: 4
+  moveSpeedMultiplier: 2
+  skillIcon: {fileID: 0}
   effectPoint: {fileID: 0}
-  uiManager: {fileID: 0}
+  playerState: {fileID: 0}
