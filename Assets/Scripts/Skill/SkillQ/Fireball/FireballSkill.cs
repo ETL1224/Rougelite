@@ -28,7 +28,7 @@ public class FireballSkill : SkillBase
         // 默认版本留空，用方向版本
     }
 
-    protected virtual void Cast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
+    protected override void Cast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
     {
         if (fireballPrefab == null)
         {
