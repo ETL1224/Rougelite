@@ -156,3 +156,9 @@
 - 解决生成的enemy穿过ground的问题：冻结y轴位置，暂时解决，怀疑是碰撞体被代码设置成！isTrgger
 - 解决动画参数个别差异不存在问题：采用HasAnimatorParameter（）方法
 - 解决生成逻辑数量问题：EnemyGenerate3的spawnwave（）逻辑有问题
+
+## 2025-11-16（Slaice）
+- 添加水柱Q技能，添加相应脚本以及特效
+- 添加水柱Q技能，添加相应脚本以及特效
+- 解决使用redemption后不会特效不会跟随玩家移动bug：修改cast（）方法即可
+- 解决使用技能后会再生成一个player，形成分身的效果：ShopManager的E槽技能池（skillPoolE）里，放的不是RedemptionSkill技能实例，而是Player场景对象——购买时框架会实例化技能池里的对象，误把Player当技能克隆了，所以直接使用纯独立技能模板，不要与player纠缠
