@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6167594523225977291
+--- !u!1 &4798662949387209790
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,55 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2447561654820804308}
-  - component: {fileID: 21627327393917004}
+  - component: {fileID: 7138155488537909699}
+  - component: {fileID: 232981374953605434}
   m_Layer: 0
-  m_Name: WaterColumn
+  m_Name: NukeExplosionSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2447561654820804308
+--- !u!4 &7138155488537909699
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6167594523225977291}
+  m_GameObject: {fileID: 4798662949387209790}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.2121553, y: 1.0418527, z: 11.33775}
+  m_LocalPosition: {x: -2.3109205, y: 9.585492, z: -3.7413034}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &21627327393917004
+--- !u!114 &232981374953605434
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6167594523225977291}
+  m_GameObject: {fileID: 4798662949387209790}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74f62cbd8f7683443be2838d0b31ab22, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a07a83d5d2e85248bb864e6b02b4936, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5
-  damage: 15
-  duration: 1
-  waterEffectPrefab: {fileID: 8205706795460263314, guid: 326e86d5729c54e479798cacab220bb2,
+  skillName: NukeExplosion
+  icon: {fileID: 0}
+  description: 
+  baseCooldown: 5
+  castType: 2
+  indicatorRadius: 2
+  useDirectionIndicator: 0
+  radius: 20
+  damage: 50
+  explosionCoreEffect: {fileID: 4593184484909914552, guid: 2e1e9506f5904a64b81744324fb7cd50,
     type: 3}
-  hitEffectPrefab: {fileID: 8620588918006998808, guid: 7f906c77905876d488e88e99d13c3d7d,
+  explosionSound: {fileID: 0}
+  hitEffectPrefab: {fileID: 5339739117810204693, guid: 26e1cb216e3635e4a820f58a1118d6b9,
     type: 3}
   effectDuration: 0.8
   effectOffset: {x: 0, y: 1.2, z: 0}

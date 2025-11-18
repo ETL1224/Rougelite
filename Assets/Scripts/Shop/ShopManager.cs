@@ -143,6 +143,14 @@ public class ShopManager : MonoBehaviour
             {
                 targetPointName = gravitySkill.targetEffectPointName;
             }
+            else if (newSkill is PoisonCloudSkill poisonSkill) // 剧毒踪迹
+            {
+                targetPointName = poisonSkill.targetEffectPointName;
+            }
+            else if (newSkill is SoulSwapSkill soulSkill) 
+            {
+                targetPointName = soulSkill.targetEffectPointName;
+            }
             // 以后加新Self技能，这里加else if即可
 
             // 3.3 根据名称找特效点，找不到就用Player位置兜底
@@ -187,6 +195,17 @@ public class ShopManager : MonoBehaviour
                 gSkill.effectPoint = playerEffectPoint;
                 gSkill.playerState = FindObjectOfType<PlayerState>();
                 gSkill.uiManager = FindObjectOfType<UIManager>();
+            }
+            else if (newSkill is PoisonCloudSkill pSkill)
+            {
+                pSkill.effectPoint = playerEffectPoint;
+                pSkill.playerState = FindObjectOfType<PlayerState>();
+            }
+            else if (newSkill is SoulSwapSkill sSkill) 
+            {
+                sSkill.effectPoint = playerEffectPoint;
+                sSkill.playerState = FindObjectOfType<PlayerState>();
+                sSkill.uiManager = FindObjectOfType<UIManager>();
             }
             // 新技能这里加else if
 
