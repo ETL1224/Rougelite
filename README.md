@@ -169,3 +169,9 @@
 - 新增光之守护E技能，添加相关脚本及特效，关键：PlayerState中isInvincible
 - 新增正常操作E技能，添加相关脚本及特效，关键：PlayerState中isNormalOperationActive
 - 新增万象天引E技能，添加相关脚本及特效，关键：PullOres（）
+
+## 2025-11-18（Slaice）
+- 新增剧毒踪迹R技能，添加相关脚本及特效，关键：Poison以及PoisonSkill脚本，poisonCloudPrefab预制体
+- 添加水柱WaterColumn受击特效
+- 新增灵魂交换R技能，添加相关脚本及特效，关键：SoulSwapSkill脚本
+- 新增地狱火炮R技能，添加相关脚本及特效，关键：NukeExplosion脚本
