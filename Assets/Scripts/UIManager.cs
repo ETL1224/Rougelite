@@ -115,7 +115,7 @@ public class UIManager : MonoBehaviour
     }
 
     // UI更新函数
-    private void UpdateHealthUI()
+    public void UpdateHealthUI()
     {
         if (playerState == null) return;
 

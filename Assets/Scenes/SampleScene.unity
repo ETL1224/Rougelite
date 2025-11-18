@@ -7310,7 +7310,10 @@ MonoBehaviour:
   - {fileID: -80760576370028908, guid: 8d8d7e5e47f8dd24abc7ae22f7d3a6e8, type: 3}
   - {fileID: 6664313770663540734, guid: 16d4239a36b333e45ab677710f84a0e9, type: 3}
   - {fileID: -7978507265672237214, guid: 82367c1083d5f9a4f8bccf464564a308, type: 3}
-  skillPoolR: []
+  skillPoolR:
+  - {fileID: 1656009053163856411, guid: 78fecb583dcd82b4294100a12be519a6, type: 3}
+  - {fileID: -9031521192182986989, guid: b0b513a2a459f924e93e9e7a7090bd13, type: 3}
+  - {fileID: 232981374953605434, guid: 0517f87de9878a248bbca0023aefe458, type: 3}
 --- !u!1 &1803807087
 GameObject:
   m_ObjectHideFlags: 0
