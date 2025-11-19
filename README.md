@@ -175,3 +175,7 @@
 - 添加水柱WaterColumn受击特效
 - 新增灵魂交换R技能，添加相关脚本及特效，关键：SoulSwapSkill脚本
 - 新增地狱火炮R技能，添加相关脚本及特效，关键：NukeExplosion脚本
+
+## 2025-11-19（Slaice）
+- 新增斩击Q技能，添加相关脚本及三种特效，关键：SlashSkill脚本
+- 新增圆舞R技能，添加相关脚本及三种特效，关键：CircleDance脚本
