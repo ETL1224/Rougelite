@@ -151,6 +151,14 @@ public class ShopManager : MonoBehaviour
             {
                 targetPointName = soulSkill.targetEffectPointName;
             }
+            else if (newSkill is SlashSkill slashSkill) 
+            {
+                targetPointName = slashSkill.targetEffectPointName;
+            }
+            if (newSkill is CircleDanceSkill circleSkill)
+            {
+                targetPointName = circleSkill.targetEffectPointName;
+            }
             // 以后加新Self技能，这里加else if即可
 
             // 3.3 根据名称找特效点，找不到就用Player位置兜底
@@ -206,6 +214,16 @@ public class ShopManager : MonoBehaviour
                 sSkill.effectPoint = playerEffectPoint;
                 sSkill.playerState = FindObjectOfType<PlayerState>();
                 sSkill.uiManager = FindObjectOfType<UIManager>();
+            }
+            else if (newSkill is SlashSkill slashSkill)
+            {
+                slashSkill.playerState = FindObjectOfType<PlayerState>();
+                slashSkill.playerTransform = FindObjectOfType<PlayerState>().transform;
+            }
+            else if (newSkill is CircleDanceSkill cdSkill) 
+            {
+                cdSkill.playerState = FindObjectOfType<PlayerState>();
+                cdSkill.playerTransform = FindObjectOfType<PlayerState>().transform;
             }
             // 新技能这里加else if
 

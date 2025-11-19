@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3226277113560281764
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7969311392534446704}
+  - component: {fileID: 1295377585550915125}
+  m_Layer: 0
+  m_Name: CircleDanceSkill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7969311392534446704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3226277113560281764}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.76222, y: 1.968155, z: 16.616621}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1295377585550915125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3226277113560281764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f7caa09aab0754b859376c02270f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillName: CircleDance
+  icon: {fileID: 0}
+  description: 
+  baseCooldown: 5
+  castType: 0
+  indicatorRadius: 2
+  useDirectionIndicator: 0
+  damage: 20
+  circleRadius: 18
+  skillDuration: 1.2
+  targetEffectPointName: EffectPoint
+  skillIcon: {fileID: 0}
+  circleDanceEffectPrefabs:
+  - {fileID: 2360655870356088562, guid: 57a776ff377f3c44e8403e2067a4d41f, type: 3}
+  - {fileID: 5318118474938795680, guid: 69d8f05fda8421849a84b27b8c0d773d, type: 3}
+  - {fileID: 6710139492206580332, guid: 95b8d3d65b5d7f1409c4ed1723887826, type: 3}
+  hitEffectPrefab: {fileID: 6889676053574524597, guid: 1244a9e4f6193654989497ad418a287b,
+    type: 3}
+  effectDuration: 0.8
+  effectOffset: {x: 0, y: 1.2, z: 0}
+  playerTransform: {fileID: 0}
+  effectPoint: {fileID: 0}
+  playerState: {fileID: 0}
