@@ -261,6 +261,24 @@ public abstract class EnemyBase : DestructibleBase, IPoolable
                 avoidDir += pushDir * (avoidRadius - dist);
             }
         }
+        Collider[] oreColliders = Physics.OverlapSphere(transform.position, avoidRadius, LayerMask.GetMask("Ore"));
+
+        foreach (var oreCol in oreColliders)
+        {
+            // 计算怪物到矿石的距离
+            float distToOre = Vector3.Distance(transform.position, oreCol.transform.position);
+
+            // 如果矿石在避让范围内
+            if (distToOre < avoidRadius)
+            {
+                // 计算远离矿石的方向向量
+                Vector3 pushDirFromOre = (transform.position - oreCol.transform.position).normalized;
+
+                // 将这个避让方向加入到总避让方向中
+                // (avoidRadius - distToOre) 使得距离越近，避让力度越大
+                avoidDir += pushDirFromOre * (avoidRadius - distToOre);
+            }
+        }
         return avoidDir;
     }
 

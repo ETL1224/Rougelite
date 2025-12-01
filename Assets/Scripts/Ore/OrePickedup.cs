@@ -8,6 +8,7 @@ public class OrePickuped : MonoBehaviour
 
     protected Transform player;
     protected UIManager uiManager;
+    private OreAutoDestroy oreAutoDestroy;
 
     protected virtual void Start()
     {
@@ -23,7 +24,14 @@ public class OrePickuped : MonoBehaviour
         if (Vector3.Distance(transform.position, player.position) < pickupRange)
         {
             uiManager.AddOre(oreAmount);
-            Destroy(gameObject);
+            if (oreAutoDestroy != null)
+            {
+                oreAutoDestroy.OnPickedUp();
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
