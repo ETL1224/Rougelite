@@ -6277,31 +6277,37 @@ MonoBehaviour:
       type: 3}
     initialSize: 50
     maxSize: 70
+    tag: 
   - key: Ore
     prefab: {fileID: 5651965958254072372, guid: ebcc272e709060d45bf6a84c23cee12b,
       type: 3}
     initialSize: 30
     maxSize: 35
+    tag: Ore
   - key: Enemy2
     prefab: {fileID: 6061598487611627331, guid: 006ab99e3d74ca54c90429db3076cceb,
       type: 3}
     initialSize: 30
     maxSize: 50
+    tag: 
   - key: Enemy3
     prefab: {fileID: 6061598487611627331, guid: feaf726f1559e424bb273135655df9b4,
       type: 3}
     initialSize: 30
     maxSize: 50
+    tag: 
   - key: MagicOrb
     prefab: {fileID: 7541283149610778333, guid: da362ba47de5d7d4fb1a845ea4962dc3,
       type: 3}
     initialSize: 30
     maxSize: 50
+    tag: 
   - key: Enemy4
     prefab: {fileID: 6061598487611627331, guid: 9074e388e05f0604ab7d3ce6ac86551a,
       type: 3}
     initialSize: 30
     maxSize: 50
+    tag: 
 --- !u!4 &1526368413
 Transform:
   m_ObjectHideFlags: 0

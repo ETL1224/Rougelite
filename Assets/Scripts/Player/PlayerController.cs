@@ -1,9 +1,10 @@
 using UnityEngine;
 
-// Íæ¼Ò¿ØÖÆÆ÷£º´Ó PlayerState »ñÈ¡ËùÓĞÊıÖµ
+// ç©å®¶æ§åˆ¶å™¨ï¼šä» PlayerState è·å–æ‰€æœ‰æ•°å€¼
 public class PlayerController : PlayerBase
 {
-    [Header("ÊıÖµÒıÓÃ")]
+    private Vector3 lastValidShootDir = Vector3.forward;
+    [Header("æ•°å€¼å¼•ç”¨")]
     public PlayerState playerState;
 
     protected override void Awake()
@@ -14,7 +15,7 @@ public class PlayerController : PlayerBase
             playerState = GetComponent<PlayerState>();
 
         if (playerState == null)
-            Debug.LogWarning("PlayerController: Î´ÕÒµ½ PlayerState ×é¼ş£¡");
+            Debug.LogWarning("PlayerController: æœªæ‰¾åˆ° PlayerState ç»„ä»¶ï¼");
     }
 
     protected override void Update()
@@ -22,7 +23,7 @@ public class PlayerController : PlayerBase
         base.Update();
     }
 
-    // ========= ÒÆ¶¯Âß¼­ =========
+    // ========= ç§»åŠ¨é€»è¾‘ =========
     protected override void Move()
     {
         if (playerState == null) return;
@@ -31,18 +32,18 @@ public class PlayerController : PlayerBase
         float z = Input.GetAxisRaw("Vertical");
         Vector3 rawInput = new Vector3(x, 0f, z);
 
-        // ÊäÈë¼ì²â
+        // è¾“å…¥æ£€æµ‹
         Vector3 moveDir = rawInput.magnitude < inputThreshold
             ? Vector3.zero
             : rawInput.normalized;
 
-        // ²¥·Å¶¯»­
+        // æ’­æ”¾åŠ¨ç”»
         animator?.SetBool("isRunning", moveDir != Vector3.zero);
 
-        // Ö´ĞĞÒÆ¶¯£¨ÓÃ PlayerState.moveSpeed£©
+        // æ‰§è¡Œç§»åŠ¨ï¼ˆç”¨ PlayerState.moveSpeedï¼‰
         if (moveDir != Vector3.zero)
         {
-            float moveDistance = playerState.moveSpeed * Time.fixedDeltaTime; // ĞŞ¸ÄÒÆËÙ
+            float moveDistance = playerState.moveSpeed * Time.fixedDeltaTime; // ä¿®æ”¹ç§»é€Ÿ
             if (!Physics.Raycast(rb.position, moveDir, moveDistance + 0.05f))
             {
                 rb.MovePosition(rb.position + moveDir * moveDistance);
@@ -50,32 +51,42 @@ public class PlayerController : PlayerBase
         }
     }
 
-    // ========= Éä»÷Âß¼­ =========
+    // ========= å°„å‡»é€»è¾‘ =========
     protected override void Shoot()
     {
         if (playerState == null || bulletPrefab == null || firePoint == null) return;
 
         if (Time.time < nextFireTime) return;
-        nextFireTime = Time.time + 1f / Mathf.Max(0.1f, playerState.attackSpeed); // ĞŞ¸Ä¹¥ËÙ
+        nextFireTime = Time.time + 1f / Mathf.Max(0.1f, playerState.attackSpeed); // ä¿®æ”¹æ”»é€Ÿ
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, groundMask))
         {
-            Vector3 shootDir = (hit.point - firePoint.position).normalized;
-            shootDir.y = 0f;
+            Vector3 directionToTarget = hit.point - firePoint.position;
+            directionToTarget.y = 0f; // ç¡®ä¿æ–¹å‘åœ¨æ°´å¹³é¢ä¸Š
+            Vector3 shootDir;
+            if (directionToTarget.sqrMagnitude < 50f)
+            {
+                // 3. å¦‚æœè·ç¦»è¿‡è¿‘ï¼Œä½¿ç”¨ç©å®¶çš„æœå‘ä½œä¸ºå°„å‡»æ–¹å‘
+                shootDir = model.transform.forward;
+            }
+            else
+            {
+                shootDir = directionToTarget.normalized;
+            }
 
             GameObject bulletObj = Instantiate(bulletPrefab, firePoint.position, Quaternion.LookRotation(shootDir));
             Rigidbody bulletRb = bulletObj.GetComponent<Rigidbody>();
             if (bulletRb != null)
-                bulletRb.velocity = shootDir * bulletSpeed;
+                bulletRb.velocity = shootDir * bulletSpeed+rb.velocity; // è€ƒè™‘ç©å®¶ç§»åŠ¨é€Ÿåº¦
 
             Bullet bullet = bulletObj.GetComponent<Bullet>();
             if (bullet != null)
-                bullet.damage = playerState.attack; // ĞŞ¸Ä¹¥»÷Á¦
+                bullet.damage = playerState.attack; // ä¿®æ”¹æ”»å‡»åŠ›
         }
     }
 
-    // ========= ³¯ÏòÂß¼­ =========
+    // ========= æœå‘é€»è¾‘ =========
     protected override void RotateTowardTarget()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

@@ -10,6 +10,7 @@ public class ObjectPool : MonoBehaviour
         public GameObject prefab;   // 预制体
         public int initialSize = 10; // 初始数量
         public int maxSize = 30;     // 最大数量
+        public string tag = "Enemy"; // 1. 新增：可选标签，默认为 "Enemy"
     }
 
     public static ObjectPool Instance;
@@ -33,7 +34,8 @@ public class ObjectPool : MonoBehaviour
             // 初始化队列
             for (int i = 0; i < pool.initialSize; i++)
             {
-                GameObject obj = CreatePoolObject(pool.prefab);
+                // 传入整个 pool 对象
+                GameObject obj = CreatePoolObject(pool);
                 queue.Enqueue(obj);
             }
 
@@ -42,15 +44,21 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    // 创建单个池化对象
-    private GameObject CreatePoolObject(GameObject prefab)
+//改为接受pool对象用于接受tag内容
+    private GameObject CreatePoolObject(Pool pool)
     {
-        GameObject obj = Instantiate(prefab);
+        GameObject obj = Instantiate(pool.prefab); // 使用 pool.prefab
         obj.SetActive(false);
+
+
+        if (!string.IsNullOrEmpty(pool.tag))
+        {
+            obj.tag = pool.tag;
+        }
 
         // 添加标记组件
         PoolObjectMarker marker = obj.AddComponent<PoolObjectMarker>();
-        marker.prefabName = prefab.name;
+        marker.prefabName = pool.prefab.name;
 
         // 统一归为子对象，方便查看
         obj.transform.parent = transform;
@@ -77,7 +85,8 @@ public class ObjectPool : MonoBehaviour
         }
         else if (queue.Count + poolConfig.initialSize < poolConfig.maxSize)
         {
-            obj = CreatePoolObject(poolConfig.prefab);
+            // 传入整个 poolConfig 对象
+            obj = CreatePoolObject(poolConfig);
             Debug.Log($"Key={key} 队列不足，创建新对象");
         }
         else

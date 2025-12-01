@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class OreGenerate : SpawnerBase
 {
-    [Header("¿óÊ¯Éú³ÉÀ©Õ¹")]
-    [SerializeField] private GameObject[] orePrefabs; // ¿óÊ¯Ô¤ÖÆÌå
-    [SerializeField] private int initialOreCount = 30; // Ò»´ÎĞÔÉú³ÉÊıÁ¿
-    [SerializeField] private float generateRange = 150f; // ÖĞĞÄ·¶Î§
-    [SerializeField] private float minOreDistance = 5f;   // ¿óÊ¯¼ä¾à
+    [Header("çŸ¿çŸ³ç”Ÿæˆæ‰©å±•")]
+    [SerializeField] private GameObject[] orePrefabs; // çŸ¿çŸ³é¢„åˆ¶ä½“
+    [SerializeField] private int initialOreCount = 30; // ä¸€æ¬¡æ€§ç”Ÿæˆæ•°é‡
+    [SerializeField] private float generateRange = 150f; // ä¸­å¿ƒèŒƒå›´
+    [SerializeField] private float minOreDistance = 5f;   // çŸ¿çŸ³é—´è·
 
     protected override void Start()
     {
-        // ¸²¸Ç»ùÀà²ÎÊı
+        // è¦†ç›–åŸºç±»å‚æ•°
         initialCount = initialOreCount;
         mapSize = generateRange;
         minDistance = minOreDistance;
-        isWaveSpawn = false; // ¹Ø±Õ²¨´Î£¬Ò»´ÎĞÔÉú³É
+        isWaveSpawn = false; // å…³é—­æ³¢æ¬¡ï¼Œä¸€æ¬¡æ€§ç”Ÿæˆ
         spawnPrefabs = orePrefabs;
 
         base.Start();
     }
 
-    // ÖØĞ´£ºÖĞĞÄ·¶Î§Éú³É£¨Ìæ´ú»ùÀàµÄ±ßÔµÉú³É£©
+    // é‡å†™ï¼šä¸­å¿ƒèŒƒå›´ç”Ÿæˆï¼ˆæ›¿ä»£åŸºç±»çš„è¾¹ç¼˜ç”Ÿæˆï¼‰
     protected override Vector3 GetRandomPosition()
     {
         float x = Random.Range(-mapSize, mapSize);
@@ -28,13 +28,13 @@ public class OreGenerate : SpawnerBase
         return new Vector3(x, 2f, z);
     }
 
-    // ÖØĞ´£º¿óÊ¯³õÊ¼»¯£¨ÎŞÌØÊâÂß¼­Ê±¿ÕÊµÏÖ£¬»òÉèÖÃÊôĞÔ£©
+    // é‡å†™ï¼šçŸ¿çŸ³åˆå§‹åŒ–ï¼ˆæ— ç‰¹æ®Šé€»è¾‘æ—¶ç©ºå®ç°ï¼Œæˆ–è®¾ç½®å±æ€§ï¼‰
     protected override void SpawnInitialize(GameObject instance)
     {
         Ore ore = instance.GetComponent<Ore>();
         if (ore != null)
         {
-            // ¿ÉÉèÖÃ¿óÊ¯ÊôĞÔ£¨Èçhealth£©£¬µ«½¨ÒéInspectorÅäÖÃ
+            // å¯è®¾ç½®çŸ¿çŸ³å±æ€§ï¼ˆå¦‚healthï¼‰ï¼Œä½†å»ºè®®Inspectoré…ç½®
         }
     }
 }
