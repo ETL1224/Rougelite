@@ -17,7 +17,7 @@ public class UIManager : MonoBehaviour
     public float gameTime = 240f;           // 总时长
     private float timeLeft;
     private bool isGameActive = true;       // 控制计时是否运行
-
+    public bool IsPlayerDead => isGameActive == false;
     [Header("Player Object")]
     public GameObject player;               // 玩家对象引用（用于销毁或动画）
     public Animator playerAnimator;         // 可在 Inspector 手动指定（优先使用）
