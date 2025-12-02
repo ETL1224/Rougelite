@@ -9,7 +9,7 @@ public class ShopManager : MonoBehaviour
     public SkillManager skillManager;    // 拖SkillManager（空物体）进来
     public ShopUIManager shopUI;
     public PlayerSkillController playerSkillCtrl; // 拖 Player身上的PlayerSkillController
-
+    public PauseManager PauseManager;
     [Header("费用设置")]
     public int upgradeCost = 5;
     public int skillCost = 20;
@@ -32,7 +32,7 @@ public class ShopManager : MonoBehaviour
         if (uiManager == null) uiManager = FindObjectOfType<UIManager>();
         if (shopUI == null) shopUI = FindObjectOfType<ShopUIManager>();
         if (playerSkillCtrl == null) playerSkillCtrl = FindObjectOfType<PlayerSkillController>();
-
+        if (PauseManager == null) PauseManager = FindObjectOfType<PauseManager>();
         // 初始化已购技能集合（给每个槽位创建空集合）
         purchasedSkills.Add("Q", new HashSet<SkillBase>());
         purchasedSkills.Add("E", new HashSet<SkillBase>());
@@ -42,6 +42,7 @@ public class ShopManager : MonoBehaviour
     // 升级属性
     public bool Upgrade(string statKey)
     {
+        
         if (playerStats == null) return false;
         if (playerStats.ore < upgradeCost) return false;
 
@@ -139,7 +140,7 @@ public class ShopManager : MonoBehaviour
             {
                 targetPointName = normalOpSkill.targetEffectPointName;
             }
-            else if (newSkill is GravityPullSkill gravitySkill) 
+            else if (newSkill is GravityPullSkill gravitySkill)
             {
                 targetPointName = gravitySkill.targetEffectPointName;
             }
@@ -147,11 +148,11 @@ public class ShopManager : MonoBehaviour
             {
                 targetPointName = poisonSkill.targetEffectPointName;
             }
-            else if (newSkill is SoulSwapSkill soulSkill) 
+            else if (newSkill is SoulSwapSkill soulSkill)
             {
                 targetPointName = soulSkill.targetEffectPointName;
             }
-            else if (newSkill is SlashSkill slashSkill) 
+            else if (newSkill is SlashSkill slashSkill)
             {
                 targetPointName = slashSkill.targetEffectPointName;
             }
@@ -193,12 +194,12 @@ public class ShopManager : MonoBehaviour
                 lgSkill.effectPoint = playerEffectPoint;
                 lgSkill.playerState = FindObjectOfType<PlayerState>();
             }
-            else if (newSkill is NormalOperationSkill noSkill) 
+            else if (newSkill is NormalOperationSkill noSkill)
             {
                 noSkill.effectPoint = playerEffectPoint;
                 noSkill.playerState = FindObjectOfType<PlayerState>();
             }
-            else if (newSkill is GravityPullSkill gSkill) 
+            else if (newSkill is GravityPullSkill gSkill)
             {
                 gSkill.effectPoint = playerEffectPoint;
                 gSkill.playerState = FindObjectOfType<PlayerState>();
@@ -209,7 +210,7 @@ public class ShopManager : MonoBehaviour
                 pSkill.effectPoint = playerEffectPoint;
                 pSkill.playerState = FindObjectOfType<PlayerState>();
             }
-            else if (newSkill is SoulSwapSkill sSkill) 
+            else if (newSkill is SoulSwapSkill sSkill)
             {
                 sSkill.effectPoint = playerEffectPoint;
                 sSkill.playerState = FindObjectOfType<PlayerState>();
@@ -220,7 +221,7 @@ public class ShopManager : MonoBehaviour
                 slashSkill.playerState = FindObjectOfType<PlayerState>();
                 slashSkill.playerTransform = FindObjectOfType<PlayerState>().transform;
             }
-            else if (newSkill is CircleDanceSkill cdSkill) 
+            else if (newSkill is CircleDanceSkill cdSkill)
             {
                 cdSkill.playerState = FindObjectOfType<PlayerState>();
                 cdSkill.playerTransform = FindObjectOfType<PlayerState>().transform;

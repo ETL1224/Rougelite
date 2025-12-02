@@ -56,7 +56,7 @@ public class ShopUIManager : MonoBehaviour
     public CursorManager cursorManager;
 
     private bool isOpen = false;
-
+    public bool IsOpen => isOpen;
     void Start()
     {
         // 自动寻找缺失引用
@@ -94,11 +94,28 @@ public class ShopUIManager : MonoBehaviour
         // Tab键打开/关闭商店
         if (Input.GetKeyDown(KeyCode.Tab))
             ToggleShop();
+
+        // ESC键：如果商店已打开，按ESC关闭商店并恢复游戏模式
+        if (isOpen && Input.GetKeyDown(KeyCode.Escape))
+        {
+            isOpen = false;
+            shopPanel.SetActive(false);
+            if (cursorManager != null)
+            {
+                cursorManager.EnterGameMode();
+            }
+        }
     }
 
     // 打开/关闭商店
     void ToggleShop()
     {
+        if (shopManager != null && shopManager.PauseManager != null && shopManager.PauseManager.IsPaused)
+        {
+            // 如果游戏已暂停，禁止打开商店
+            return;
+        }
+
         isOpen = !isOpen;
         shopPanel.SetActive(isOpen);
 
@@ -108,6 +125,7 @@ public class ShopUIManager : MonoBehaviour
             {
                 cursorManager.EnterUIMode();
                 RefreshAllSkillPreviews(); // 打开时刷新所有技能预览
+        
             }
             else
             {
