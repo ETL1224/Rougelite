@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: LightGuard
   icon: {fileID: 0}
-  description: 
+  description: "\u83B7\u5F97\u65E0\u654C\u6548\u679C\u4E00\u6BB5\u65F6\u95F4\u3002"
   baseCooldown: 5
   castType: 0
   indicatorRadius: 2

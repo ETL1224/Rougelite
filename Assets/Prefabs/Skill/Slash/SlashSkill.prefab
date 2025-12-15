@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Slash
   icon: {fileID: 0}
-  description: 
+  description: "\u5BF9\u5468\u56F4\u5C0F\u8303\u56F4\u7684\u654C\u4EBA\u9020\u6210\u65A9\u51FB\u3002"
   baseCooldown: 5
   castType: 0
   indicatorRadius: 2

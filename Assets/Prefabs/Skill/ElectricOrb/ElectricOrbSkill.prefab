@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: ElectricOrb
   icon: {fileID: 0}
-  description: 
+  description: "\u5BF9\u6307\u5B9A\u65B9\u5411\u53D1\u5C04\u95EA\u7535\u7403\uFF0C\u5BF9\u654C\u4EBA\u9020\u6210\u4F24\u5BB3\u3002"
   baseCooldown: 5
   castType: 1
   indicatorRadius: 2

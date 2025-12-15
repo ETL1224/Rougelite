@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Redemption
   icon: {fileID: 0}
-  description: 
+  description: "\u6062\u590D\u81EA\u8EAB\u4E00\u5B9A\u6BD4\u4F8B\u7684\u751F\u547D\u503C\u3002"
   baseCooldown: 5
   castType: 0
   indicatorRadius: 2

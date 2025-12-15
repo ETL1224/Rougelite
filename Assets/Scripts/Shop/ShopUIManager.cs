@@ -46,10 +46,16 @@ public class ShopUIManager : MonoBehaviour
     // 无技能时的默认图标（必须赋值）
     public Sprite defaultSkillIcon;
 
+    [Header("商店控制")]
+    public Button refreshBtn; // 刷新商店按钮（在Inspector赋值）
+    public int refreshCost = 20; // 刷新消耗矿石数量
+
     // 缓存当前预览的技能
     private SkillBase previewQ;
     private SkillBase previewE;
     private SkillBase previewR;
+    // 标记是否已初始化过预览（第一次打开时会初始化）
+    private bool previewsInitialized = false;
 
     [Header("核心引用")]
     public ShopManager shopManager;
@@ -83,6 +89,39 @@ public class ShopUIManager : MonoBehaviour
 
         // 初始化技能图标（避免一开始显示异常）
         InitSkillIconDefaultState();
+
+        // 绑定刷新按钮事件（需在Inspector拖拽赋值refreshBtn）
+        if (refreshBtn != null)
+            refreshBtn.onClick.AddListener(OnRefreshClicked);
+    }
+
+    // 刷新按钮点击处理：消耗矿石并刷新预览
+    void OnRefreshClicked()
+    {
+        if (shopManager == null)
+        {
+            Debug.LogWarning("ShopUIManager：未找到 ShopManager，无法刷新");
+            return;
+        }
+
+        int currentOre = shopManager.GetOreCount();
+        if (currentOre < refreshCost)
+        {
+            Debug.Log("刷新的矿石不足");
+            return;
+        }
+
+        // 扣除矿石（通过PlayerState接口）
+        if (shopManager.playerStats != null)
+            shopManager.playerStats.SpendOre(refreshCost);
+
+        // 更新全局UI（如果存在）
+        shopManager.uiManager?.UpdateOreUI();
+
+        // 执行真正的刷新
+        RefreshAllSkillPreviews();
+
+        Debug.Log($"已消耗{refreshCost}矿石，刷新商店");
     }
 
     void Update()
@@ -91,9 +130,18 @@ public class ShopUIManager : MonoBehaviour
         if (oreText != null && shopManager != null)
             oreText.text = $"矿石：{shopManager.GetOreCount()}";
 
-        // Tab键打开/关闭商店
+        // 根据当前矿石数更新刷新按钮是否可用
+        if (refreshBtn != null && shopManager != null)
+        {
+            refreshBtn.interactable = shopManager.GetOreCount() >= refreshCost;
+        }
+
+        // Tab键打开/关闭商店（背包页面不能打开商店）
         if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (BackpackManager.isBackpackOpen) return;
             ToggleShop();
+        }
 
         // ESC键：如果商店已打开，按ESC关闭商店并恢复游戏模式
         if (isOpen && Input.GetKeyDown(KeyCode.Escape))
@@ -124,8 +172,12 @@ public class ShopUIManager : MonoBehaviour
             if (isOpen)
             {
                 cursorManager.EnterUIMode();
-                RefreshAllSkillPreviews(); // 打开时刷新所有技能预览
-        
+                // 第一次打开时初始化预览（之后不再自动刷新）
+                if (!previewsInitialized)
+                {
+                    RefreshAllSkillPreviews();
+                }
+
             }
             else
             {
@@ -172,6 +224,9 @@ public class ShopUIManager : MonoBehaviour
             skillRText, skillRBtn,
             skillRIcon, skillRDesc
         );
+
+        // 标记为已初始化（手动刷新或首次打开都视为初始化）
+        previewsInitialized = true;
     }
 
     // 核心方法：刷新单个槽位的所有UI（名称+图标+描述+按钮状态）
@@ -233,7 +288,7 @@ public class ShopUIManager : MonoBehaviour
         if (iconImage == null) return;
         iconImage.sprite = targetSprite;
         iconImage.enabled = true; // 显示图标
-        iconImage.SetNativeSize(); // 自适应图片原始大小（避免拉伸）
+        //iconImage.SetNativeSize(); // 自适应图片原始大小（避免拉伸）
         iconImage.preserveAspect = true; // 保持宽高比（可选，根据UI设计）
     }
 

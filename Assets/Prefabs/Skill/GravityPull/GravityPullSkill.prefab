@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: GravityPull
   icon: {fileID: 0}
-  description: 
+  description: "\u6269\u5927\u77FF\u77F3\u62FE\u53D6\u8303\u56F4\u3002"
   baseCooldown: 5
   castType: 0
   indicatorRadius: 2

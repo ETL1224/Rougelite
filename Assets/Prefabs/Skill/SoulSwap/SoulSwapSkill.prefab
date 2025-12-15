@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: SoulSwap
   icon: {fileID: 0}
-  description: 
+  description: "\u6D88\u8017\u81EA\u8EAB\u4E00\u5B9A\u6BD4\u4F8B\u7684\u8840\u91CF\uFF0C\u5927\u5E45\u63D0\u5347\u653B\u51FB\u529B\u3002"
   baseCooldown: 5
   castType: 0
   indicatorRadius: 2
