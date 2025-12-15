@@ -3,7 +3,9 @@ guid: 5b645f04be79f4540baae5a1129f4669
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - icon: {fileID: 21300000, guid: 2456dd2824f5ec540830760922f5bac6, type: 3}
+  - electricOrbPrefab: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
