@@ -29,6 +29,14 @@ public class PlayerSkillController : MonoBehaviour
 
     private void HandleSkillInput()
     {
+
+        // èƒŒåŒ…ã€å•†åº—ã€æš‚åœç•Œé¢æ‰“å¼€æ—¶ä¸å“åº”æŠ€èƒ½é‡Šæ”¾
+        if (BackpackManager.isBackpackOpen) return;
+        var shopUI = FindObjectOfType<ShopUIManager>();
+        if (shopUI != null && shopUI.IsOpen) return;
+        var pauseMgr = FindObjectOfType<PauseManager>();
+        if (pauseMgr != null && pauseMgr.IsPaused) return;
+
         if (Input.GetKeyDown(KeyCode.Q))
             PrepareSkill(skillQ);
         if (Input.GetKeyDown(KeyCode.E))
@@ -41,13 +49,13 @@ public class PlayerSkillController : MonoBehaviour
     {
         if (skill == null)
         {
-            Debug.Log("¼¼ÄÜÎ´×°±¸");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½Î´×°ï¿½ï¿½");
             return;
         }
 
         if (!skill.CanCast(playerState))
         {
-            Debug.Log($"{skill.skillName} ÀäÈ´ÖĞ");
+            Debug.Log($"{skill.skillName} ï¿½ï¿½È´ï¿½ï¿½");
             return;
         }
 
@@ -63,12 +71,12 @@ public class PlayerSkillController : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("Î´ÊµÏÖµÄ¼¼ÄÜÀàĞÍ");
+                Debug.Log("Î´Êµï¿½ÖµÄ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
                 break;
         }
     }
 
-    // 1. ¿ªÊ¼Ãé×¼£ºµ÷ÓÃSkillIndicatorManagerÏÔÊ¾Ö¸Ê¾Æ÷
+    // 1. ï¿½ï¿½Ê¼ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SkillIndicatorManagerï¿½ï¿½Ê¾Ö¸Ê¾ï¿½ï¿½
     void StartAiming(SkillBase skill)
     {
         currentAimingSkill = skill;
@@ -76,23 +84,23 @@ public class PlayerSkillController : MonoBehaviour
         float radius = skill.indicatorRadius > 0 ? skill.indicatorRadius : 2f;
         SkillCastType type = skill.castType;
 
-        // ¸ù¾İ¼¼ÄÜÀàĞÍ»òÅäÖÃ×Ö¶Î×Ô¶¯¾ö¶¨Ö¸Ê¾Æ÷ÑùÊ½
+        // ï¿½ï¿½ï¿½İ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½ï¿½ï¿½Ê½
         SkillIndicatorManager.Instance.ShowIndicator(
                 castPoint.position,
                 radius,
                 type,
-                castPoint // ¹Ø¼ü£º´«µİÊÍ·Åµã
+                castPoint // ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·Åµï¿½
             );
     }
 
-    // 2. Ãé×¼ÖĞ¸üĞÂ£ºÍ¬²½Ö¸Ê¾Æ÷Î»ÖÃ
+    // 2. ï¿½ï¿½×¼ï¿½Ğ¸ï¿½ï¿½Â£ï¿½Í¬ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½Î»ï¿½ï¿½
     void HandleAimingMode()
     {
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Ground")))
         {
             Vector3 pos = hit.point;
-            // ¹Ø¼ü£º¸üĞÂÖ¸Ê¾Æ÷Î»ÖÃ
+            // ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½Î»ï¿½ï¿½
             SkillIndicatorManager.Instance.UpdateIndicator(pos, castPoint.forward);
 
             if (Input.GetMouseButtonDown(0))
@@ -101,7 +109,7 @@ public class PlayerSkillController : MonoBehaviour
 
                 if (currentAimingSkill.castType == SkillCastType.Direction)
                 {
-                    // ---- ĞŞ¸´ºËĞÄ ----
+                    // ---- ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ ----
                     Vector3 flatTarget = new Vector3(pos.x, castPoint.position.y, pos.z);
                     dir = (flatTarget - castPoint.position).normalized;
 
@@ -119,10 +127,10 @@ public class PlayerSkillController : MonoBehaviour
         }
     }
 
-    // 3. ½áÊøÃé×¼£ºÒş²ØÖ¸Ê¾Æ÷£¨Ìæ»»Ô­À´µÄDestroy£©
+    // 3. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½æ»»Ô­ï¿½ï¿½ï¿½ï¿½Destroyï¿½ï¿½
     void EndAiming()
     {
-        // ¹Ø¼ü£ºµ÷ÓÃµ¥ÀıÒş²ØÖ¸Ê¾Æ÷£¨²»ÊÇÏú»Ù£¬¸´ÓÃĞÔÄÜ¸üºÃ£©
+        // ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¸ï¿½ï¿½Ã£ï¿½
         SkillIndicatorManager.Instance.HideIndicator();
         currentAimingSkill = null;
     }
@@ -131,7 +139,7 @@ public class PlayerSkillController : MonoBehaviour
     {
         if (newSkill == null)
         {
-            Debug.LogWarning($"ÊÔÍ¼°ó¶¨¿Õ¼¼ÄÜµ½²ÛÎ» {slotKey}");
+            Debug.LogWarning($"ï¿½ï¿½Í¼ï¿½ó¶¨¿Õ¼ï¿½ï¿½Üµï¿½ï¿½ï¿½Î» {slotKey}");
             return;
         }
 
@@ -147,10 +155,10 @@ public class PlayerSkillController : MonoBehaviour
                 skillR = newSkill;
                 break;
             default:
-                Debug.LogWarning($"Î´Öª¼¼ÄÜ²Û: {slotKey}");
+                Debug.LogWarning($"Î´Öªï¿½ï¿½ï¿½Ü²ï¿½: {slotKey}");
                 return;
         }
-        Debug.Log($"ÒÑ°ó¶¨¼¼ÄÜ [{newSkill.skillName}] µ½°´¼ü {slotKey}");
+        Debug.Log($"ï¿½Ñ°ó¶¨¼ï¿½ï¿½ï¿½ [{newSkill.skillName}] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {slotKey}");
     }
 
 }

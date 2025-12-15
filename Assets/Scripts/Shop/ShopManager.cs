@@ -42,7 +42,7 @@ public class ShopManager : MonoBehaviour
     // 升级属性
     public bool Upgrade(string statKey)
     {
-        
+
         if (playerStats == null) return false;
         if (playerStats.ore < upgradeCost) return false;
 
@@ -275,4 +275,30 @@ public class ShopManager : MonoBehaviour
     }
 
     public int GetOreCount() => playerStats != null ? playerStats.ore : 0;
+
+    // 返回指定槽位已购买的技能列表（返回副本，避免外部修改内部集合）
+    public List<SkillBase> GetPurchasedSkills(string slotKey)
+    {
+        List<SkillBase> result = new List<SkillBase>();
+        if (purchasedSkills == null || !purchasedSkills.ContainsKey(slotKey)) return result;
+        foreach (var s in purchasedSkills[slotKey])
+            result.Add(s);
+        return result;
+    }
+
+    // 返回所有槽位已购买的技能（用于背包显示）
+    public List<SkillBase> GetAllPurchasedSkills()
+    {
+        List<SkillBase> all = new List<SkillBase>();
+        if (purchasedSkills == null) return all;
+        foreach (var kv in purchasedSkills)
+        {
+            foreach (var s in kv.Value)
+            {
+                if (s != null && !all.Contains(s))
+                    all.Add(s);
+            }
+        }
+        return all;
+    }
 }

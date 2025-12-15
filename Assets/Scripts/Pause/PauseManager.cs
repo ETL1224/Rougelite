@@ -29,9 +29,12 @@ public class PauseManager : MonoBehaviour
 
         UpdatePauseIconVisibility();
 
-        // 只有在未打开商店时才响应ESC进行暂停/恢复
+        // 只有在未打开商店和未打开背包时才响应ESC进行暂停/恢复
         var shopUI = FindObjectOfType<ShopUIManager>();
-        if (shopUI == null || !shopUI.IsOpen)
+        bool backpackOpen = false;
+        var backpackMgr = FindObjectOfType<BackpackManager>();
+        if (backpackMgr != null && BackpackManager.isBackpackOpen) backpackOpen = true;
+        if ((shopUI == null || !shopUI.IsOpen) && !backpackOpen)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -102,6 +105,6 @@ public class PauseManager : MonoBehaviour
         var shopUI = FindObjectOfType<ShopUIManager>();
         UIManager uiManager = FindObjectOfType<UIManager>();
         bool shopOpen = shopUI != null && shopUI.IsOpen;
-        pauseIconBtn.SetActive(!isPaused && !shopOpen&& uiManager.IsPlayerDead == false); // 仅在未暂停且商店未打开时显示图标
+        pauseIconBtn.SetActive(!isPaused && !shopOpen && uiManager.IsPlayerDead == false); // 仅在未暂停且商店未打开时显示图标
     }
 }
