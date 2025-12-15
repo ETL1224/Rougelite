@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillName: BloodFrenzy
-  icon: {fileID: 0}
-  description: "\u653B\u901F\u63D0\u5347\uFF0C\u5E76\u5728\u9020\u6210\u4F24\u5BB3\u7684\u540C\u65F6\u6062\u590D\u76F8\u5F53\u4E8E\u653B\u51FB\u529B\u4E00\u5B9A\u6BD4\u4F8B\u7684\u8840\u91CF\u3002"
+  icon: {fileID: 21300000, guid: c46be55a65cb30e44b7c89e3c0d531da, type: 3}
+  description: "\u63D0\u4F9B\u5438\u8840\u548C\u653B\u901F"
   baseCooldown: 5
   castType: 0
   indicatorRadius: 2
