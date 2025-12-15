@@ -155,7 +155,7 @@ public class ShopManager : MonoBehaviour
             {
                 targetPointName = slashSkill.targetEffectPointName;
             }
-            if (newSkill is CircleDanceSkill circleSkill)
+            else if (newSkill is CircleDanceSkill circleSkill)
             {
                 targetPointName = circleSkill.targetEffectPointName;
             }
