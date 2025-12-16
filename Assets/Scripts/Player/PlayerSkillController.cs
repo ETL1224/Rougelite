@@ -30,7 +30,7 @@ public class PlayerSkillController : MonoBehaviour
     private void HandleSkillInput()
     {
 
-        // èƒŒåŒ…ã€å•†åº—ã€æš‚åœç•Œé¢æ‰“å¼€æ—¶ä¸å“åº”æŠ€èƒ½é‡Šæ”¾
+        // ±³°ü¡¢ÉÌµê¡¢ÔİÍ£½çÃæ´ò¿ªÊ±²»ÏìÓ¦¼¼ÄÜÊÍ·Å
         if (BackpackManager.isBackpackOpen) return;
         var shopUI = FindObjectOfType<ShopUIManager>();
         if (shopUI != null && shopUI.IsOpen) return;
@@ -49,13 +49,13 @@ public class PlayerSkillController : MonoBehaviour
     {
         if (skill == null)
         {
-            Debug.Log("ï¿½ï¿½ï¿½ï¿½Î´×°ï¿½ï¿½");
+            Debug.Log("¼¼ÄÜÎ´×°±¸");
             return;
         }
 
         if (!skill.CanCast(playerState))
         {
-            Debug.Log($"{skill.skillName} ï¿½ï¿½È´ï¿½ï¿½");
+            Debug.Log($"{skill.skillName} ÀäÈ´ÖĞ");
             return;
         }
 
@@ -71,12 +71,12 @@ public class PlayerSkillController : MonoBehaviour
                 break;
 
             default:
-                Debug.Log("Î´Êµï¿½ÖµÄ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+                Debug.Log("Î´ÊµÏÖµÄÊÍ·ÅÀàĞÍ");
                 break;
         }
     }
 
-    // 1. ï¿½ï¿½Ê¼ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SkillIndicatorManagerï¿½ï¿½Ê¾Ö¸Ê¾ï¿½ï¿½
+    // 1. ¿ªÊ¼Ãé×¼Ä£Ê½£¬Í¨ÖªSkillIndicatorManagerÏÔÊ¾Ö¸Ê¾Æ÷
     void StartAiming(SkillBase skill)
     {
         currentAimingSkill = skill;
@@ -84,23 +84,23 @@ public class PlayerSkillController : MonoBehaviour
         float radius = skill.indicatorRadius > 0 ? skill.indicatorRadius : 2f;
         SkillCastType type = skill.castType;
 
-        // ï¿½ï¿½ï¿½İ¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½ï¿½ï¿½Ê½
+        // ¸ù¾İ¼¼ÄÜÀàĞÍºÍ²ÎÊı×Ô¶¯µ÷ÕûÖ¸Ê¾Æ÷ÏÔÊ¾·½Ê½
         SkillIndicatorManager.Instance.ShowIndicator(
                 castPoint.position,
                 radius,
                 type,
-                castPoint // ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·Åµï¿½
+                castPoint // ¹Ø¼ü£º´«ÈëÊÍ·Åµã
             );
     }
 
-    // 2. ï¿½ï¿½×¼ï¿½Ğ¸ï¿½ï¿½Â£ï¿½Í¬ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½Î»ï¿½ï¿½
+    // 2. Ãé×¼Ä£Ê½ÖĞ£¬Í¬²½Ö¸Ê¾Æ÷Î»ÖÃ
     void HandleAimingMode()
     {
         Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, 100f, LayerMask.GetMask("Ground")))
         {
             Vector3 pos = hit.point;
-            // ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½Î»ï¿½ï¿½
+            // ¹Ø¼ü£º¸üĞÂÖ¸Ê¾Æ÷Î»ÖÃ
             SkillIndicatorManager.Instance.UpdateIndicator(pos, castPoint.forward);
 
             if (Input.GetMouseButtonDown(0))
@@ -109,7 +109,7 @@ public class PlayerSkillController : MonoBehaviour
 
                 if (currentAimingSkill.castType == SkillCastType.Direction)
                 {
-                    // ---- ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ ----
+                    // ---- ĞŞ¸Ä²¿·Ö ----
                     Vector3 flatTarget = new Vector3(pos.x, castPoint.position.y, pos.z);
                     dir = (flatTarget - castPoint.position).normalized;
 
@@ -127,22 +127,16 @@ public class PlayerSkillController : MonoBehaviour
         }
     }
 
-    // 3. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½æ»»Ô­ï¿½ï¿½ï¿½ï¿½Destroyï¿½ï¿½
+    // 3. ½áÊøÃé×¼Ä£Ê½£¬Òş²ØÖ¸Ê¾Æ÷£¨Ìæ»»Ô­ÓĞµÄDestroy£©
     void EndAiming()
     {
-        // ï¿½Ø¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¸ï¿½ï¿½Ã£ï¿½
+        // ¹Ø¼ü£ºµ÷ÓÃµ¥ÀıÒş²ØÖ¸Ê¾Æ÷£¬±ÜÃâÖØ¸´´´½¨Ïú»Ù£¬ĞÔÄÜ¸üÓÅ
         SkillIndicatorManager.Instance.HideIndicator();
         currentAimingSkill = null;
     }
 
     public void AssignSkill(string slotKey, SkillBase newSkill)
     {
-        if (newSkill == null)
-        {
-            Debug.LogWarning($"ï¿½ï¿½Í¼ï¿½ó¶¨¿Õ¼ï¿½ï¿½Üµï¿½ï¿½ï¿½Î» {slotKey}");
-            return;
-        }
-
         switch (slotKey)
         {
             case "Q":
@@ -155,10 +149,17 @@ public class PlayerSkillController : MonoBehaviour
                 skillR = newSkill;
                 break;
             default:
-                Debug.LogWarning($"Î´Öªï¿½ï¿½ï¿½Ü²ï¿½: {slotKey}");
+                Debug.LogWarning($"Î´Öª¼¼ÄÜ²Û: {slotKey}");
                 return;
         }
-        Debug.Log($"ï¿½Ñ°ó¶¨¼ï¿½ï¿½ï¿½ [{newSkill.skillName}] ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ {slotKey}");
+
+        if (newSkill == null)
+        {
+            Debug.Log($"¼¼ÄÜ²ÛÎ» {slotKey} ¼¼ÄÜ×°±¸Ê§°Ü£¬ÒÑÇå¿Õ");
+            return;
+        }
+
+        Debug.Log($"ÒÑ×°±¸¼¼ÄÜ [{newSkill.skillName}] µ½²ÛÎ» {slotKey}");
     }
 
 }

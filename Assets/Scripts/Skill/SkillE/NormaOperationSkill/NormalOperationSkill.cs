@@ -1,41 +1,42 @@
 using UnityEngine;
 
-// Õı³£²Ù×÷¼¼ÄÜ£ºSelfÀàĞÍ£¬´ó·ùÌáÉıÒÆËÙ+ÌØĞ§»·ÈÆ
+// æ­£å¸¸æ“ä½œæŠ€èƒ½ï¼šSelfç±»å‹ï¼Œå¤§å¹…æå‡ç§»é€Ÿ+ç‰¹æ•ˆç¯ç»•
 public class NormalOperationSkill : SkillBase
 {
-    [Header("Õı³£²Ù×÷ºËĞÄÅäÖÃ")]
-    public string targetEffectPointName = "HealEffectPoint"; // ÌØĞ§µãÃû³Æ
-    public GameObject speedEffectPrefab; // ÌáËÙÌØĞ§Ô¤ÖÆÌå£¨±ÈÈçÀ¶É«/×ÏÉ«Á÷¹â£©
-    public float skillDuration = 4f; // ÌáËÙ³ÖĞøÊ±¼ä£¨Ãë£¬½¨Òé3-5Ãë£©
-    public float moveSpeedMultiplier = 2.0f; // ÒÆËÙ¼Ó³É±¶Êı£¨2.0=+100%£©
-    public Sprite skillIcon; // ¼¼ÄÜÍ¼±ê£¨ShopUIÏÔÊ¾£©
+    [Header("æ­£å¸¸æ“ä½œæ ¸å¿ƒé…ç½®")]
+    public string targetEffectPointName = "HealEffectPoint"; // ç‰¹æ•ˆç‚¹åç§°
+    public GameObject speedEffectPrefab; // æé€Ÿç‰¹æ•ˆé¢„åˆ¶ä½“ï¼ˆæ¯”å¦‚è“è‰²/ç´«è‰²æµå…‰ï¼‰
+    public float skillDuration = 4f; // æé€ŸæŒç»­æ—¶é—´ï¼ˆç§’ï¼Œå»ºè®®3-5ç§’ï¼‰
+    public float moveSpeedMultiplier = 2.0f; // ç§»é€ŸåŠ æˆå€æ•°ï¼ˆ2.0=+100%ï¼‰
+    public Sprite skillIcon; // æŠ€èƒ½å›¾æ ‡ï¼ˆShopUIæ˜¾ç¤ºï¼‰
     private float cooldown;
 
-    [Header("ÄÚ²¿×´Ì¬£¨²»ÓÃÊÖ¶¯¸Ä£©")]
-    public Transform effectPoint; // ÌØĞ§Éú³Éµã£¨×Ô¶¯°ó¶¨£©
-    public PlayerState playerState; // ×Ô¶¯°ó¶¨PlayerState
-    private GameObject currentSpeedEffect; // µ±Ç°ÌáËÙÌØĞ§
-    private float skillEndTime; // ¼¼ÄÜ½áÊøÊ±¼ä
+    [Header("å†…éƒ¨çŠ¶æ€ï¼ˆä¸ç”¨æ‰‹åŠ¨æ”¹ï¼‰")]
+    public Transform effectPoint; // ç‰¹æ•ˆç”Ÿæˆç‚¹ï¼ˆè‡ªåŠ¨ç»‘å®šï¼‰
+    public PlayerState playerState; // è‡ªåŠ¨ç»‘å®šPlayerState
+    private GameObject currentSpeedEffect; // å½“å‰æé€Ÿç‰¹æ•ˆ
+    private float skillEndTime; // æŠ€èƒ½ç»“æŸæ—¶é—´
 
-    // ³õÊ¼»¯¼¼ÄÜĞÅÏ¢£¨ShopUIÏÔÊ¾+¿ò¼ÜÊÊÅä£©
+    private bool suppressCleanupOnDestroy;
+
+    // åˆå§‹åŒ–æŠ€èƒ½ä¿¡æ¯ï¼ˆShopUIæ˜¾ç¤º+æ¡†æ¶é€‚é…ï¼‰
     private void OnEnable()
     {
-        castType = SkillCastType.Self; // SelfÀàĞÍ£¬°´EÖ±½ÓÊÍ·Å
-        baseCooldown = 12f; // »ù´¡ÀäÈ´
+        castType = SkillCastType.Self; // Selfç±»å‹ï¼ŒæŒ‰Eç›´æ¥é‡Šæ”¾
+        baseCooldown = 12f; // åŸºç¡€å†·å´
         cooldown = baseCooldown;
+        // ä¿è¯æ¯æ¬¡å®ä¾‹åŒ–éƒ½åˆå§‹åŒ–ç‰¹æ•ˆç‚¹
+        if (playerState == null)
+            playerState = FindObjectOfType<PlayerState>();
+        AutoFindEffectPoint();
     }
 
     private void Start()
     {
-        // ×Ô¶¯°ó¶¨PlayerState£¨¿ØÖÆÒÆËÙ£©
-        if (playerState == null)
-            playerState = FindObjectOfType<PlayerState>();
-
-        // ×Ô¶¯°ó¶¨ÌØĞ§µã£¨¸ù¾İÃû³Æ²éÕÒ£©
-        AutoFindEffectPoint();
+        // Startä¸­æ— éœ€å†åˆå§‹åŒ–ä¾èµ–ï¼Œå·²åœ¨OnEnableå¤„ç†
     }
 
-    // ×Ô¶¯ÕÒPlayerÉÏµÄÌØĞ§µã£¨¸´ÓÃÖ®Ç°µÄÂß¼­£©
+    // è‡ªåŠ¨æ‰¾Playerä¸Šçš„ç‰¹æ•ˆç‚¹ï¼ˆå¤ç”¨ä¹‹å‰çš„é€»è¾‘ï¼‰
     private void AutoFindEffectPoint()
     {
         if (playerState != null && !string.IsNullOrEmpty(targetEffectPointName))
@@ -44,53 +45,48 @@ public class NormalOperationSkill : SkillBase
             if (targetPoint != null)
             {
                 effectPoint = targetPoint;
-                Debug.Log($"Õı³£²Ù×÷£ºÕÒµ½ÌØĞ§µã {targetEffectPointName}");
+                Debug.Log($"æ­£å¸¸æ“ä½œï¼šæ‰¾åˆ°ç‰¹æ•ˆç‚¹ {targetEffectPointName}");
                 return;
             }
         }
 
-        // ¶µµ×£ºÓÃPlayerÎ»ÖÃ£¨ÌØĞ§»·ÈÆPlayer£©
+        // å…œåº•ï¼šç”¨Playerä½ç½®ï¼ˆç‰¹æ•ˆç¯ç»•Playerï¼‰
         effectPoint = playerState != null ? playerState.transform : transform;
-        Debug.LogWarning($"Õı³£²Ù×÷£ºÎ´ÕÒµ½Ö¸¶¨ÌØĞ§µã£¬ÓÃPlayerÎ»ÖÃ¶µµ×");
+        Debug.LogWarning($"æ­£å¸¸æ“ä½œï¼šæœªæ‰¾åˆ°æŒ‡å®šç‰¹æ•ˆç‚¹ï¼Œç”¨Playerä½ç½®å…œåº•");
     }
 
-    // ¿ò¼ÜÔ¼¶¨£º³¢ÊÔÊÍ·Å¼¼ÄÜ£¨ÏÈÅĞ¶ÏÀäÈ´£©
+    // æ¡†æ¶çº¦å®šï¼šå°è¯•é‡Šæ”¾æŠ€èƒ½ï¼ˆå…ˆåˆ¤æ–­å†·å´ï¼‰
     public override void TryCast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
     {
-        if (!CanCast(player))
-        {
-            Debug.Log($"{skillName} ÀäÈ´ÖĞ£¡Ê£Óà£º{Mathf.Ceil(Time.time - lastCastTime)}Ãë");
-            return;
-        }
-
+        // ç›´æ¥é‡Šæ”¾æŠ€èƒ½ï¼Œä¸å†åˆ¤æ–­cd
         lastCastTime = Time.time;
         Cast(castPos, caster, player);
     }
 
-    // ºËĞÄ£ºÊÍ·Å¼¼ÄÜ£¨¿ªÆôÌáËÙ+²¥·ÅÌØĞ§£©
+    // æ ¸å¿ƒï¼šé‡Šæ”¾æŠ€èƒ½ï¼ˆå¼€å¯æé€Ÿ+æ’­æ”¾ç‰¹æ•ˆï¼‰
     protected override void Cast(Vector3 castPos, Transform caster, PlayerState player)
     {
         if (player == null)
         {
-            Debug.LogError("Î´ÕÒµ½PlayerState£¬ÎŞ·¨¼¤»îÕı³£²Ù×÷");
+            Debug.LogError("æœªæ‰¾åˆ°PlayerStateï¼Œæ— æ³•æ¿€æ´»æ­£å¸¸æ“ä½œ");
             return;
         }
 
-        // 1. ¿ªÆôÌáËÙ×´Ì¬
-        player.StartNormalOperation(moveSpeedMultiplier);
+        // 1. å¼€å¯æé€ŸçŠ¶æ€ï¼ˆç»‘å®šownerï¼Œé¿å…æ—§å®ä¾‹æŠ¢å¤ºç»“æŸï¼‰
+        player.StartNormalOperation(moveSpeedMultiplier, this);
         playerState = player;
 
-        // 2. ¼ÇÂ¼¼¼ÄÜ½áÊøÊ±¼ä
+        // 2. è®°å½•æŠ€èƒ½ç»“æŸæ—¶é—´
         skillEndTime = Time.time + skillDuration;
 
-        // 3. ²¥·Å³ÖĞøÌØĞ§£¨¸úËæPlayer£¬ÌåÏÖÌáËÙ¸Ğ£©
+        // 3. æ’­æ”¾æŒç»­ç‰¹æ•ˆï¼ˆè·ŸéšPlayerï¼Œä½“ç°æé€Ÿæ„Ÿï¼‰
         PlaySpeedEffect();
     }
 
-    // ²¥·ÅÌáËÙÌØĞ§£¨³ÖĞøµ½¼¼ÄÜ½áÊø£©
+    // æ’­æ”¾æé€Ÿç‰¹æ•ˆï¼ˆæŒç»­åˆ°æŠ€èƒ½ç»“æŸï¼‰
     private void PlaySpeedEffect()
     {
-        // ÏÈÏú»ÙÖ®Ç°µÄÌØĞ§£¨±ÜÃâÖØ¸´£©
+        // å…ˆé”€æ¯ä¹‹å‰çš„ç‰¹æ•ˆï¼ˆé¿å…é‡å¤ï¼‰
         if (currentSpeedEffect != null)
             Destroy(currentSpeedEffect);
 
@@ -100,34 +96,55 @@ public class NormalOperationSkill : SkillBase
                 speedEffectPrefab,
                 effectPoint.position,
                 Quaternion.identity,
-                effectPoint // ÉèÎªPlayer×Ó¶ÔÏó£¬¸úËæÒÆ¶¯
+                effectPoint // è®¾ä¸ºPlayerå­å¯¹è±¡ï¼Œè·Ÿéšç§»åŠ¨
             );
-            currentSpeedEffect.transform.localPosition = Vector3.zero; // ±ÜÃâÆ«ÒÆ
+            currentSpeedEffect.transform.localPosition = Vector3.zero; // é¿å…åç§»
         }
     }
 
-    // Ã¿Ö¡¼ì²é¼¼ÄÜÊÇ·ñµ½ÆÚ£¨»Ö¸´ÒÆËÙ£©
+    // æ¯å¸§æ£€æŸ¥æŠ€èƒ½æ˜¯å¦åˆ°æœŸï¼ˆæ¢å¤ç§»é€Ÿï¼‰
     private void Update()
     {
         if (playerState != null && playerState.isNormalOperationActive)
         {
             if (Time.time >= skillEndTime)
             {
-                // ½áÊøÌáËÙ£¬Ïú»ÙÌØĞ§
-                playerState.EndNormalOperation();
+                // ç»“æŸæé€Ÿï¼ˆå¸¦ownerï¼›å¦‚æœä¸æ˜¯å½“å‰owneråˆ™ä¸ä¼šç»“æŸï¼‰
+                playerState.EndNormalOperation(this);
+                if (playerState.isNormalOperationActive)
+                {
+                    enabled = false;
+                    return;
+                }
                 if (currentSpeedEffect != null)
                     Destroy(currentSpeedEffect);
             }
         }
     }
 
-    // ¶µµ×£º¼¼ÄÜÏú»ÙÊ±»Ö¸´ÒÆËÙ£¨±ÜÃâ¿¨ËÀÌáËÙ×´Ì¬£©
+    // å…œåº•ï¼šæŠ€èƒ½é”€æ¯æ—¶æ¢å¤ç§»é€Ÿï¼ˆé¿å…å¡æ­»æé€ŸçŠ¶æ€ï¼‰
     private void OnDestroy()
     {
+        if (suppressCleanupOnDestroy) return;
         if (playerState != null && playerState.isNormalOperationActive)
         {
-            playerState.EndNormalOperation();
+            playerState.EndNormalOperation(this);
             Destroy(currentSpeedEffect);
         }
+    }
+
+    public override void OnRemoved()
+    {
+        suppressCleanupOnDestroy = true;
+        enabled = false;
+
+        if (playerState != null && playerState.isNormalOperationActive)
+            playerState.EndNormalOperation(this);
+
+        if (currentSpeedEffect != null)
+            Destroy(currentSpeedEffect);
+
+        currentSpeedEffect = null;
+        playerState = null;
     }
 }
