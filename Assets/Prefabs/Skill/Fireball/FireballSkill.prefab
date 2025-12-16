@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillName: FireBall
-  icon: {fileID: 21300000, guid: 8ec5b52b09d90074a83d61c1334190f9, type: 3}
+  icon: {fileID: 21300000, guid: 7241a8635d5e1fb438bdfa78f5ac7cf4, type: 3}
   description: "\u4E00\u4E2A\u5927\u706B\u7403\uFF08\u8FD8\u662F\u8FD9\u73A9\u610F\u597D\u4F7F.jpg\uFF09"
   baseCooldown: 5
   castType: 1
