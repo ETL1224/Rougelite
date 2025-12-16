@@ -19,6 +19,8 @@ public class BloodFrenzySkill : SkillBase
     private GameObject currentFrenzyEffect; // 当前特效
     private float skillEndTime; // 技能结束时间
 
+    private bool suppressCleanupOnDestroy;
+
     // 初始化技能信息（ShopUI显示）
     private void OnEnable()
     {
@@ -82,8 +84,8 @@ public class BloodFrenzySkill : SkillBase
             return;
         }
 
-        // 1. 开启嗜血状态
-        player.StartBloodFrenzy(attackSpeedMultiplier, bloodSuckRate);
+        // 1. 开启嗜血状态（绑定owner，避免旧实例抢夺结束）
+        player.StartBloodFrenzy(attackSpeedMultiplier, bloodSuckRate, this);
         playerState = player;
 
         // 2. 记录结束时间
@@ -118,8 +120,13 @@ public class BloodFrenzySkill : SkillBase
         {
             if (Time.time >= skillEndTime)
             {
-                // 结束技能，恢复状态
-                playerState.EndBloodFrenzy();
+                // 结束技能（带owner；如果不是当前owner则不会结束）
+                playerState.EndBloodFrenzy(this);
+                if (playerState.isBloodFrenzyActive)
+                {
+                    enabled = false;
+                    return;
+                }
                 Destroy(currentFrenzyEffect);
             }
         }
@@ -128,10 +135,26 @@ public class BloodFrenzySkill : SkillBase
     // 兜底：技能销毁时恢复状态
     private void OnDestroy()
     {
+        if (suppressCleanupOnDestroy) return;
         if (playerState != null && playerState.isBloodFrenzyActive)
         {
-            playerState.EndBloodFrenzy();
+            playerState.EndBloodFrenzy(this);
             Destroy(currentFrenzyEffect);
         }
+    }
+
+    public override void OnRemoved()
+    {
+        suppressCleanupOnDestroy = true;
+        enabled = false;
+
+        if (playerState != null && playerState.isBloodFrenzyActive)
+            playerState.EndBloodFrenzy(this);
+
+        if (currentFrenzyEffect != null)
+            Destroy(currentFrenzyEffect);
+
+        currentFrenzyEffect = null;
+        playerState = null;
     }
 }

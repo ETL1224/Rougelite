@@ -61,6 +61,9 @@ public class ShopUIManager : MonoBehaviour
     public ShopManager shopManager;
     public CursorManager cursorManager;
 
+    [Header("悬停信息面板")]
+    public ShopSkillTooltipUI tooltipUI;
+
     private bool isOpen = false;
     public bool IsOpen => isOpen;
     void Start()
@@ -93,6 +96,22 @@ public class ShopUIManager : MonoBehaviour
         // 绑定刷新按钮事件（需在Inspector拖拽赋值refreshBtn）
         if (refreshBtn != null)
             refreshBtn.onClick.AddListener(OnRefreshClicked);
+
+        // 悬停Tooltip：可在Inspector手动指定；不指定则运行时自动创建
+        if (tooltipUI == null)
+        {
+            tooltipUI = GetComponentInChildren<ShopSkillTooltipUI>(true);
+            if (tooltipUI == null && shopPanel != null)
+            {
+                tooltipUI = shopPanel.GetComponent<ShopSkillTooltipUI>();
+                if (tooltipUI == null) tooltipUI = shopPanel.AddComponent<ShopSkillTooltipUI>();
+            }
+        }
+        if (tooltipUI != null && shopPanel != null)
+        {
+            tooltipUI.EnsureCreated(shopPanel.transform);
+            tooltipUI.Hide();
+        }
     }
 
     // 刷新按钮点击处理：消耗矿石并刷新预览
@@ -148,6 +167,7 @@ public class ShopUIManager : MonoBehaviour
         {
             isOpen = false;
             shopPanel.SetActive(false);
+            tooltipUI?.Hide();
             if (cursorManager != null)
             {
                 cursorManager.EnterGameMode();
@@ -181,6 +201,7 @@ public class ShopUIManager : MonoBehaviour
             }
             else
             {
+                tooltipUI?.Hide();
                 cursorManager.EnterGameMode();
             }
         }
@@ -265,6 +286,14 @@ public class ShopUIManager : MonoBehaviour
             // 描述（显示技能说明）
             skillDesc?.SetText(previewSkill.description);
             skillDesc?.gameObject.SetActive(true);
+
+            // 悬停：在新面板显示技能范围/CD/伤害等
+            if (skillIcon != null)
+            {
+                var hover = skillIcon.GetComponent<ShopSkillHoverHandler>();
+                if (hover == null) hover = skillIcon.gameObject.AddComponent<ShopSkillHoverHandler>();
+                hover.Bind(slotKey, previewSkill, shopManager, tooltipUI);
+            }
             // 按钮可点击
             skillBtn.interactable = true;
         }
@@ -277,6 +306,14 @@ public class ShopUIManager : MonoBehaviour
             // 描述（提示已解锁所有）
             skillDesc?.SetText("该槽位已解锁全部技能");
             skillDesc?.gameObject.SetActive(true);
+
+            // 无技能可悬停
+            if (skillIcon != null)
+            {
+                var hover = skillIcon.GetComponent<ShopSkillHoverHandler>();
+                if (hover == null) hover = skillIcon.gameObject.AddComponent<ShopSkillHoverHandler>();
+                hover.Bind(slotKey, null, shopManager, tooltipUI);
+            }
             // 按钮置灰
             skillBtn.interactable = false;
         }

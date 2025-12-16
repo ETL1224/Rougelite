@@ -3,18 +3,18 @@ using System.Collections.Generic;
 
 public class ShopManager : MonoBehaviour
 {
-    [Header("ÒıÓÃ£¨ÔÚInspectorÀïÖ¸ÅÉ£©")]
-    public PlayerState playerStats;      // ÍÏPlayer£¨º¬PlayerState£©½øÀ´
+    [Header("å¼•ç”¨ï¼Œåœ¨Inspectorä¸­æŒ‡å®š")]
+    public PlayerState playerStats;      // ç©å®¶èº«ä¸Šçš„PlayerStateç»„ä»¶
     public UIManager uiManager;
-    public SkillManager skillManager;    // ÍÏSkillManager£¨¿ÕÎïÌå£©½øÀ´
+    public SkillManager skillManager;    // æŠ€èƒ½ç®¡ç†å™¨ï¼Œç”¨äºè·å–æŠ€èƒ½æ± 
     public ShopUIManager shopUI;
-    public PlayerSkillController playerSkillCtrl; // ÍÏ PlayerÉíÉÏµÄPlayerSkillController
+    public PlayerSkillController playerSkillCtrl; // ç©å®¶èº«ä¸Šçš„PlayerSkillController
     public PauseManager PauseManager;
-    [Header("·ÑÓÃÉèÖÃ")]
+    [Header("ä»·æ ¼é…ç½®")]
     public int upgradeCost = 5;
     public int skillCost = 20;
 
-    // ÒÑ¹º¼¼ÄÜ´æ´¢£ºkey=²ÛÎ»£¨Q/E/R£©£¬value=¸Ã²ÛÎ»ÒÑ¹ºÂòµÄ¼¼ÄÜÔ¤ÖÆÌå£¨±ÜÃâÖØ¸´¹ºÂò£©
+    // å·²è´­ä¹°æŠ€èƒ½å­˜å‚¨ï¼Œkey=æ§½ä½ï¼ˆQ/E/Rï¼‰ï¼Œvalue=è¯¥æ§½ä½å·²è´­ä¹°çš„æŠ€èƒ½é¢„åˆ¶ä½“ï¼ˆé¿å…é‡å¤è´­ä¹°ï¼‰
     private Dictionary<string, HashSet<SkillBase>> purchasedSkills = new Dictionary<string, HashSet<SkillBase>>();
 
     private int attackLv = 0;
@@ -26,20 +26,20 @@ public class ShopManager : MonoBehaviour
 
     void Start()
     {
-        // ×Ô¶¯Ñ°ÕÒÈ±Ê§µÄÒıÓÃ
+        // è‡ªåŠ¨æŸ¥æ‰¾ç¼ºå¤±çš„ç»„ä»¶
         if (playerStats == null) playerStats = FindObjectOfType<PlayerState>();
         if (skillManager == null) skillManager = FindObjectOfType<SkillManager>();
         if (uiManager == null) uiManager = FindObjectOfType<UIManager>();
         if (shopUI == null) shopUI = FindObjectOfType<ShopUIManager>();
         if (playerSkillCtrl == null) playerSkillCtrl = FindObjectOfType<PlayerSkillController>();
         if (PauseManager == null) PauseManager = FindObjectOfType<PauseManager>();
-        // ³õÊ¼»¯ÒÑ¹º¼¼ÄÜ¼¯ºÏ£¨¸øÃ¿¸ö²ÛÎ»´´½¨¿Õ¼¯ºÏ£©
+        // åˆå§‹åŒ–å·²è´­ä¹°æŠ€èƒ½é›†åˆï¼Œæ¯ä¸ªæ§½ä½å¯¹åº”ä¸€ä¸ªé›†åˆ
         purchasedSkills.Add("Q", new HashSet<SkillBase>());
         purchasedSkills.Add("E", new HashSet<SkillBase>());
         purchasedSkills.Add("R", new HashSet<SkillBase>());
     }
 
-    // Éı¼¶ÊôĞÔ
+    // å±æ€§å‡çº§
     public bool Upgrade(string statKey)
     {
 
@@ -66,77 +66,77 @@ public class ShopManager : MonoBehaviour
                 healthLv++;
                 break;
             case "skillPower":
-                playerStats.skillPower += 0.5f;  // ·¨ÊõÉËº¦³ËÒÔ·¨ÊõÇ¿¶È
+                playerStats.skillPower += 0.5f;  // æå‡æŠ€èƒ½å¨åŠ›ç³»æ•°
                 skillPowerLv++;
                 break;
             case "skillHaste":
-                playerStats.skillHaste += 0.05f; // Ã¿¼¶¼õÉÙ5%
-                playerStats.skillHaste = Mathf.Min(playerStats.skillHaste, 0.5f); // ×î¶à50%
+                playerStats.skillHaste += 0.05f; // æ¯çº§æå‡5%
+                playerStats.skillHaste = Mathf.Min(playerStats.skillHaste, 0.5f); // ä¸Šé™50%
                 skillHasteLv++;
                 break;
             default:
-                Debug.LogWarning("Î´ÖªÉı¼¶¼ü£º" + statKey);
+                Debug.LogWarning("æœªçŸ¥çš„å±æ€§é”®" + statKey);
                 return false;
         }
 
-        // ¿Û³ı¿óÊ¯
+        // æ¶ˆè€—çŸ¿çŸ³
         playerStats.SpendOre(upgradeCost);
 
-        // Ë¢ĞÂUI
+        // æ›´æ–°UI
         uiManager?.UpdateOreUI();
         shopUI?.UpdateUpgradeTexts(attackLv, attackSpeedLv, moveSpeedLv, healthLv, skillPowerLv, skillHasteLv);
 
-        // Éı¼¶³É¹¦£¬·µ»Øtrue
+        // å‡çº§æˆåŠŸè¿”å›true
         return true;
     }
 
-    // ¹Ø¼üĞŞ¸Ä£º¹ºÂò¼¼ÄÜ£¨Ìí¼ÓÒÑ¹ºÈ¥ÖØ+ÊµÀı»¯+°ó¶¨£©
+    // æ ¸å¿ƒä¿®æ”¹ï¼šè´­ä¹°æŠ€èƒ½ï¼ŒåŒ…å«å®ä¾‹åŒ–+æŒ‚è½½+è£…å¤‡
     public bool BuySkill(string slotKey, SkillBase skillPrefab)
     {
-        // 1. »ù´¡Ğ£Ñé
+        // 1. å‰ç½®æ ¡éªŒ
         if (playerStats == null || skillPrefab == null || playerSkillCtrl == null) return false;
         if (playerStats.ore < skillCost) return false;
         if (!purchasedSkills.ContainsKey(slotKey)) return false;
 
-        // 2. ¼ì²éÊÇ·ñÒÑ¹ºÂò¸Ã¼¼ÄÜ£¨Í¬Ò»²ÛÎ»²»ÖØ¸´£©
+        // 2. æ£€æŸ¥æ˜¯å¦å·²è´­ä¹°è¯¥æŠ€èƒ½ï¼ŒåŒä¸€æ§½ä½é¿å…é‡å¤
         if (purchasedSkills[slotKey].Contains(skillPrefab))
         {
-            Debug.LogWarning($"²ÛÎ»{slotKey}ÒÑ¹ºÂò¹ı¼¼ÄÜ£º{skillPrefab.skillName}");
+            Debug.LogWarning($"æ§½ä½{slotKey}å·²è´­ä¹°è¯¥æŠ€èƒ½ï¼š{skillPrefab.skillName}");
             return false;
         }
 
-        // 3. Éú³É¼¼ÄÜÊµÀı£¨MonoBehaviour±ØĞëÊµÀı»¯£©
+        // 3. æ‰§è¡Œå®ä¾‹åŒ–MonoBehaviouræŠ€èƒ½å®ä¾‹
         GameObject skillObj = Instantiate(skillPrefab.gameObject);
         SkillBase newSkill = skillObj.GetComponent<SkillBase>();
         if (newSkill == null)
         {
-            Debug.LogError("¼¼ÄÜÔ¤ÖÆÌåÈ±ÉÙSkillBase×ÓÀà×é¼ş£¨ÈçFireballSkill£©");
+            Debug.LogError("æŠ€èƒ½é¢„åˆ¶ä½“ç¼ºå°‘SkillBaseç»„ä»¶ï¼Œä¾‹å¦‚FireballSkillç­‰");
             Destroy(skillObj);
             return false;
         }
 
-        // ĞÂÔö£º×Ô¶¯¸øSelfÀàĞÍ¼¼ÄÜ°ó¶¨PlayerÒıÓÃ£¨ºËĞÄ£©
+        // å¦‚æœæ˜¯è‡ªåŠ¨é‡Šæ”¾Selfç±»å‹æŠ€èƒ½ï¼ŒæŒ‚è½½åˆ°ç©å®¶èº«ä¸Š
         if (newSkill.castType == SkillCastType.Self)
         {
-            // 3.1 ÕÒµ½Player£¨Í¨¹ıplayerSkillCtrl£¬¸üÎÈÍ×£©
+            // 3.1 æ‰¾åˆ°Playerçš„Transformï¼Œé€šè¿‡playerSkillCtrlè·å–
             Transform playerTransform = playerSkillCtrl.transform;
             Transform playerEffectPoint = null;
 
-            // 3.2 ¸ù¾İ¼¼ÄÜÀàĞÍ£¬»ñÈ¡¶ÔÓ¦µÄÌØĞ§µãÃû³Æ£¨ÊÊÅä²»Í¬¼¼ÄÜ£©
+            // 3.2 æ ¹æ®æŠ€èƒ½ç±»å‹ï¼Œè·å–å¯¹åº”ç‰¹æ•ˆæŒ‚ç‚¹ï¼ˆä¸åŒæŠ€èƒ½æŒ‚ç‚¹å¯èƒ½ä¸åŒï¼‰
             string targetPointName = "";
             if (newSkill is RedemptionSkill redemptionSkill)
             {
-                targetPointName = redemptionSkill.targetEffectPointName; // ¾ÈÊê¼¼ÄÜµÄÌØĞ§µãÃû³Æ
+                targetPointName = redemptionSkill.targetEffectPointName; // æ•‘èµæŠ€èƒ½çš„ç‰¹æ•ˆæŒ‚ç‚¹
             }
             else if (newSkill is BloodFrenzySkill bloodFrenzySkill)
             {
-                targetPointName = bloodFrenzySkill.targetEffectPointName; // ÊÈÑª¿ñÅ­µÄÌØĞ§µãÃû³Æ
+                targetPointName = bloodFrenzySkill.targetEffectPointName; // å—œè¡€ç‹‚æ€’çš„ç‰¹æ•ˆæŒ‚ç‚¹
             }
             else if (newSkill is LightGuardSkill lightGuardSkill)
             {
                 targetPointName = lightGuardSkill.targetEffectPointName;
             }
-            else if (newSkill is NormalOperationSkill normalOpSkill) // Õı³£²Ù×÷ÌØĞ§µãÃû³Æ
+            else if (newSkill is NormalOperationSkill normalOpSkill) // æš´èµ°çš„ç‰¹æ•ˆæŒ‚ç‚¹
             {
                 targetPointName = normalOpSkill.targetEffectPointName;
             }
@@ -144,7 +144,7 @@ public class ShopManager : MonoBehaviour
             {
                 targetPointName = gravitySkill.targetEffectPointName;
             }
-            else if (newSkill is PoisonCloudSkill poisonSkill) // ¾ç¶¾×Ù¼£
+            else if (newSkill is PoisonCloudSkill poisonSkill) // æ¯’äº‘æŠ€èƒ½
             {
                 targetPointName = poisonSkill.targetEffectPointName;
             }
@@ -160,24 +160,24 @@ public class ShopManager : MonoBehaviour
             {
                 targetPointName = circleSkill.targetEffectPointName;
             }
-            // ÒÔºó¼ÓĞÂSelf¼¼ÄÜ£¬ÕâÀï¼Óelse if¼´¿É
+            // åç»­æ–°å¢SelfæŠ€èƒ½ï¼Œæ·»åŠ else if
 
-            // 3.3 ¸ù¾İÃû³ÆÕÒÌØĞ§µã£¬ÕÒ²»µ½¾ÍÓÃPlayerÎ»ÖÃ¶µµ×
+            // 3.3 æŸ¥æ‰¾å¯¹åº”ç‰¹æ•ˆç‚¹ï¼Œæ‰¾ä¸åˆ°åˆ™ç”¨Playerä½ç½®
             if (!string.IsNullOrEmpty(targetPointName))
             {
                 playerEffectPoint = playerTransform.Find(targetPointName);
                 if (playerEffectPoint != null)
                 {
-                    Debug.Log($"ShopManager£º°ó¶¨ÌØĞ§µã {targetPointName} µ½ {newSkill.skillName}");
+                    Debug.Log($"ShopManageræ‰¾åˆ°ç‰¹æ•ˆç‚¹ {targetPointName} ç”¨äº {newSkill.skillName}");
                 }
             }
             if (playerEffectPoint == null)
             {
                 playerEffectPoint = playerTransform;
-                Debug.LogWarning($"ShopManager£ºÎ´ÕÒµ½ {targetPointName}£¬ÓÃPlayerÎ»ÖÃ¶µµ×");
+                Debug.LogWarning($"ShopManageræœªæ‰¾åˆ° {targetPointName}ï¼Œä½¿ç”¨Playerä½ç½®æ›¿ä»£");
             }
 
-            // 3.4 ¸ø²»Í¬¼¼ÄÜ°ó¶¨¶ÔÓ¦ÒıÓÃ
+            // 3.4 ç»™ä¸åŒæŠ€èƒ½èµ‹å€¼å¯¹åº”å¼•ç”¨
             if (newSkill is RedemptionSkill redSkill)
             {
                 redSkill.effectPoint = playerEffectPoint;
@@ -226,33 +226,49 @@ public class ShopManager : MonoBehaviour
                 cdSkill.playerState = FindObjectOfType<PlayerState>();
                 cdSkill.playerTransform = FindObjectOfType<PlayerState>().transform;
             }
-            // ĞÂ¼¼ÄÜÕâÀï¼Óelse if
+            // åç»­æ–°å¢æŠ€èƒ½ï¼Œæ·»åŠ else if
 
-            // 3.5 ¼¼ÄÜÊµÀıÉèÎªPlayer×Ó¶ÔÏó£¨²»±ä£¬±ÜÃâ³¡¾°»ìÂÒ£©
+            // 3.5 å°†å®ä¾‹è®¾ä¸ºPlayerçš„å­ç‰©ä½“ï¼Œé˜²æ­¢åœºæ™¯æ··ä¹±
             skillObj.transform.SetParent(playerTransform);
             skillObj.transform.localPosition = Vector3.zero;
             skillObj.name = newSkill.skillName;
         }
 
-        // 4. °ó¶¨¼¼ÄÜµ½Íæ¼Ò¼¼ÄÜ¿ØÖÆÆ÷£¨¹Ø¼ü£ºÈÃQ/E/RÄÜ´¥·¢£©
+        // 4. å°†æŠ€èƒ½æ·»åŠ åˆ°ç©å®¶æŠ€èƒ½æ§åˆ¶å™¨çš„Q/E/RæŠ€èƒ½æ§½ä¸­
+        // 4.1 å…ˆæ¸…ç†è¯¥æ§½ä½æ—§æŠ€èƒ½å®ä¾‹ï¼Œé¿å…æ—§å®ä¾‹æ®‹ç•™å½±å“æ–°æŠ€èƒ½æŒç»­æ•ˆæœ
+        SkillBase oldSkill = slotKey switch
+        {
+            "Q" => playerSkillCtrl.skillQ,
+            "E" => playerSkillCtrl.skillE,
+            "R" => playerSkillCtrl.skillR,
+            _ => null
+        };
+        if (oldSkill != null)
+        {
+            var oldGo = oldSkill.gameObject;
+            oldSkill.OnRemoved();
+            oldGo.SetActive(false);
+            Destroy(oldGo);
+        }
+
         playerSkillCtrl.AssignSkill(slotKey, newSkill);
 
-        // 5. ¼ÇÂ¼ÒÑ¹ºÂò¼¼ÄÜ£¨±ÜÃâÖØ¸´³öÏÖ£©
+        // 5. è®°å½•å·²è´­ä¹°æŠ€èƒ½ï¼Œé˜²æ­¢é‡å¤è´­ä¹°
         purchasedSkills[slotKey].Add(skillPrefab);
 
-        // 6. ¿Û¿óÊ¯+Ë¢ĞÂUI
+        // 6. æ‰£çŸ¿çŸ³+æ›´æ–°UI
         playerStats.SpendOre(skillCost);
         uiManager?.UpdateOreUI();
 
         return true;
     }
 
-    // ĞÂÔö£º»ñÈ¡Ä³²ÛÎ»µÄ¡¸¿ÉÓÃ¼¼ÄÜ³Ø¡¹£¨×Ü³Ø - ÒÑ¹º³Ø£©
+    // è·å–æŒ‡å®šæ§½ä½çš„å¯è´­ä¹°æŠ€èƒ½åˆ—è¡¨ï¼Œæ€»æŠ€èƒ½æ±  - å·²è´­ä¹°çš„
     public List<SkillBase> GetAvailableSkills(string slotKey)
     {
         if (skillManager == null) return new List<SkillBase>();
 
-        // 1. »ñÈ¡¸Ã²ÛÎ»µÄ×Ü¼¼ÄÜ³Ø
+        // 1. è·å–è¯¥æ§½ä½çš„æ€»æŠ€èƒ½æ± 
         List<SkillBase> totalPool = slotKey switch
         {
             "Q" => skillManager.skillPoolQ,
@@ -261,7 +277,7 @@ public class ShopManager : MonoBehaviour
             _ => new List<SkillBase>()
         };
 
-        // 2. ¹ıÂËµôÒÑ¹ºÂòµÄ¼¼ÄÜ£¬µÃµ½¿ÉÓÃ³Ø
+        // 2. è¿‡æ»¤å·²è´­ä¹°çš„æŠ€èƒ½ï¼Œå¾—åˆ°å¯è´­ä¹°åˆ—è¡¨
         List<SkillBase> available = new List<SkillBase>();
         foreach (var skill in totalPool)
         {
@@ -276,7 +292,7 @@ public class ShopManager : MonoBehaviour
 
     public int GetOreCount() => playerStats != null ? playerStats.ore : 0;
 
-    // ·µ»ØÖ¸¶¨²ÛÎ»ÒÑ¹ºÂòµÄ¼¼ÄÜÁĞ±í£¨·µ»Ø¸±±¾£¬±ÜÃâÍâ²¿ĞŞ¸ÄÄÚ²¿¼¯ºÏ£©
+    // è·å–æŒ‡å®šæ§½ä½å·²è´­ä¹°çš„æŠ€èƒ½åˆ—è¡¨ï¼Œä¾›å¤–éƒ¨ä¿®æ”¹æˆ–æ˜¾ç¤ºï¼ˆå¯åˆ é™¤ï¼‰
     public List<SkillBase> GetPurchasedSkills(string slotKey)
     {
         List<SkillBase> result = new List<SkillBase>();
@@ -286,7 +302,7 @@ public class ShopManager : MonoBehaviour
         return result;
     }
 
-    // ·µ»ØËùÓĞ²ÛÎ»ÒÑ¹ºÂòµÄ¼¼ÄÜ£¨ÓÃÓÚ±³°üÏÔÊ¾£©
+    // è·å–æ‰€æœ‰æ§½ä½å·²è´­ä¹°çš„æŠ€èƒ½ï¼Œä¾›UIæ˜¾ç¤º
     public List<SkillBase> GetAllPurchasedSkills()
     {
         List<SkillBase> all = new List<SkillBase>();
@@ -300,5 +316,13 @@ public class ShopManager : MonoBehaviour
             }
         }
         return all;
+    }
+
+    public bool TrySwitchSkill(string slotKey, SkillBase skillPrefab)
+    {
+        var backpack = FindObjectOfType<BackpackManager>();
+        if (backpack == null) return false;
+        if (backpack.shopManager == null) backpack.shopManager = this;
+        return backpack.TrySwitchSkill(slotKey, skillPrefab);
     }
 }

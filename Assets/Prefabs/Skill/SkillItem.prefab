@@ -696,3 +696,4 @@ MonoBehaviour:
   skillIcon: {fileID: 2776006282697836780}
   skillNameText: {fileID: 698666753291483066}
   skillDescText: {fileID: 8129580335870916530}
+  switchButton: {fileID: 6909131324987618077}

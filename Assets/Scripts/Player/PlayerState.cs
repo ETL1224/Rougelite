@@ -4,36 +4,39 @@ public class PlayerState : MonoBehaviour
 {
     public int ore = 0;
 
-    [Header("»ù´¡ÊôĞÔ")]
+    [Header("åŸºç¡€å±æ€§")]
     public float attack = 1f;
     public float attackSpeed = 2f;
     public float moveSpeed = 15f;
     public float maxHealth = 50f;
     public float currentHealth = 50f;
-    public float skillPower = 1f; 
-    public float skillHaste = 0f; // ¼¼ÄÜ¼±ËÙ£¨°Ù·Ö±ÈĞÎÊ½£¬ÀıÈç0.2 = ÀäÈ´Ëõ¶Ì20%£©
+    public float skillPower = 1f;
+    public float skillHaste = 0f; // æŠ€èƒ½æ€¥é€Ÿï¼Œç™¾åˆ†æ¯”å½¢å¼ï¼Œä¾‹å¦‚0.2 = å†·å´å‡å°‘20%
 
-    [Header("ÊÈÑª¿ñÅ­×¨Êô×´Ì¬£¨ĞÂÔö£©")]
-    public bool isBloodFrenzyActive = false; // ÊÇ·ñ´¦ÓÚÊÈÑª×´Ì¬
-    public float bloodFrenzyAttackSpeedMulti = 1.5f; // ¹¥ËÙ¼Ó³É±¶Êı
-    public float bloodSuckRate = 0.1f; // ÎüÑª±ÈÀı£¨Ôì³ÉÉËº¦µÄX%»ØÑª£©
-    private float originalAttackSpeed; // ±£´æÔ­Ê¼¹¥ËÙ£¨ÓÃÓÚ¼¼ÄÜ½áÊøºó»Ö¸´£©
+    [Header("å—œè¡€ç‹‚æ€’ç‰¹æ®ŠçŠ¶æ€é…ç½®")]
+    public bool isBloodFrenzyActive = false; // æ˜¯å¦å¤„äºå—œè¡€çŠ¶æ€
+    public float bloodFrenzyAttackSpeedMulti = 1.5f; // æ”»å‡»é€Ÿåº¦å€ç‡
+    public float bloodSuckRate = 0.1f; // å¸è¡€æ¯”ä¾‹ï¼Œé€ æˆä¼¤å®³åæ¢å¤X%çš„è¡€é‡
+    private float originalAttackSpeed; // è®°å½•åŸå§‹æ”»é€Ÿï¼Œç”¨äºæŠ€èƒ½ç»“æŸåè¿˜åŸ
+    private object bloodFrenzyOwner;
 
-    [Header("¹âÖ®ÊØ»¤×¨Êô×´Ì¬£¨ĞÂÔö£©")]
-    public bool isInvincible = false; // ÊÇ·ñ´¦ÓÚÎŞµĞ×´Ì¬
+    [Header("å…‰ä¹‹å®ˆæŠ¤ç‰¹æ®ŠçŠ¶æ€é…ç½®")]
+    public bool isInvincible = false; // æ˜¯å¦å¤„äºæ— æ•ŒçŠ¶æ€
+    private object invincibilityOwner;
 
-    [Header("Õı³£²Ù×÷×¨Êô×´Ì¬£¨ĞÂÔö£©")]
-    public bool isNormalOperationActive = false; // ÊÇ·ñ´¦ÓÚÌáËÙ×´Ì¬
-    public float normalOpMoveSpeedMulti = 2.0f; // ÒÆËÙ¼Ó³É±¶Êı
-    private float originalMoveSpeed; // ±£´æÔ­Ê¼ÒÆËÙ£¨¼¼ÄÜ½áÊøºó»Ö¸´£©
+    [Header("æš´èµ°çŠ¶æ€ç‰¹æ®Šé…ç½®")]
+    public bool isNormalOperationActive = false; // æ˜¯å¦å¤„äºæš´èµ°çŠ¶æ€
+    public float normalOpMoveSpeedMulti = 2.0f; // ç§»åŠ¨é€Ÿåº¦å€ç‡
+    private float originalMoveSpeed; // è®°å½•åŸå§‹ç§»é€Ÿï¼ŒæŠ€èƒ½ç»“æŸåè¿˜åŸ
+    private object normalOperationOwner;
 
-    [Header("Áé»ê½»»»×¨Êô×´Ì¬£¨ĞÂÔö£©")]
-    public bool isSoulSwapActive = false; // ÊÇ·ñ´¦ÓÚÁé»ê½»»»×´Ì¬
-    public float soulSwapAttackMulti = 2.5f; // ¹¥»÷¼Ó³É±¶Êı£¨2.5=+150%£¬´ó·ùÌáÉı£©
-    private float originalAttackDamage; // ±£´æÔ­Ê¼¹¥»÷Á¦£¨½áÊøºó»Ö¸´£©
+    [Header("çµé­‚äº’æ¢ç‰¹æ®ŠçŠ¶æ€é…ç½®")]
+    public bool isSoulSwapActive = false; // æ˜¯å¦å¤„äºçµé­‚äº’æ¢çŠ¶æ€
+    public float soulSwapAttackMulti = 2.5f; // æ”»å‡»åŠ›å€ç‡ï¼Œ2.5=+150%åŸºç¡€æ”»å‡»åŠ›
+    private float originalAttackDamage; // è®°å½•åŸå§‹æ”»å‡»åŠ›ï¼ŒæŠ€èƒ½ç»“æŸåè¿˜åŸ
 
-    [Header("ÒıÓÃÅäÖÃ£¨ĞÂÔö£©")]
-    public UIManager uiManager; // ÓÃÓÚÎüÑªÊ±µ÷ÓÃHeal
+    [Header("UIå¼•ç”¨ï¼Œå›è¡€æ—¶æ›´æ–°")]
+    public UIManager uiManager; // è§’è‰²å›è¡€æ—¶è°ƒç”¨Heal
 
     void Start()
     {
@@ -41,99 +44,157 @@ public class PlayerState : MonoBehaviour
             uiManager = FindObjectOfType<UIManager>();
     }
 
-    // ¿ªÆôÊÈÑª¿ñÅ­£¨¼¼ÄÜµ÷ÓÃ£©
+    // å¼€å¯å—œè¡€ç‹‚æ€’æŠ€èƒ½æ•ˆæœ
     public void StartBloodFrenzy(float attackSpeedMulti, float suckRate)
     {
+        // å…¼å®¹æ—§è°ƒç”¨ï¼šæ— owneræ—¶ç›´æ¥è¦†ç›–
+        StartBloodFrenzy(attackSpeedMulti, suckRate, null);
+    }
+
+    public void StartBloodFrenzy(float attackSpeedMulti, float suckRate, object owner)
+    {
+        if (isBloodFrenzyActive && bloodFrenzyOwner != null && owner != null && !ReferenceEquals(bloodFrenzyOwner, owner))
+        {
+            EndBloodFrenzy();
+        }
+
         isBloodFrenzyActive = true;
         bloodFrenzyAttackSpeedMulti = attackSpeedMulti;
         bloodSuckRate = suckRate;
+        bloodFrenzyOwner = owner;
 
-        // ±£´æÔ­Ê¼¹¥ËÙ£¬Ó¦ÓÃ¼Ó³É
+        // è®°å½•åŸå§‹æ”»é€Ÿï¼Œåº”ç”¨å€ç‡
         originalAttackSpeed = attackSpeed;
         attackSpeed *= attackSpeedMulti;
 
-        Debug.Log($"ÊÈÑª¿ñÅ­¼¤»î£¡¹¥ËÙ¡Á{attackSpeedMulti}£¬ÎüÑª±ÈÀı{suckRate * 100}%");
+        Debug.Log($"å—œè¡€ç‹‚æ€’å¼€å¯ï¼æ”»é€Ÿï¼š{attackSpeedMulti}ï¼Œå¸è¡€æ¯”ä¾‹{suckRate * 100}%");
     }
 
-    // ĞÂÔö£º½áÊøÊÈÑª¿ñÅ­£¨¼¼ÄÜµ÷ÓÃ£©
+    // ç»“æŸå—œè¡€ç‹‚æ€’æŠ€èƒ½æ•ˆæœ
     public void EndBloodFrenzy()
     {
-        isBloodFrenzyActive = false;
-        // »Ö¸´Ô­Ê¼¹¥ËÙ
-        attackSpeed = originalAttackSpeed;
-
-        Debug.Log("ÊÈÑª¿ñÅ­½áÊø£¡¹¥ËÙ»Ö¸´Õı³£");
+        // å…¼å®¹æ—§è°ƒç”¨ï¼šæ— owneræ—¶å¼ºåˆ¶ç»“æŸ
+        EndBloodFrenzy(null);
     }
 
-    // ¿ªÆôÎŞµĞ£¨¼¼ÄÜµ÷ÓÃ£©
+    public void EndBloodFrenzy(object owner)
+    {
+        if (owner != null && bloodFrenzyOwner != null && !ReferenceEquals(bloodFrenzyOwner, owner))
+            return;
+
+        isBloodFrenzyActive = false;
+        // è¿˜åŸåŸå§‹æ”»é€Ÿ
+        attackSpeed = originalAttackSpeed;
+        bloodFrenzyOwner = null;
+
+        Debug.Log("å—œè¡€ç‹‚æ€’ç»“æŸï¼Œæ”»é€Ÿå·²è¿˜åŸ");
+    }
+
+    // å¼€å¯æ— æ•Œï¼ŒæŠ€èƒ½æ•ˆæœ
     public void StartInvincibility()
     {
-        isInvincible = true;
-        Debug.Log("¹âÖ®ÊØ»¤¼¤»î£¡½øÈëÎŞµĞ×´Ì¬");
+        StartInvincibility(null);
     }
 
-    // ¹Ø±ÕÎŞµĞ£¨¼¼ÄÜµ÷ÓÃ£©
+    public void StartInvincibility(object owner)
+    {
+        isInvincible = true;
+        invincibilityOwner = owner;
+        Debug.Log("å…‰ä¹‹å®ˆæŠ¤å¼€å¯ï¼Œè¿›å…¥æ— æ•ŒçŠ¶æ€");
+    }
+
+    // å…³é—­æ— æ•Œï¼ŒæŠ€èƒ½æ•ˆæœ
     public void EndInvincibility()
     {
-        isInvincible = false;
-        Debug.Log("¹âÖ®ÊØ»¤½áÊø£¡ÎŞµĞ×´Ì¬½â³ı");
+        EndInvincibility(null);
     }
 
-    // ¿ªÆôÕı³£²Ù×÷£¨¼¼ÄÜµ÷ÓÃ£©
+    public void EndInvincibility(object owner)
+    {
+        if (owner != null && invincibilityOwner != null && !ReferenceEquals(invincibilityOwner, owner))
+            return;
+
+        isInvincible = false;
+        invincibilityOwner = null;
+        Debug.Log("å…‰ä¹‹å®ˆæŠ¤ç»“æŸï¼Œæ— æ•ŒçŠ¶æ€è§£é™¤");
+    }
+
+    // å¼€å¯æš´èµ°çŠ¶æ€æŠ€èƒ½æ•ˆæœ
     public void StartNormalOperation(float moveSpeedMulti)
     {
+        StartNormalOperation(moveSpeedMulti, null);
+    }
+
+    public void StartNormalOperation(float moveSpeedMulti, object owner)
+    {
+        if (isNormalOperationActive && normalOperationOwner != null && owner != null && !ReferenceEquals(normalOperationOwner, owner))
+        {
+            EndNormalOperation();
+        }
+
         isNormalOperationActive = true;
         normalOpMoveSpeedMulti = moveSpeedMulti;
+        normalOperationOwner = owner;
 
-        // ±£´æÔ­Ê¼ÒÆËÙ£¬Ó¦ÓÃ¼Ó³É
+        // è®°å½•åŸå§‹ç§»é€Ÿï¼Œåº”ç”¨å€ç‡
         originalMoveSpeed = moveSpeed;
         moveSpeed *= moveSpeedMulti;
 
-        Debug.Log($"Õı³£²Ù×÷¼¤»î£¡ÒÆËÙ¡Á{moveSpeedMulti}£¨Ô­Ê¼£º{originalMoveSpeed} ¡ú ÏÖÔÚ£º{moveSpeed}£©");
+        Debug.Log($"æš´èµ°çŠ¶æ€å¼€å¯ï¼ç§»é€Ÿï¼š{moveSpeedMulti}ï¼ŒåŸå§‹{originalMoveSpeed}ï¼Œå½“å‰{moveSpeed}");
     }
 
-    // ½áÊøÕı³£²Ù×÷£¨¼¼ÄÜµ÷ÓÃ£©
+    // ç»“æŸæš´èµ°çŠ¶æ€æŠ€èƒ½æ•ˆæœ
     public void EndNormalOperation()
     {
-        isNormalOperationActive = false;
-        // »Ö¸´Ô­Ê¼ÒÆËÙ
-        moveSpeed = originalMoveSpeed;
-
-        Debug.Log($"Õı³£²Ù×÷½áÊø£¡ÒÆËÙ»Ö¸´ÖÁ£º{originalMoveSpeed}");
+        EndNormalOperation(null);
     }
 
-    // ¿ªÆôÁé»ê½»»»£¨¼¼ÄÜµ÷ÓÃ£©
+    public void EndNormalOperation(object owner)
+    {
+        if (owner != null && normalOperationOwner != null && !ReferenceEquals(normalOperationOwner, owner))
+            return;
+
+        isNormalOperationActive = false;
+        // è¿˜åŸåŸå§‹ç§»é€Ÿ
+        moveSpeed = originalMoveSpeed;
+
+        normalOperationOwner = null;
+
+        Debug.Log($"æš´èµ°çŠ¶æ€ç»“æŸï¼Œç§»é€Ÿè¿˜åŸä¸º{originalMoveSpeed}");
+    }
+
+    // å¼€å¯çµé­‚äº’æ¢æŠ€èƒ½æ•ˆæœ
     public void StartSoulSwap()
     {
         isSoulSwapActive = true;
-        // ±£´æÔ­Ê¼¹¥»÷Á¦£¬Ó¦ÓÃ¼Ó³É
+        // è®°å½•åŸå§‹æ”»å‡»åŠ›ï¼Œåº”ç”¨å€ç‡
         originalAttackDamage = attack;
         attack *= soulSwapAttackMulti;
 
-        Debug.Log($"Áé»ê½»»»¼¤»î£¡¹¥»÷Á¦¡Á{soulSwapAttackMulti}£¨Ô­Ê¼£º{originalAttackDamage} ¡ú ÏÖÔÚ£º{attack}£©");
+        Debug.Log($"çµé­‚äº’æ¢å¼€å¯ï¼æ”»å‡»{soulSwapAttackMulti}ï¼ŒåŸå§‹{originalAttackDamage}ï¼Œå½“å‰{attack}");
     }
 
-    // ½áÊøÁé»ê½»»»£¨¼¼ÄÜµ÷ÓÃ£©
+    // ç»“æŸçµé­‚äº’æ¢æŠ€èƒ½æ•ˆæœ
     public void EndSoulSwap()
     {
         isSoulSwapActive = false;
-        // »Ö¸´Ô­Ê¼¹¥»÷Á¦
+        // è¿˜åŸåŸå§‹æ”»å‡»åŠ›
         attack = originalAttackDamage;
 
-        Debug.Log($"Áé»ê½»»»½áÊø£¡¹¥»÷Á¦»Ö¸´ÖÁ£º{originalAttackDamage}");
+        Debug.Log($"çµé­‚äº’æ¢ç»“æŸï¼Œæ”»å‡»åŠ›è¿˜åŸä¸º{originalAttackDamage}");
     }
 
-    // ÏûºÄÉúÃüÖµ£¨¼¼ÄÜµ÷ÓÃ£¬È·±£²»ÖÂËÀ£©
+    // æ¶ˆè€—ç”Ÿå‘½å€¼ç™¾åˆ†æ¯”ï¼Œç¡®ä¿è§’è‰²å­˜æ´»
     public bool SpendMaxHealthPercent(float percent)
     {
-        float damageToSpend = maxHealth * percent; // ÏûºÄ×î´óÉúÃüÖµµÄpercent
+        float damageToSpend = maxHealth * percent; // è®¡ç®—æ¶ˆè€—çš„ç”Ÿå‘½å€¼ç™¾åˆ†æ¯”
         float newHealth = currentHealth - damageToSpend;
 
-        // ×îµÍÁô1Ñª£¬±ÜÃâÖ±½ÓËÀÍö
+        // ä¿ç•™1ç‚¹è¡€ï¼Œé¿å…ç›´æ¥æ­»äº¡
         newHealth = Mathf.Max(newHealth, 1f);
         currentHealth = newHealth;
 
-        Debug.Log($"Áé»ê½»»»ÏûºÄ{percent * 100}%×î´óÉúÃüÖµ£¡µ±Ç°ÉúÃüÖµ£º{currentHealth}");
+        Debug.Log($"çµé­‚äº’æ¢æ¶ˆè€—{percent * 100}%æœ€å¤§ç”Ÿå‘½å€¼ï¼Œå½“å‰ç”Ÿå‘½å€¼{currentHealth}");
         return true;
     }
 

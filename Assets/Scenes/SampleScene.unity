@@ -3402,6 +3402,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &525624149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 525624151}
+  - component: {fileID: 525624150}
+  m_Layer: 0
+  m_Name: Skill
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &525624150
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525624149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41b00197881ed3b4787c44d93ea0ec5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  text: {fileID: 0}
+  fontAsset: {fileID: 11400000, guid: db3c09c9d5e405c448e4eddc7691009b, type: 2}
+  panelSize: {x: 320, y: 180}
+  followMouse: 1
+  followOffset: {x: 16, y: -16}
+--- !u!4 &525624151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 525624149}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.6062393, y: 2, z: 17.85183}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &526437432 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5369448480374931829, guid: ab3a51d0bd04d1e47a98b394e14e98c8,
@@ -4401,6 +4451,7 @@ MonoBehaviour:
   refreshCost: 20
   shopManager: {fileID: 1803807090}
   cursorManager: {fileID: 1187069256}
+  tooltipUI: {fileID: 525624150}
 --- !u!4 &655094507 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5369448480374931829, guid: ab3a51d0bd04d1e47a98b394e14e98c8,
@@ -5833,6 +5884,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
+      propertyPath: ore
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 787753944}
@@ -6104,11 +6160,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillController: {fileID: 365506405}
-  qColumn: {fileID: 0}
-  eColumn: {fileID: 0}
-  rColumn: {fileID: 0}
-  skillItemPrefab: {fileID: 0}
-  skillManager: {fileID: 0}
+  qColumn: {fileID: 1528612444}
+  eColumn: {fileID: 1103092797}
+  rColumn: {fileID: 1633458636}
+  skillItemPrefab: {fileID: 7594635766343246724, guid: e9f5937a485f4e041ac0fb79df638615,
+    type: 3}
+  skillManager: {fileID: 1801627258}
   qSkillIcon: {fileID: 885441688}
   qCircleMask: {fileID: 1352778763}
   qCDText: {fileID: 878235508}
@@ -13059,4 +13116,8 @@ SceneRoots:
   - {fileID: 230686640}
   - {fileID: 908458048}
   - {fileID: 997288294}
+<<<<<<< Updated upstream
   - {fileID: 734547821}
+=======
+  - {fileID: 525624151}
+>>>>>>> Stashed changes

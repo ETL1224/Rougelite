@@ -1,74 +1,74 @@
 using UnityEngine;
 
-// ÍòÏòÌìÒı¼¼ÄÜ£ºSelfÀàĞÍ£¬ÎüÊÕ·¶Î§ÄÚ¿óÊ¯£¨²»ÕÒ×ÓÎïÌå£¬½öPlayerÖ±½Ó×Ó¶ÔÏó£©
+// é‡åŠ›ç‰µå¼•æŠ€èƒ½ï¼šSelfé‡Šæ”¾å‹ï¼Œå¸å¼•èŒƒå›´å†…çŸ¿çŸ³å‘ç©å®¶ç§»åŠ¨ï¼Œç©å®¶ç›´æ¥å—ç›Š
 public class GravityPullSkill : SkillBase
 {
-    [Header("ÍòÏóÌìÒıºËĞÄÅäÖÃ")]
-    public string targetEffectPointName = "EffectPoint"; // ±ØĞëÊÇPlayerµÄÖ±½Ó×Ó¶ÔÏó
-    public GameObject gravityEffectPrefab; // Îü¸½ÌØĞ§£¨äöÎĞ¡¢ÒıÁ¦³¡Á£×Ó£©
-    public float skillDuration = 3f; // Îü¸½³ÖĞøÊ±¼ä£¨Ãë£©
-    public float pullRadius = 40f; // Îü¸½°ë¾¶£¨Ã×£©
-    public float oreMoveSpeed = 80f; // ¿óÊ¯·ÉÏòÍæ¼ÒµÄËÙ¶È
-    public Sprite skillIcon; // ¼¼ÄÜÍ¼±ê£¨ShopUIÏÔÊ¾£©
+    [Header("é‡åŠ›ç‰µå¼•æŠ€èƒ½é…ç½®")]
+    public string targetEffectPointName = "EffectPoint"; // æŒ‚åœ¨ç©å®¶èº«ä¸Šçš„ç‰¹æ•ˆç‚¹
+    public GameObject gravityEffectPrefab; // é‡åŠ›ç‰¹æ•ˆé¢„åˆ¶ä½“ï¼ˆå¦‚å¼•åŠ›åœºã€æ¼©æ¶¡ï¼‰
+    public float skillDuration = 3f; // æŠ€èƒ½æŒç»­æ—¶é—´ï¼ˆç§’ï¼‰
+    public float pullRadius = 40f; // ç‰µå¼•åŠå¾„ï¼ˆç±³ï¼‰
+    public float oreMoveSpeed = 80f; // çŸ¿çŸ³å‘ç©å®¶ç§»åŠ¨çš„é€Ÿåº¦
+    public Sprite skillIcon; // æŠ€èƒ½å›¾æ ‡ï¼ˆShopUIå±•ç¤ºç”¨ï¼‰
     private float cooldown;
 
-    [Header("ÄÚ²¿×´Ì¬£¨²»ÓÃÊÖ¶¯¸Ä£©")]
-    public Transform effectPoint; // ÌØĞ§Éú³Éµã£¨PlayerÖ±½Ó×Ó¶ÔÏó£©
-    public PlayerState playerState; // ×Ô¶¯°ó¶¨PlayerState
-    public UIManager uiManager; // ×Ô¶¯°ó¶¨UIManager£¨ÊÕ¼¯¿óÊ¯ÓÃ£©
-    private GameObject currentGravityEffect; // µ±Ç°Îü¸½ÌØĞ§
-    private float skillEndTime; // ¼¼ÄÜ½áÊøÊ±¼ä
+    [Header("å†…éƒ¨çŠ¶æ€ï¼ˆå¯å¤–éƒ¨èµ‹å€¼ï¼‰")]
+    public Transform effectPoint; // ç‰¹æ•ˆç”Ÿæˆç‚¹ï¼ˆç©å®¶èº«ä¸Šçš„æŒ‚ç‚¹ï¼‰
+    public PlayerState playerState; // è‡ªåŠ¨æŸ¥æ‰¾çš„ç©å®¶çŠ¶æ€
+    public UIManager uiManager; // è‡ªåŠ¨æŸ¥æ‰¾çš„UIç®¡ç†å™¨ï¼ˆç”¨äºæ”¶é›†çŸ¿çŸ³ï¼‰
+    private GameObject currentGravityEffect; // å½“å‰ç”Ÿæ•ˆçš„é‡åŠ›ç‰¹æ•ˆ
+    private float skillEndTime; // æŠ€èƒ½ç»“æŸæ—¶é—´
 
-    // ³õÊ¼»¯¼¼ÄÜĞÅÏ¢£¨ShopUIÏÔÊ¾+¿ò¼ÜÊÊÅä£©
+    // åˆå§‹åŒ–æŠ€èƒ½ä¿¡æ¯ï¼ˆShopUIå±•ç¤º+å†·å´åˆå§‹åŒ–ï¼‰
     private void OnEnable()
     {
-        castType = SkillCastType.Self; // SelfÀàĞÍ£¬°´EÖ±½ÓÊÍ·Å
-        baseCooldown = 10f; // »ù´¡ÀäÈ´£¨¿Éµ÷Õû£©
+        castType = SkillCastType.Self; // Selfé‡Šæ”¾å‹ï¼ŒæŒ‰Eç›´æ¥é‡Šæ”¾
+        baseCooldown = 10f; // æŠ€èƒ½åŸºç¡€å†·å´æ—¶é—´
         cooldown = baseCooldown;
     }
 
     private void Start()
     {
-        // ×Ô¶¯°ó¶¨ÒıÓÃ
+        // è‡ªåŠ¨æŸ¥æ‰¾ç»„ä»¶
         if (playerState == null)
             playerState = FindObjectOfType<PlayerState>();
         if (uiManager == null)
             uiManager = FindObjectOfType<UIManager>();
 
-        // ¼ò»¯²éÕÒ£º½öÕÒPlayerµÄÖ±½Ó×Ó¶ÔÏó£¨²»µİ¹é£©
+        // åˆå§‹åŒ–ï¼šæŒ‚åœ¨ç©å®¶èº«ä¸Šçš„ç‰¹æ•ˆç‚¹ï¼ˆè‡ªåŠ¨æŸ¥æ‰¾ï¼‰
         AutoFindEffectPoint();
     }
 
-    // ×Ô¶¯ÕÒÌØĞ§µã£¨½öPlayerÖ±½Ó×Ó¶ÔÏó£¬·ûºÏÄãµÄĞèÇó£©
+    // è‡ªåŠ¨æŸ¥æ‰¾ç‰¹æ•ˆç‚¹ï¼ˆæŒ‚åœ¨ç©å®¶èº«ä¸Šçš„æŒ‚ç‚¹ï¼Œä¼˜å…ˆæŒ‰åç§°æŸ¥æ‰¾ï¼‰
     private void AutoFindEffectPoint()
     {
         if (playerState != null && !string.IsNullOrEmpty(targetEffectPointName))
         {
             Transform playerTransform = playerState.transform;
-            // ½ö²éÕÒPlayerµÄÖ±½Ó×Ó¶ÔÏó£¨²»ÕÒÄ£ĞÍµÈÇ¶Ì××Ó¶ÔÏó£©
+            // æŸ¥æ‰¾ç©å®¶èº«ä¸Šçš„å­ç‰©ä½“æŒ‚ç‚¹ï¼ˆå¦‚ç©ºç‰©ä½“çš„æŒ‚ç‚¹ï¼‰
             Transform targetPoint = playerTransform.Find(targetEffectPointName);
             if (targetPoint != null)
             {
                 effectPoint = targetPoint;
-                Debug.Log($"ÍòÏóÌìÒı£ºÕÒµ½PlayerÖ±½Ó×Ó¶ÔÏóÌØĞ§µã {targetEffectPointName}");
+                Debug.Log($"é‡åŠ›ç‰µå¼•æŠ€èƒ½æ‰¾åˆ°ç©å®¶èº«ä¸Šçš„ç‰¹æ•ˆç‚¹ {targetEffectPointName}");
                 return;
             }
             else
             {
-                Debug.LogWarning($"ÍòÏóÌìÒı£ºPlayerÖ±½Ó×Ó¶ÔÏóÖĞÎ´ÕÒµ½ {targetEffectPointName}£¬ÓÃPlayerÎ»ÖÃ¶µµ×");
+                Debug.LogWarning($"é‡åŠ›ç‰µå¼•æŠ€èƒ½ç©å®¶èº«ä¸Šæœªæ‰¾åˆ° {targetEffectPointName}ï¼Œä½¿ç”¨ç©å®¶ä½ç½®æ›¿ä»£");
             }
         }
 
-        // ¶µµ×£ºÓÃPlayerÎ»ÖÃ
+        // å…œåº•ï¼šä½¿ç”¨ç©å®¶ä½ç½®
         effectPoint = playerState != null ? playerState.transform : transform;
     }
 
-    // ¿ò¼ÜÔ¼¶¨£º³¢ÊÔÊÍ·Å¼¼ÄÜ
+    // å°è¯•é‡Šæ”¾æŠ€èƒ½ï¼ˆå¸¦å†·å´åˆ¤æ–­ï¼‰
     public override void TryCast(Vector3 castPos, Transform caster, PlayerState player, Vector3 dir)
     {
         if (!CanCast(player))
         {
-            Debug.Log($"{skillName} ÀäÈ´ÖĞ£¡Ê£Óà£º{Mathf.Ceil(Time.time - lastCastTime)}Ãë");
+            Debug.Log($"{skillName} å†·å´ä¸­ï¼Œå‰©ä½™ï¼š{Mathf.Ceil(Time.time - lastCastTime)}ç§’");
             return;
         }
 
@@ -76,27 +76,27 @@ public class GravityPullSkill : SkillBase
         Cast(castPos, caster, player);
     }
 
-    // ºËĞÄ£ºÊÍ·Å¼¼ÄÜ£¨¿ªÆôÎü¸½+²¥·ÅÌØĞ§£©
+    // é‡Šæ”¾æŠ€èƒ½æ ¸å¿ƒé€»è¾‘ï¼šè®¡æ—¶+æ’­æ”¾é‡åŠ›ç‰¹æ•ˆ
     protected override void Cast(Vector3 castPos, Transform caster, PlayerState player)
     {
         if (player == null || uiManager == null)
         {
-            Debug.LogError("Î´ÕÒµ½PlayerState»òUIManager£¬ÎŞ·¨¼¤»îÍòÏòÌìÒı");
+            Debug.LogError("æœªæ‰¾åˆ°PlayerStateæˆ–UIManagerï¼Œæ— æ³•é‡Šæ”¾é‡åŠ›ç‰µå¼•æŠ€èƒ½");
             return;
         }
 
-        // 1. ¼ÇÂ¼¼¼ÄÜ½áÊøÊ±¼ä
+        // 1. è®°å½•æŠ€èƒ½ç»“æŸæ—¶é—´
         skillEndTime = Time.time + skillDuration;
         playerState = player;
 
-        // 2. ²¥·ÅÎü¸½ÌØĞ§£¨¸úËæPlayerÖ±½Ó×Ó¶ÔÏó£©
+        // 2. æ’­æ”¾é‡åŠ›ç‰¹æ•ˆï¼ˆæŒ‚åœ¨ç©å®¶èº«ä¸Šï¼‰
         PlayGravityEffect();
 
-        // 3. ¿ªÆôÎü¸½Âß¼­£¨Ã¿Ö¡¼ì²â¿óÊ¯£©
-        InvokeRepeating(nameof(PullOres), 0f, 0.05f); // Ã¿0.05Ãë¼ì²âÒ»´Î£¬Îü¸½Á÷³©
+        // 3. æ‰§è¡Œç‰µå¼•é€»è¾‘ï¼ˆæ¯å¸§æ‹‰å–çŸ¿çŸ³ï¼‰
+        InvokeRepeating(nameof(PullOres), 0f, 0.05f); // æ¯0.05ç§’æ‰§è¡Œä¸€æ¬¡ï¼Œæå‡æµç•…åº¦
     }
 
-    // ²¥·ÅÎü¸½ÌØĞ§
+    // æ’­æ”¾é‡åŠ›ç‰¹æ•ˆ
     private void PlayGravityEffect()
     {
         if (currentGravityEffect != null)
@@ -108,56 +108,56 @@ public class GravityPullSkill : SkillBase
                 gravityEffectPrefab,
                 effectPoint.position,
                 Quaternion.identity,
-                effectPoint // ÉèÎªÌØĞ§µã×Ó¶ÔÏó£¬¸úËæPlayerÒÆ¶¯
+                effectPoint // ä½œä¸ºç‰¹æ•ˆçˆ¶ç‰©ä½“ï¼Œè·Ÿéšç©å®¶ç§»åŠ¨
             );
             currentGravityEffect.transform.localPosition = Vector3.zero;
         }
     }
 
-    // ºËĞÄ£ºÎü¸½¿óÊ¯Âß¼­
+    // æ ¸å¿ƒï¼šç‰µå¼•çŸ¿çŸ³é€»è¾‘
     private void PullOres()
     {
-        // 1. ¼ì²â·¶Î§ÄÚËùÓĞ±êÇ©Îª"Ore"¡¢²ãÎª"Ore"µÄ¿óÊ¯
+        // 1. æ£€æµ‹èŒƒå›´å†…æ ‡ç­¾ä¸º"Ore"æˆ–å±‚ä¸º"OreDrop"çš„çŸ¿çŸ³
         Collider[] ores = Physics.OverlapSphere(effectPoint.position, pullRadius, LayerMask.GetMask("OreDrop"));
         foreach (var oreCollider in ores)
         {
             GameObject ore = oreCollider.gameObject;
-            // 2. ÈÃ¿óÊ¯³¯ÏòÌØĞ§µãÒÆ¶¯£¨×Ô¶¯·ÉÏòÍæ¼Ò£©
+            // 2. è®©çŸ¿çŸ³å‘ç‰¹æ•ˆç‚¹ç§»åŠ¨ï¼ˆåŒ€é€Ÿç§»åŠ¨ï¼‰
             Vector3 dir = (effectPoint.position - ore.transform.position).normalized;
             ore.transform.Translate(dir * oreMoveSpeed * Time.deltaTime);
 
-            // 3. ¿óÊ¯¿¿½üÍæ¼Ò£¨¾àÀë<0.5Ã×£©Ê±£¬ÊÕ¼¯¿óÊ¯
+            // 3. çŸ¿çŸ³è·ç¦»ç‰¹æ•ˆç‚¹<0.5ç±³æ—¶ï¼Œæ”¶é›†çŸ¿çŸ³
             if (Vector3.Distance(ore.transform.position, effectPoint.position) < 0.5f)
             {
                 CollectOre(ore);
             }
         }
 
-        // 4. ¼¼ÄÜ½áÊø£¬Í£Ö¹Îü¸½
+        // 4. æŠ€èƒ½ç»“æŸååœæ­¢ç‰µå¼•
         if (Time.time >= skillEndTime)
         {
             CancelInvoke(nameof(PullOres));
             Destroy(currentGravityEffect);
-            Debug.Log("ÍòÏóÌìÒı½áÊø£¡Í£Ö¹Îü¸½¿óÊ¯");
+            Debug.Log("é‡åŠ›ç‰µå¼•æŠ€èƒ½ç»“æŸï¼Œåœæ­¢ç‰µå¼•çŸ¿çŸ³");
         }
     }
 
-    // ÊÕ¼¯¿óÊ¯£¨Ôö¼ÓÊıÁ¿+Ïú»Ù¿óÊ¯£©
+    // æ”¶é›†çŸ¿çŸ³ï¼ˆå¢åŠ æ•°é‡+é”€æ¯çŸ¿çŸ³ç‰©ä½“ï¼‰
     private void CollectOre(GameObject ore)
     {
-        // Ã¿¸ö¿óÊ¯Ä¬ÈÏ¼Ó1¸ö£¨¿É¸ù¾İĞèÇóĞŞ¸Ä£©
+        // æ¯ä¸ªçŸ¿çŸ³é»˜è®¤åŠ 1ï¼ˆå¯æ ¹æ®éœ€æ±‚ä¿®æ”¹ï¼‰
         uiManager.AddOre(1);
         Destroy(ore);
     }
 
-    // ¶µµ×£º¼¼ÄÜÏú»ÙÊ±Í£Ö¹Îü¸½£¬±ÜÃâÄÚ´æĞ¹Â©
+    // å…œåº•ï¼šç»„ä»¶é”€æ¯æ—¶åœæ­¢ç‰µå¼•ï¼Œé˜²æ­¢å†…å­˜æ³„æ¼
     private void OnDestroy()
     {
         CancelInvoke(nameof(PullOres));
         Destroy(currentGravityEffect);
     }
 
-    // ¿ÉÑ¡£ºSceneÊÓÍ¼»æÖÆÎü¸½°ë¾¶£¨ÇàÉ«Ïß¿ò£¬·½±ãµ÷ÊÔ·¶Î§£©
+    // é€‰ä¸­æ—¶åœ¨Sceneè§†å›¾ç»˜åˆ¶ç‰µå¼•åŠå¾„ï¼ˆé’è‰²çº¿æ¡†ï¼‰ï¼Œæ–¹ä¾¿è°ƒè¯•èŒƒå›´
     private void OnDrawGizmosSelected()
     {
         if (effectPoint != null)
