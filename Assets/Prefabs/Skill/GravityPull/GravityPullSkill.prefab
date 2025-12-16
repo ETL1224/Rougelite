@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillName: GravityPull
-  icon: {fileID: 21300000, guid: c0c621637e6ca054cb6f00c56255ade7, type: 3}
+  icon: {fileID: 21300000, guid: 644c3c5054bb4904096b7d3b5b4b4f92, type: 3}
   description: "\u5438\u9644\u5468\u56F4\u7684\u77FF\u77F3"
   baseCooldown: 5
   castType: 0
