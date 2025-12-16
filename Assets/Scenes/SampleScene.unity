@@ -5889,6 +5889,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
         type: 3}
+      propertyPath: ore
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: maxHealth
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 140342368235591737, guid: 516d38c502d19eb4681ebdc416e93726,
+        type: 3}
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 787753944}
